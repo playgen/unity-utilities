@@ -1,0 +1,11 @@
+Updated 06-01-2017
+By Felix Wentworth 
+- Added Localization Package
+
+Localization Package
+--------------------
+
+Make sure that the README file has been updated to contain changes that may have been made.
+
+To update the unity package for localization, select all files in the LocalizationPackage Folder and export using Assets > Export Package...
+Add new localization package to shared location on the S Drive. 
