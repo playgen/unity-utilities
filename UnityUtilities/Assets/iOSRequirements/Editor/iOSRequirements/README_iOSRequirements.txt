@@ -1,6 +1,8 @@
 
 Use the iOS System Requirements tool to automatically generate privacy permission information for iOS builds.
 
+If there are troubles running this package, make sure that the filePath in iOSRequirements.cs is correct
+
 As of IOS 10.0, all privacy system requirement usage must be explained to the user when choosing if they want to accept permissions, neither Unity or Xcode generate the privacy properties.
 
 The tool provides a list of privacy permissions available to request from the user, simply select the permission needed in Tools/iOS Requirements and provide a short description of how the game uses it.

@@ -6,7 +6,7 @@ public class iOSRequirements : MonoBehaviour
 {
     private static string FilePath
     {
-        get { return Application.dataPath + "/iOSRequirements/Editor/Requirements.xml"; }
+        get { return Application.dataPath + "/iOSRequirements/Editor/iOSRequirements/Requirements.xml"; }
     }
 
     public static XmlDocument ReadXml()

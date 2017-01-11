@@ -1,7 +1,6 @@
-Updated 06-01-2017
+Updated 11-01-2017
 By Felix Wentworth 
-- Added Localization Package
-- Added iOS Requirements Classes
+- Added SendFeedback Asset
 
 Localization Package
 --------------------
@@ -16,5 +15,13 @@ iOS Requirements
 
 Make sure that the README file has been updated to contain changes that may have been made
 
-To update the iOSRequirements package, select the Editor Folder and the contained iOSRequirments folder and export using Assets > Export Package...
+To update the iOSRequirements package, select all files in the iOSRequirments folder and export using Assets > Export Package...
+And the updated package to shared location on the S Drive.
+
+SendFeedbackAsset
+-----------------
+
+Make sure that the README file has been updated to contain changes that may have been made
+
+To update the SendFeedbackAsset package, select all files in the SendFeedbackAsset folder and export using Assets > Export Package...
 And the updated package to shared location on the S Drive.
