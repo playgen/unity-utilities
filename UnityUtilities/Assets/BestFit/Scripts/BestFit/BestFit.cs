@@ -30,60 +30,48 @@ public class BestFit : MonoBehaviour
 }
 
 public static class BestFitExtensions {
-	public static void BestFit(this GameObject go)
+	public static void BestFit(this GameObject go, bool setBestFitValues = true)
 	{
-		BestFit(go.GetComponentsInChildren<Text>());
+		BestFit(go.GetComponentsInChildren<Text>(), setBestFitValues);
 	}
 
-	public static void BestFit(this List<Text> textObjects)
+	public static void BestFit(this List<Text> textObjects, bool setBestFitValues = true)
 	{
-		BestFit(textObjects.ToArray());
+		BestFit(textObjects.ToArray(), setBestFitValues);
 	}
 
-	public static void BestFit(this IEnumerable<Text> textObjects)
+	public static void BestFit(this IEnumerable<Text> textObjects, bool setBestFitValues = true)
 	{
-		BestFit(textObjects.ToArray());
+		BestFit(textObjects.ToArray(), setBestFitValues);
 	}
 
-	public static void BestFit(this Text[] textObjects)
+	public static void BestFit(this Text[] textObjects, bool setBestFitValues = true)
 	{
-		BestFit(textObjects.Select(text => text.gameObject).ToArray());
+		BestFit(textObjects.Select(text => text.gameObject).ToArray(), setBestFitValues);
 	}
 
-	public static void BestFit(this List<GameObject> gameObjects)
+	public static void BestFit(this List<GameObject> gameObjects, bool setBestFitValues = true)
 	{
-		BestFit(gameObjects.ToArray());
+		BestFit(gameObjects.ToArray(), setBestFitValues);
 	}
 
-	public static void BestFit(this IEnumerable<GameObject> gameObjects)
+	public static void BestFit(this IEnumerable<GameObject> gameObjects, bool setBestFitValues = true)
 	{
-		BestFit(gameObjects.ToArray());
+		BestFit(gameObjects.ToArray(), setBestFitValues);
 	}
 
-	public static void BestFit(this GameObject[] gameObjects)
+	public static void BestFit(this GameObject[] gameObjects, bool setBestFitValues = true)
 	{
-		int smallestFontSize = 0;
+		var smallestFontSize = 0;
 		foreach (var go in gameObjects) {
 			LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)go.transform);
 
-			var mono = go.GetComponentInParent<BestFit>();
+			var mono = setBestFitValues ? go.GetComponentInParent<BestFit>() : null;
 			var textObj = go.GetComponentsInChildren<Text>();
 			foreach (var text in textObj)
 			{
-				text.resizeTextForBestFit = true;
-				text.resizeTextMinSize = mono ? mono.MinFontSize : 1;
-				text.resizeTextMaxSize = mono ? mono.MaxFontSize : 25;
-				text.fontSize = text.resizeTextMaxSize;
-				text.cachedTextGenerator.Invalidate();
-				text.cachedTextGenerator.Populate(text.text, text.GetGenerationSettings(text.rectTransform.rect.size));
-				text.resizeTextForBestFit = false;
-				var newSize = text.cachedTextGenerator.fontSizeUsedForBestFit;
-				var newSizeRescale = text.rectTransform.rect.size.x / text.cachedTextGenerator.rectExtents.size.x;
-				if (text.rectTransform.rect.size.y / text.cachedTextGenerator.rectExtents.size.y < newSizeRescale)
-				{
-					newSizeRescale = text.rectTransform.rect.size.y / text.cachedTextGenerator.rectExtents.size.y;
-				}
-				newSize = Mathf.FloorToInt(newSize * newSizeRescale);
+				var dropdown = text.GetComponentInParent<Dropdown>();
+				var newSize = dropdown ? GetBestFitSize(text, mono, setBestFitValues, dropdown.options.Select(o => o.text).ToList()) : GetBestFitSize(text, mono, setBestFitValues);
 				if (newSize < smallestFontSize || smallestFontSize == 0)
 				{
 					smallestFontSize = newSize;
@@ -98,5 +86,46 @@ public static class BestFitExtensions {
 				text.fontSize = smallestFontSize;
 			}
 		}
+	}
+
+	private static int GetBestFitSize(Text text, BestFit mono, bool setBestFitValue, List<string> newStrings = null)
+	{
+		var smallestFontSize = 0;
+		var currentText = text.text;
+		if (newStrings == null)
+		{
+			newStrings = new List<string> { currentText };
+		}
+		if (!newStrings.Contains(currentText))
+		{
+			newStrings.Add(currentText);
+		}
+		foreach (var s in newStrings)
+		{
+			text.text = s;
+			text.resizeTextForBestFit = true;
+			if (setBestFitValue)
+			{
+				text.resizeTextMinSize = mono ? mono.MinFontSize : 1;
+				text.resizeTextMaxSize = mono ? mono.MaxFontSize : 25;
+				text.fontSize = text.resizeTextMaxSize;
+			}
+			text.cachedTextGenerator.Invalidate();
+			text.cachedTextGenerator.Populate(text.text, text.GetGenerationSettings(text.rectTransform.rect.size));
+			text.resizeTextForBestFit = false;
+			var newSize = text.cachedTextGenerator.fontSizeUsedForBestFit;
+			var newSizeRescale = text.rectTransform.rect.size.x / text.cachedTextGenerator.rectExtents.size.x;
+			if (text.rectTransform.rect.size.y / text.cachedTextGenerator.rectExtents.size.y < newSizeRescale)
+			{
+				newSizeRescale = text.rectTransform.rect.size.y / text.cachedTextGenerator.rectExtents.size.y;
+			}
+			newSize = Mathf.FloorToInt(newSize * newSizeRescale);
+			if (newSize < smallestFontSize || smallestFontSize == 0)
+			{
+				smallestFontSize = newSize;
+			}
+		}
+		text.text = currentText;
+		return smallestFontSize;
 	}
 }

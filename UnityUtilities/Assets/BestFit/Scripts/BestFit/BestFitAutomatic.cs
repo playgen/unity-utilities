@@ -8,45 +8,26 @@ using UnityEngine.UI;
 /// </summary>
 public class BestFitAutomatic : MonoBehaviour
 {
-    private List<Text> _bestFitChildren = new List<Text>();
+	private List<Text> _bestFitChildren = new List<Text>();
 
-    void OnEnable()
-    {
-        var children = transform.GetComponentsInChildren<Text>();
-        if (_bestFitChildren.Count == 0)
-        {
-            _bestFitChildren = children.Where(child => child.resizeTextForBestFit).ToList();
-        }
+	void OnEnable()
+	{
+		if (_bestFitChildren.Count == 0)
+		{
+			var children = transform.GetComponentsInChildren<Text>();
+			_bestFitChildren = children.Where(child => child.resizeTextForBestFit).ToList();
+		}
+		OnChange();
+		BestFit.ResolutionChange += OnChange;
+	}
 
-        var smallestFontSize = 0;
-        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)transform);
+	private void OnDisable()
+	{
+		BestFit.ResolutionChange -= OnChange;
+	}
 
-        foreach (var text in _bestFitChildren)
-        {
-            text.resizeTextForBestFit = true;
-
-            text.cachedTextGenerator.Invalidate();
-            text.cachedTextGenerator.Populate(text.text, text.GetGenerationSettings(text.rectTransform.rect.size));
-
-            text.resizeTextForBestFit = false;
-
-            var newSize = text.cachedTextGenerator.fontSizeUsedForBestFit;
-            var newSizeRescale = text.rectTransform.rect.size.x / text.cachedTextGenerator.rectExtents.size.x;
-            if (text.rectTransform.rect.size.y / text.cachedTextGenerator.rectExtents.size.y < newSizeRescale)
-            {
-                newSizeRescale = text.rectTransform.rect.size.y / text.cachedTextGenerator.rectExtents.size.y;
-            }
-
-            newSize = Mathf.FloorToInt(newSize * newSizeRescale);
-            if (newSize < smallestFontSize || smallestFontSize == 0)
-            {
-                smallestFontSize = newSize;
-            }
-        }
-
-        foreach (var text in _bestFitChildren)
-        {
-            text.fontSize = smallestFontSize+1;
-        }
-    }
+	private void OnChange()
+	{
+		_bestFitChildren.BestFit(false);
+	}
 }
