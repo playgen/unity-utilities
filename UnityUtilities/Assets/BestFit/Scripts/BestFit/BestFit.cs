@@ -32,7 +32,12 @@ public class BestFit : MonoBehaviour
 public static class BestFitExtensions {
 	public static void BestFit(this GameObject go, bool setBestFitValues = true)
 	{
-		BestFit(go.GetComponentsInChildren<Text>(), setBestFitValues);
+		var childGo = new List<GameObject>();
+		foreach (Transform child in go.transform)
+		{
+			childGo.Add(child.gameObject);
+		}
+		BestFit(childGo, setBestFitValues);
 	}
 
 	public static void BestFit(this List<Text> textObjects, bool setBestFitValues = true)
@@ -84,6 +89,15 @@ public static class BestFitExtensions {
 			foreach (var text in textObj)
 			{
 				text.fontSize = smallestFontSize;
+			}
+			var dropObj = go.GetComponentsInChildren<Dropdown>();
+			foreach (var drop in dropObj)
+			{
+				var dropTextObj = drop.template.GetComponentsInChildren<Text>();
+				foreach (var text in dropTextObj)
+				{
+					text.fontSize = (int)(smallestFontSize * ((((RectTransform)text.transform.parent).anchorMax.y - ((RectTransform)text.transform.parent).anchorMin.y) * 0.5f));
+				}
 			}
 		}
 	}
