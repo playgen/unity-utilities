@@ -78,3 +78,6 @@ ExportedObj/
 *.pidb
 *.booproj
 *.svd
+
+!PlayGen.Unity.Utilities/**/*.csproj
+!PlayGen.Unity.Utilities/**/*.sln
