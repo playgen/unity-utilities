@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -32,11 +34,7 @@ namespace PlayGen.Unity.Utilities.Localization
 		{
 			var dropdown = GetComponent<Dropdown>();
 			dropdown.ClearOptions();
-			var translatedOptions = new List<string>();
-			for (int i = 0; i < _options.Count; i++)
-			{
-				translatedOptions.Add(Localization.Get(_options[i]));
-			}
+			var translatedOptions = _options.Select(t => Localization.Get(t)).ToList();
 			dropdown.AddOptions(translatedOptions);
 		}
 

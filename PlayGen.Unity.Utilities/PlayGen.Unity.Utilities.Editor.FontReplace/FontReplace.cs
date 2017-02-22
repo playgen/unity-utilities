@@ -14,7 +14,7 @@ namespace PlayGen.Unity.Utilities.Editor.FontReplace
 		[MenuItem("Tools/Replace Fonts")]
 		public static void ShowWindow()
 		{
-			EditorWindow.GetWindow(typeof(FontReplace));
+			GetWindow(typeof(FontReplace));
 		}
 		void OnGUI()
 		{
@@ -41,16 +41,16 @@ namespace PlayGen.Unity.Utilities.Editor.FontReplace
 				EditorGUILayout.EndHorizontal();
 			}
 		}
-		void ReplaceFont(string name, Font font)
+		void ReplaceFont(string fontName, Font font)
 		{
 			//check the font has been set to a valid font
 			if (font == null || font.fontNames.Length == 0)
 				return;
-			//now get all text types in the scene and change the ones with a matching font name to the new font
+			//now get all text types in the scene and change the ones with a matching font fontName to the new font
 			var allTexts = Resources.FindObjectsOfTypeAll<UnityEngine.UI.Text>();
 			foreach (var t in allTexts)
 			{
-				if (t.font.ToString() == name)
+				if (t.font.ToString() == fontName)
 				{
 					t.font = font;
 				}

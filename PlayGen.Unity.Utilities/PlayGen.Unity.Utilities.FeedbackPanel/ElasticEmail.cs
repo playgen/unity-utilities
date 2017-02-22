@@ -7,7 +7,7 @@ namespace PlayGen.Unity.Utilities.FeedbackPanel
 	public class ElasticEmail : MonoBehaviour
 	{
 
-		public static ElasticEmail Instance = null;
+		public static ElasticEmail Instance;
 
 		void Awake()
 		{

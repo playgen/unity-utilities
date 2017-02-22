@@ -6,10 +6,7 @@ namespace PlayGen.Unity.Utilities.Editor.iOSRequirements
 
 	public class iOSRequirements : MonoBehaviour
 	{
-		private static string FilePath
-		{
-			get { return Application.dataPath + "/iOSRequirements/Editor/iOSRequirements/Requirements.xml"; }
-		}
+		private static string FilePath => Application.dataPath + "/iOSRequirements/Editor/iOSRequirements/Requirements.xml";
 
 		public static XmlDocument ReadXml()
 		{

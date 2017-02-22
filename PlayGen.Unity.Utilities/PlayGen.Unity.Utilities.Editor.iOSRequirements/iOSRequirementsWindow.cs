@@ -16,7 +16,7 @@ namespace PlayGen.Unity.Utilities.Editor.iOSRequirements
 		[MenuItem("Tools/iOS Requirements")]
 		public static void ShowWindow()
 		{
-			EditorWindow.GetWindow(typeof(iOSRequirementsWindow), true, "iOS Requirements Manager", true);
+			GetWindow(typeof(iOSRequirementsWindow), true, "iOS Requirements Manager", true);
 		}
 
 		void OnEnable()
@@ -59,7 +59,10 @@ namespace PlayGen.Unity.Utilities.Editor.iOSRequirements
 
 					// If the requirement is needed we must add a description
 					GUILayout.Label("Description:");
-					valueNode.InnerText = GUILayout.TextField(valueNode.InnerText ?? "");
+					if (valueNode != null)
+					{
+						valueNode.InnerText = GUILayout.TextField(valueNode.InnerText);
+					}
 
 					GUILayout.EndVertical();
 				}

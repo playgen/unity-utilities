@@ -84,9 +84,9 @@ namespace PlayGen.Unity.Utilities.Editor.Shortcuts
 		static void MoveObjectUp()
 		{
 			var selected = Selection.gameObjects;
-			for (var i = 0; i < selected.Length; i++)
+			foreach (GameObject go in selected)
 			{
-				MoveObjectInHierarchy(selected[i], Direction.up);
+				MoveObjectInHierarchy(go, Direction.up);
 			}
 		}
 
@@ -184,7 +184,6 @@ namespace PlayGen.Unity.Utilities.Editor.Shortcuts
 							{
 								go.transform.SetParent(root[i].transform);
 								go.transform.SetSiblingIndex(0);
-								continue;
 							}
 						}
 					}
