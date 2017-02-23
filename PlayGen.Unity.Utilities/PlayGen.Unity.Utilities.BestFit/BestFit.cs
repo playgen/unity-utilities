@@ -77,7 +77,7 @@ namespace PlayGen.Unity.Utilities.BestFit
 				LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)go.transform);
 
 				var mono = setBestFitValues ? go.GetComponentInParent<BestFit>() : null;
-				var textObj = go.GetComponentsInChildren<Text>();
+				var textObj = go.GetComponentsInChildren<Text>(true);
 				foreach (var text in textObj)
 				{
 					var dropdown = text.GetComponentInParent<Dropdown>();
@@ -90,15 +90,15 @@ namespace PlayGen.Unity.Utilities.BestFit
 			}
 			foreach (var go in gameObjects)
 			{
-				var textObj = go.GetComponentsInChildren<Text>();
+				var textObj = go.GetComponentsInChildren<Text>(true);
 				foreach (var text in textObj)
 				{
 					text.fontSize = smallestFontSize;
 				}
-				var dropObj = go.GetComponentsInChildren<Dropdown>();
+				var dropObj = go.GetComponentsInChildren<Dropdown>(true);
 				foreach (var drop in dropObj)
 				{
-					var dropTextObj = drop.template.GetComponentsInChildren<Text>();
+					var dropTextObj = drop.template.GetComponentsInChildren<Text>(true);
 					foreach (var text in dropTextObj)
 					{
 						text.fontSize = (int)(smallestFontSize * ((((RectTransform)text.transform.parent).anchorMax.y - ((RectTransform)text.transform.parent).anchorMin.y) * 0.5f));

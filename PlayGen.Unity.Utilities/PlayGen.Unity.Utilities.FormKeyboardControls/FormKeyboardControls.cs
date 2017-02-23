@@ -38,8 +38,8 @@ namespace PlayGen.Unity.Utilities.FormKeyboardControls
 				var nextObj = EventSystem.current.currentSelectedGameObject;
 				var next = nextObj ?
 							back ?
-							nextObj.GetComponent<Selectable>().FindSelectableOnUp() ?? nextObj.GetComponent<Selectable>().FindSelectableOnLeft() :
-							nextObj.GetComponent<Selectable>().FindSelectableOnDown() ?? nextObj.GetComponent<Selectable>().FindSelectableOnRight() :
+							(nextObj.GetComponent<Selectable>().navigation.selectOnUp ?? nextObj.GetComponent<Selectable>().FindSelectableOnUp()) ?? (nextObj.GetComponent<Selectable>().navigation.selectOnLeft ?? nextObj.GetComponent<Selectable>().FindSelectableOnLeft()) :
+							(nextObj.GetComponent<Selectable>().navigation.selectOnDown ?? nextObj.GetComponent<Selectable>().FindSelectableOnDown()) ?? (nextObj.GetComponent<Selectable>().navigation.selectOnRight ?? nextObj.GetComponent<Selectable>().FindSelectableOnRight()) :
 							null;
 
 				if (!next)
