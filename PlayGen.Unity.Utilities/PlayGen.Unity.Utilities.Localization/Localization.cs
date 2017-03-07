@@ -8,7 +8,6 @@ using System.Linq;
 
 namespace PlayGen.Unity.Utilities.Localization
 {
-
 	public enum Language
 	{
 		None = 0,
@@ -34,19 +33,41 @@ namespace PlayGen.Unity.Utilities.Localization
 		ChineseSimplified
 	}
 
+    [RequireComponent(typeof(Text))]
 	public class Localization : MonoBehaviour
 	{
 		private static readonly Dictionary<Language, Dictionary<string, string>> LocalizationDict = new Dictionary<Language, Dictionary<string, string>>();
 
+        /// <summary>
+        /// Localization Key for this text object
+        /// </summary>
+        [Tooltip("Localization Key for this text object")]
 		public string Key;
-		public bool ToUpper;
+        /// <summary>
+        /// Should the text be converted to be upper case?
+        /// </summary>
+        [Tooltip("Should the text be converted to be upper case?")]
+        public bool ToUpper;
 
 		private const string EmptyStringText = "XXXX";
+        private const string FilePath = "Localization";
 
-		public static string FilePath = "Localization";
+        /// <summary>
+        /// The Language currently in-use
+        /// </summary>
 		public static Language SelectedLanguage { get; set; }
-		public static CultureInfo SelectedCulture { get; set; }
+        /// <summary>
+        /// The Culture currently in-use
+        /// Culture is set by SelectedLanguage
+        /// </summary>
+		public static CultureInfo SelectedCulture { get; private set; }
+        /// <summary>
+        /// Language to use if none is set or selected language does not have text for provided key
+        /// </summary>
 		public static Language DefaultLanguage = Language.English;
+        /// <summary>
+        /// Event triggered by changing of SelectedLanguage
+        /// </summary>
 		public static event Action LanguageChange = delegate { };
 
 		#region LocalizationTesting
@@ -60,6 +81,9 @@ namespace PlayGen.Unity.Utilities.Localization
 			Set();
 		}
 
+        /// <summary>
+        /// Set the text on this object to match the localized string for the provided key
+        /// </summary>
 		public void Set()
 		{
 			Text text = GetComponent<Text>();
@@ -110,6 +134,9 @@ namespace PlayGen.Unity.Utilities.Localization
 			}
 		}
 
+        /// <summary>
+        /// Get the localized string for the provided key
+        /// </summary>
 		public static string Get(string key, bool toUpper = false, Language overrideLanguage = Language.None)
 		{
 			if (SelectedLanguage == 0)
@@ -156,16 +183,25 @@ namespace PlayGen.Unity.Utilities.Localization
 			return txt;
 		}
 
+        /// <summary>
+        /// Get the localized string for the provided key and format it using the args provided
+        /// </summary>
 		public static string GetAndFormat(string key, bool toUpper, params object[] args)
 		{
 			return string.Format(Get(key, toUpper), args);
 		}
 
+        /// <summary>
+        /// Get the localized string for the provided key and format it using the args provided
+        /// </summary>
 		public static string GetAndFormat(string key, bool toUpper, params string[] args)
 		{
 			return GetAndFormat(key, toUpper, args.ToArray<object>());
 		}
 
+        /// <summary>
+        /// Check if the SelectedLanguage contains the provided key
+        /// </summary>
 		public static bool HasKey(string key)
 		{
 			var newKey = key.ToUpper();
@@ -239,6 +275,9 @@ namespace PlayGen.Unity.Utilities.Localization
 			}
 		}
 
+        /// <summary>
+        /// Get a list of Languages that curently have at least one key
+        /// </summary>
 		public static List<string> AvailableLanguages()
 		{
 			if (LocalizationDict == null || LocalizationDict.Count == 0)
@@ -250,6 +289,9 @@ namespace PlayGen.Unity.Utilities.Localization
 			return usedLanguages;
 		}
 
+        /// <summary>
+        /// Update the SelectedLanguage using the numerical value of the Language within the enum
+        /// </summary>
 		public static void UpdateLanguage(int language)
 		{
 			if (AvailableLanguages()[language] != SelectedLanguage.ToString())
@@ -258,6 +300,9 @@ namespace PlayGen.Unity.Utilities.Localization
 			}
 		}
 
+        /// <summary>
+        /// Update the SelectedLanguage
+        /// </summary>
 		public static void UpdateLanguage(Language language)
 		{
 			if (language != SelectedLanguage)

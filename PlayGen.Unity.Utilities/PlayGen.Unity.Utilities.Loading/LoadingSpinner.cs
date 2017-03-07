@@ -10,9 +10,17 @@ namespace PlayGen.Unity.Utilities.Loading
 		private GameObject _container;
 		private Image _spinner;
 		private Text _text;
-		[SerializeField]
+        /// <summary>
+        /// The speed that the spinner rotates at
+        /// </summary>
+        [Tooltip("The speed that the spinner rotates at")]
+        [SerializeField]
 		private float _spinSpeed = 1;
-		[SerializeField]
+        /// <summary>
+        /// The direction of spinner rotation
+        /// </summary>
+        [Tooltip("The direction of spinner rotation")]
+        [SerializeField]
 		private bool _spinClockwise;
 		private bool _animate;
 		private float _stopDelay;

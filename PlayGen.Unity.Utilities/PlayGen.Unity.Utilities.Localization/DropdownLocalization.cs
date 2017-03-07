@@ -6,11 +6,14 @@ using UnityEngine.UI;
 
 namespace PlayGen.Unity.Utilities.Localization
 {
-
 	[RequireComponent(typeof(Dropdown))]
 	public class DropdownLocalization : MonoBehaviour
 	{
-		[SerializeField]
+        /// <summary>
+        /// The localization keys for this dropdown
+        /// </summary>
+        [Tooltip("The localization keys for this dropdown")]
+        [SerializeField]
 		private List<string> _options;
 
 		private void OnEnable()
@@ -24,6 +27,9 @@ namespace PlayGen.Unity.Utilities.Localization
 			Localization.LanguageChange -= OnLanguageChange;
 		}
 
+        /// <summary>
+        /// Set the dropdown option localization keys
+        /// </summary>
 		public void SetOptions(List<string> options)
 		{
 			_options = options;

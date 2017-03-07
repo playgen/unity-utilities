@@ -1,6 +1,8 @@
 ﻿using PlayGen.Unity.Utilities.Localization;
 
 using UnityEditor;
+using UnityEditor.SceneManagement;
+using UnityEngine;
 
 namespace PlayGen.Unity.Utilities.Editor.Localization
 {
@@ -27,6 +29,14 @@ namespace PlayGen.Unity.Utilities.Editor.Localization
 					_lastLang = _myLoc.LanguageOverride;
 				}
 			}
-		}
+            if (GUILayout.Button("Localize Text"))
+            {
+                EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
+                _myLoc.gameObject.SetActive(false);
+                _myLoc.Set();
+                _myLoc.gameObject.SetActive(true);
+
+            }
+        }
 	}	
 }

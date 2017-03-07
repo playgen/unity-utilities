@@ -4,10 +4,8 @@ using System.Collections.Generic;
 
 namespace PlayGen.Unity.Utilities.Editor.FontReplace
 {
-
 	public class FontReplace : EditorWindow
 	{
-
 		private readonly List<Font> _gameFonts = new List<Font>();
 		private List<string> _names = new List<string>();
 

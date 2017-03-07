@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 namespace PlayGen.Unity.Utilities.BestFit
 {
-
 	/// <summary>
 	/// Add this class as a component of an object that you want children with best fit to all be the same size
 	/// </summary>

@@ -6,13 +6,19 @@ using UnityEngine.UI;
 
 namespace PlayGen.Unity.Utilities.FormKeyboardControls
 {
-
 	public class FormKeyboardControls : MonoBehaviour
 	{
-
+        /// <summary>
+        /// Button to be triggered on pressing return key. Can be left null if not neeeded or wanted.
+        /// </summary>
+        [Tooltip("Button to be triggered on pressing return key. Can be left null if not neeeded or wanted.")]
 		[SerializeField]
 		private Button _returnButton;
-		[SerializeField]
+        /// <summary>
+        /// Button to be triggered on pressing escape key. Can be left null if not neeeded or wanted.
+        /// </summary>
+        [Tooltip("Button to be triggered on pressing escape key. Can be left null if not neeeded or wanted.")]
+        [SerializeField]
 		private Button _escapeButton;
 		private bool _selectOnEnable;
 
