@@ -5,6 +5,8 @@
 	{
 		public static LoadingSpinner LoadingSpinner;
 
+        public static bool IsActive => LoadingSpinner != null && LoadingSpinner.IsActive;
+
 		public static void Set(int speed, bool clockwise)
 		{
 			if (LoadingSpinner)

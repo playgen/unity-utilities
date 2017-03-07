@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 namespace PlayGen.Unity.Utilities.Loading
 {
-
 	public class LoadingSpinner : MonoBehaviour
 	{
 		private GameObject _container;
@@ -18,7 +17,9 @@ namespace PlayGen.Unity.Utilities.Loading
 		private bool _animate;
 		private float _stopDelay;
 
-		void Awake()
+        public bool IsActive => _container.gameObject.activeSelf;
+
+        void Awake()
 		{
 			Loading.LoadingSpinner = this;
 			_container = transform.GetChild(0).gameObject;
