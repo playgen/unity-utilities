@@ -8,35 +8,10 @@ using System.Linq;
 
 namespace PlayGen.Unity.Utilities.Localization
 {
-	public enum Language
-	{
-		None = 0,
-		[Language("en-gb", "en-gb")]
-		English,
-		[Language("en-us", "en-us")]
-		AmericanEnglish,
-		[Language("fr", "fr-fr")]
-		French,
-		[Language("es", "es-es")]
-		Spanish,
-		[Language("it", "it-it")]
-		Italian,
-		[Language("de", "de-de")]
-		German,
-		[Language("nl", "nl-nl")]
-		Dutch,
-		[Language("el", "el-gr")]
-		Greek,
-		[Language("ja", "ja-jp")]
-		Japanese,
-		[Language("zh-cn", "zh-cn")]
-		ChineseSimplified
-	}
-
     [RequireComponent(typeof(Text))]
 	public class Localization : MonoBehaviour
 	{
-		private static readonly Dictionary<Language, Dictionary<string, string>> LocalizationDict = new Dictionary<Language, Dictionary<string, string>>();
+		private static readonly Dictionary<CultureInfo, Dictionary<string, string>> LocalizationDict = new Dictionary<CultureInfo, Dictionary<string, string>>();
 
         /// <summary>
         /// Localization Key for this text object
@@ -52,19 +27,15 @@ namespace PlayGen.Unity.Utilities.Localization
 		private const string EmptyStringText = "XXXX";
         private const string FilePath = "Localization";
 
+        public static List<CultureInfo> Languages = new List<CultureInfo>();
         /// <summary>
         /// The Language currently in-use
         /// </summary>
-		public static Language SelectedLanguage { get; set; }
-        /// <summary>
-        /// The Culture currently in-use
-        /// Culture is set by SelectedLanguage
-        /// </summary>
-		public static CultureInfo SelectedCulture { get; private set; }
+		public static CultureInfo SelectedLanguage { get; set; }
         /// <summary>
         /// Language to use if none is set or selected language does not have text for provided key
         /// </summary>
-		public static Language DefaultLanguage = Language.English;
+		public static CultureInfo DefaultLanguage = new CultureInfo("en-gb");
         /// <summary>
         /// Event triggered by changing of SelectedLanguage
         /// </summary>
@@ -73,7 +44,7 @@ namespace PlayGen.Unity.Utilities.Localization
 		#region LocalizationTesting
 		[Header("Localization Testing")]
 		[Tooltip("Use this enum to test other languages")]
-		public Language LanguageOverride;
+		public string LanguageOverride;
 		#endregion
 
 		private void OnEnable()
@@ -99,11 +70,22 @@ namespace PlayGen.Unity.Utilities.Localization
 		{
 			TextAsset[] jsonTextAssets = Resources.LoadAll(FilePath, typeof(TextAsset)).Cast<TextAsset>().ToArray();
 
-			foreach (Language l in Enum.GetValues(typeof(Language)))
+            foreach (var textAsset in jsonTextAssets)
+            {
+                var n = JSON.Parse(textAsset.text);
+                var keys = n[0].AsObject.Keys;
+                for (int i = 1; i < keys.Count; i++)
+                {
+                    var culture = new CultureInfo(keys[i]);
+                    if (!Languages.Contains(culture))
+                    {
+                        Languages.Add(culture);
+                    }
+                }
+            }
+
+            foreach (var l in Languages)
 			{
-				var fieldInfo = typeof(Language).GetField(l.ToString());
-				var attributes = (LanguageAttribute[])fieldInfo.GetCustomAttributes(typeof(LanguageAttribute), false);
-				var languageHeader = attributes.Any() ? attributes.First().Name : l.ToString();
 				Dictionary<string, string> languageStrings = new Dictionary<string, string>();
 				foreach (var textAsset in jsonTextAssets)
 				{
@@ -111,11 +93,11 @@ namespace PlayGen.Unity.Utilities.Localization
 					for (int i = 0; i < n.Count; i++)
 					{
 						//go through the list and add the strings to the dictionary
-						if (n[i][languageHeader] != null)
+						if (n[i][l.Name.ToLower()] != null)
 						{
 							string key = n[i][0].ToString();
 							key = key.Replace("\"", "").ToUpper();
-							string value = n[i][languageHeader].ToString();
+							string value = n[i][l.Name.ToLower()].ToString();
 							value = value.Replace("\"", "");
 							languageStrings[key] = value;
 						}
@@ -123,23 +105,20 @@ namespace PlayGen.Unity.Utilities.Localization
 				}
 				LocalizationDict[l] = languageStrings;
 			}
-			if (PlayerPrefs.HasKey("Last_Saved_Language"))
-			{
-				UpdateLanguage((Language)PlayerPrefs.GetInt("Last_Saved_Language"));
-			}
-			else
-			{
-				GetSystemLanguage();
-				PlayerPrefs.SetInt("Last_Saved_Language", (int)SelectedLanguage);
-			}
+			UpdateLanguage(PlayerPrefs.GetString("Last_Saved_Language"));
+                if (SelectedLanguage == null || string.IsNullOrEmpty(SelectedLanguage.Name))
+                {
+                    GetSystemLanguage();
+                    PlayerPrefs.SetString("Last_Saved_Language", SelectedLanguage.Name);
+                }
 		}
 
         /// <summary>
         /// Get the localized string for the provided key
         /// </summary>
-		public static string Get(string key, bool toUpper = false, Language overrideLanguage = Language.None)
+		public static string Get(string key, bool toUpper = false, string overrideLanguage = null)
 		{
-			if (SelectedLanguage == 0)
+			if (SelectedLanguage == null)
 			{
 				GetLocalizationDictionary();
 			}
@@ -151,21 +130,27 @@ namespace PlayGen.Unity.Utilities.Localization
 			var newKey = key.ToUpper();
 			newKey = newKey.Replace('-', '_');
 
-			if (overrideLanguage == Language.None || overrideLanguage == SelectedLanguage)
+            var overrideLang = SelectedLanguage;
+
+            if (!string.IsNullOrEmpty(overrideLanguage) && overrideLanguage != SelectedLanguage.Name)
 			{
-				LocalizationDict[SelectedLanguage].TryGetValue(newKey, out txt);
+                overrideLang = new CultureInfo(overrideLanguage);
 			}
-			else
-			{
-				LocalizationDict[overrideLanguage].TryGetValue(newKey, out txt);
-			}
-			if (txt == null || txt == EmptyStringText)
+            if (overrideLang != SelectedLanguage && !string.IsNullOrEmpty(overrideLang.Name))
+            {
+                LocalizationDict[overrideLang].TryGetValue(newKey, out txt);
+            }
+            else
+            {
+                LocalizationDict[SelectedLanguage].TryGetValue(newKey, out txt);
+            }
+            if (txt == null || txt == EmptyStringText)
 			{
 				if (txt == null)
 				{
 					Debug.LogError("Could not find string with key '" + key + "' in Language " + SelectedLanguage);
 				}
-				if ((overrideLanguage != Language.None && overrideLanguage != SelectedLanguage && overrideLanguage != DefaultLanguage) || SelectedLanguage != DefaultLanguage)
+				if ((string.IsNullOrEmpty(overrideLanguage) && overrideLang != SelectedLanguage && overrideLang != DefaultLanguage) || SelectedLanguage != DefaultLanguage)
 				{
 					LocalizationDict[DefaultLanguage].TryGetValue(newKey, out txt);
 				}
@@ -211,125 +196,48 @@ namespace PlayGen.Unity.Utilities.Localization
 
 		private static void GetSystemLanguage()
 		{
-			switch (Application.systemLanguage)
-			{
-				case SystemLanguage.English:
-					if (LocalizationDict[Language.English].Count > 0)
-					{
-						UpdateLanguage(Language.English);
-					}
-					break;
-				case SystemLanguage.French:
-					if (LocalizationDict[Language.French].Count > 0)
-					{
-						UpdateLanguage(Language.French);
-					}
-					break;
-				case SystemLanguage.Spanish:
-					if (LocalizationDict[Language.Spanish].Count > 0)
-					{
-						UpdateLanguage(Language.Spanish);
-					}
-					break;
-				case SystemLanguage.Italian:
-					if (LocalizationDict[Language.Italian].Count > 0)
-					{
-						UpdateLanguage(Language.Italian);
-					}
-					break;
-				case SystemLanguage.German:
-					if (LocalizationDict[Language.German].Count > 0)
-					{
-						UpdateLanguage(Language.German);
-					}
-					break;
-				case SystemLanguage.Dutch:
-					if (LocalizationDict[Language.Dutch].Count > 0)
-					{
-						UpdateLanguage(Language.Dutch);
-					}
-					break;
-				case SystemLanguage.Greek:
-					if (LocalizationDict[Language.Greek].Count > 0)
-					{
-						UpdateLanguage(Language.Greek);
-					}
-					break;
-				case SystemLanguage.Japanese:
-					if (LocalizationDict[Language.Japanese].Count > 0)
-					{
-						UpdateLanguage(Language.Japanese);
-					}
-					break;
-				case SystemLanguage.ChineseSimplified:
-					if (LocalizationDict[Language.ChineseSimplified].Count > 0)
-					{
-						UpdateLanguage(Language.ChineseSimplified);
-					}
-					break;
-			}
-			if (SelectedLanguage == 0)
-			{
-				var firstLanguage = ((Language[])Enum.GetValues(typeof(Language))).FirstOrDefault(lang => LocalizationDict[lang].Count > 0);
-				UpdateLanguage(firstLanguage != 0 ? firstLanguage : DefaultLanguage);
-			}
-		}
-
-        /// <summary>
-        /// Get a list of Languages that curently have at least one key
-        /// </summary>
-		public static List<string> AvailableLanguages()
-		{
-			if (LocalizationDict == null || LocalizationDict.Count == 0)
-			{
-				GetLocalizationDictionary();
-			}
-			var languages = (Language[])Enum.GetValues(typeof(Language));
-			var usedLanguages = languages.Where(lang => LocalizationDict[lang].Count > 0).Select(lang => lang.ToString()).ToList();
-			return usedLanguages;
+			if (Languages.Contains(CultureInfo.CurrentCulture))
+            {
+                UpdateLanguage(CultureInfo.CurrentCulture);
+            }
+            else
+            {
+                UpdateLanguage(Languages.First());
+            }
 		}
 
         /// <summary>
         /// Update the SelectedLanguage using the numerical value of the Language within the enum
         /// </summary>
-		public static void UpdateLanguage(int language)
+		public static void UpdateLanguage(string language)
 		{
-			if (AvailableLanguages()[language] != SelectedLanguage.ToString())
+            var intTest = 0;
+            if (string.IsNullOrEmpty(language) || int.TryParse(language, out intTest))
+            {
+                return;
+            }
+
+            var cultureLang = new CultureInfo(language);
+
+            if (cultureLang != SelectedLanguage && !string.IsNullOrEmpty(cultureLang.Name))
 			{
-				UpdateLanguage((Language)Enum.Parse(typeof(Language), AvailableLanguages()[language]));
+				UpdateLanguage(cultureLang);
 			}
 		}
 
         /// <summary>
         /// Update the SelectedLanguage
         /// </summary>
-		public static void UpdateLanguage(Language language)
+		public static void UpdateLanguage(CultureInfo language)
 		{
 			if (language != SelectedLanguage)
 			{
 				SelectedLanguage = language;
-				var fieldInfo = typeof(Language).GetField(language.ToString());
-				var attributes = (LanguageAttribute[])fieldInfo.GetCustomAttributes(typeof(LanguageAttribute), false);
-				SelectedCulture = attributes.Any() ? new CultureInfo(attributes.First().Culture) : CultureInfo.InvariantCulture;
-				PlayerPrefs.SetInt("Last_Saved_Language", (int)SelectedLanguage);
+				PlayerPrefs.SetString("Last_Saved_Language", language.Name);
 				((Localization[])FindObjectsOfType(typeof(Localization))).ToList().ForEach(l => l.Set());
 				LanguageChange();
 				Debug.Log(SelectedLanguage);
-				Debug.Log(SelectedCulture);
 			}
 		}
-	}
-}
-
-[AttributeUsage(AttributeTargets.Field)]
-public class LanguageAttribute : Attribute
-{
-	public string Name { get; set; }
-	public string Culture { get; set; }
-
-	public LanguageAttribute(string name, string culture)
-	{
-		Name = name;
-		Culture = culture;
 	}
 }

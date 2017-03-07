@@ -37,7 +37,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311992, g: 0.38074034, b: 0.35872713, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311926, g: 0.38073996, b: 0.35872692, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -296,7 +296,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Key: EXAMPLE_TEXT_1
   ToUpper: 1
-  LanguageOverride: 10
+  LanguageOverride: zh-cn
 --- !u!114 &809975514
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -329,7 +329,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: New Text
+  m_Text: "\u4E2D\u6587"
 --- !u!222 &809975515
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -385,7 +385,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Key: EXAMPLE_TEXT_1
   ToUpper: 0
-  LanguageOverride: 1
+  LanguageOverride: 
 --- !u!114 &996011965
 MonoBehaviour:
   m_ObjectHideFlags: 0
