@@ -2,7 +2,7 @@
 {
 	public static class Loading
 	{
-		internal static LoadingSpinner LoadingSpinner;
+		public static LoadingSpinner LoadingSpinner;
 
         /// <summary>
         /// Is the spinner currently being displayed?
