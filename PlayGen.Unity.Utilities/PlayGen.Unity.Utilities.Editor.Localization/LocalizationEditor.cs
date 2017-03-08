@@ -5,6 +5,7 @@ using UnityEngine;
 namespace PlayGen.Unity.Utilities.Editor.Localization
 {
 	[CustomEditor(typeof(Utilities.Localization.Localization))]
+    [CanEditMultipleObjects]
 	public class LocalizationEditor : UnityEditor.Editor
 	{
 		private Utilities.Localization.Localization _myLoc;
