@@ -38,10 +38,13 @@ namespace PlayGen.Unity.Utilities.Localization
 
 		private void Set()
 		{
-			var dropdown = GetComponent<Dropdown>();
-			dropdown.ClearOptions();
-			var translatedOptions = _options.Select(t => Localization.Get(t)).ToList();
-			dropdown.AddOptions(translatedOptions);
+			if (_options != null)
+			{
+				var dropdown = GetComponent<Dropdown>();
+				dropdown.ClearOptions();
+				var translatedOptions = _options.Select(t => Localization.Get(t)).ToList();
+				dropdown.AddOptions(translatedOptions);
+			}
 		}
 
 		private void OnLanguageChange()
