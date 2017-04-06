@@ -78,7 +78,7 @@ namespace PlayGen.Unity.Utilities.Localization
 			UpdateLanguage(PlayerPrefs.GetString("Last_Saved_Language"));
 			if (SelectedLanguage == null || string.IsNullOrEmpty(SelectedLanguage.Name))
 			{
-				GetSystemLanguage();
+				UpdateLanguage(GetLanguage(CultureInfo.CurrentCulture));
 				PlayerPrefs.SetString("Last_Saved_Language", SelectedLanguage.Name);
 			}
 		}
@@ -183,34 +183,46 @@ namespace PlayGen.Unity.Utilities.Localization
 			var newKey = key.ToUpper();
 			newKey = newKey.Replace('-', '_');
 
-            var overrideLang = SelectedLanguage;
+            var getLang = SelectedLanguage;
 
             if (!string.IsNullOrEmpty(overrideLanguage) && overrideLanguage != SelectedLanguage.Name)
 			{
-                overrideLang = new CultureInfo(overrideLanguage);
+				getLang = GetLanguage(new CultureInfo(overrideLanguage));
 			}
-            if (overrideLang != SelectedLanguage && !string.IsNullOrEmpty(overrideLang.Name))
-            {
-                LocalizationDict[overrideLang].TryGetValue(newKey, out txt);
-            }
-            else
-            {
-                LocalizationDict[SelectedLanguage].TryGetValue(newKey, out txt);
-            }
-            if (txt == null || txt == EmptyStringText)
+			LocalizationDict[getLang].TryGetValue(newKey, out txt);
+			if (txt == null || txt == EmptyStringText)
 			{
 				if (txt == null)
 				{
-					Debug.LogWarning("Could not find string with key '" + key + "' in Language " + SelectedLanguage);
+					Debug.LogWarning("Could not find string with key '" + key + "' in Language " + getLang);
 				}
-				if ((string.IsNullOrEmpty(overrideLanguage) && !Equals(overrideLang, SelectedLanguage) && !Equals(overrideLang, DefaultLanguage)) || !Equals(SelectedLanguage, DefaultLanguage))
+				if (!Equals(getLang.Parent, CultureInfo.InvariantCulture))
 				{
-					LocalizationDict[DefaultLanguage].TryGetValue(newKey, out txt);
+					LocalizationDict[getLang.Parent].TryGetValue(newKey, out txt);
 				}
-				if (txt == null)
+			}
+			if (txt == null || txt == EmptyStringText)
+			{
+				var parentLang = !Equals(getLang.Parent, CultureInfo.InvariantCulture) ? getLang.Parent : getLang;
+				foreach (var lang in Languages)
 				{
-					txt = key;
+					if (Equals(lang.Parent, parentLang) && !Equals(lang, getLang))
+					{
+						LocalizationDict[lang].TryGetValue(newKey, out txt);
+						if (txt != null && txt != EmptyStringText)
+						{
+							break;
+						}
+					}
 				}
+			}
+			if (txt == null || txt == EmptyStringText)
+			{
+				LocalizationDict[DefaultLanguage].TryGetValue(newKey, out txt);
+			}
+			if (txt == null || txt == EmptyStringText)
+			{
+				txt = key;
 			}
 			//new line character in spreadsheet is *n*
 			txt = txt.Replace("\\n", "\n");
@@ -247,9 +259,21 @@ namespace PlayGen.Unity.Utilities.Localization
 			return LocalizationDict[SelectedLanguage].ContainsKey(newKey);
 		}
 
-		private static void GetSystemLanguage()
+		private static CultureInfo GetLanguage(CultureInfo language)
 		{
-			UpdateLanguage(Languages.Contains(CultureInfo.CurrentCulture) ? CultureInfo.CurrentCulture : Languages.First());
+			var culture = language;
+			if (!Languages.Contains(culture))
+			{
+				if (!Equals(language.Parent, CultureInfo.InvariantCulture))
+				{
+					culture = language.Parent;
+				}
+				if (!Languages.Contains(culture))
+				{
+					culture = Languages.Where(c => Equals(c.Parent, culture)).ToList().Count > 0 ? Languages.First(c => Equals(c.Parent, culture)) : DefaultLanguage;
+				}
+			}
+			return culture;
 		}
 
         /// <summary>
