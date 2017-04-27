@@ -196,7 +196,7 @@ namespace PlayGen.Unity.Utilities.Localization
 				{
 					Debug.LogWarning("Could not find string with key '" + key + "' in Language " + getLang);
 				}
-				if (!Equals(getLang.Parent, CultureInfo.InvariantCulture))
+				if (!Equals(getLang.Parent, CultureInfo.InvariantCulture) && Languages.Contains(getLang.Parent))
 				{
 					LocalizationDict[getLang.Parent].TryGetValue(newKey, out txt);
 				}
