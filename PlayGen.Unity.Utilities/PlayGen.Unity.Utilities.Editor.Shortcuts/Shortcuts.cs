@@ -26,7 +26,7 @@ namespace PlayGen.Unity.Utilities.Editor.Shortcuts
 		/// <summary>
 		/// Reset the offsets for the selected Rect Transform to 0
 		/// </summary>
-		[MenuItem("PlayGen/UI Tools/Reset Offsets %&r")]
+		[MenuItem("PlayGen Tools/UI/Reset Offsets %&r")]
 		static void ResetRectTransformOffsets()
 		{
 			var objects = Selection.gameObjects;
@@ -41,7 +41,7 @@ namespace PlayGen.Unity.Utilities.Editor.Shortcuts
 		/// <summary>
 		/// Create a button that fills the panel it is created in
 		/// </summary>
-		[MenuItem("PlayGen/UI Tools/Create Button %&q")]
+		[MenuItem("PlayGen Tools/UI/Create Button %&q")]
 		static void CreateButtonAsChild()
 		{
 			var go = new GameObject();
@@ -80,7 +80,7 @@ namespace PlayGen.Unity.Utilities.Editor.Shortcuts
 		/// <summary>
 		/// Move an object up in the hierarchy
 		/// </summary>
-		[MenuItem("PlayGen/UI Tools/Move Selected Object Up %#UP")]
+		[MenuItem("PlayGen Tools/UI/Move Selected Object Up %#UP")]
 		static void MoveObjectUp()
 		{
 			var selected = Selection.gameObjects;
@@ -93,7 +93,7 @@ namespace PlayGen.Unity.Utilities.Editor.Shortcuts
 		/// <summary>
 		/// Move an object down in the hierarchy
 		/// </summary>
-		[MenuItem("PlayGen/UI Tools/Move Selected Object Down %#DOWN")]
+		[MenuItem("PlayGen Tools/UI/Move Selected Object Down %#DOWN")]
 		static void MoveObjectDown()
 		{
 			var selected = Selection.gameObjects;
@@ -106,7 +106,7 @@ namespace PlayGen.Unity.Utilities.Editor.Shortcuts
 		/// <summary>
 		/// Move an object Out of parent in the hierarchy
 		/// </summary>
-		[MenuItem("PlayGen/UI Tools/Move Selected Object Sibling Of Parent %#LEFT")]
+		[MenuItem("PlayGen Tools/UI/Move Selected Object Sibling Of Parent %#LEFT")]
 		static void MoveObjectOut()
 		{
 			var selected = Selection.gameObjects;
@@ -119,7 +119,7 @@ namespace PlayGen.Unity.Utilities.Editor.Shortcuts
 		/// <summary>
 		/// Move an object into object below in the hierarchy
 		/// </summary>
-		[MenuItem("PlayGen/UI Tools/Move Selected Object Child Of Sibling %#RIGHT")]
+		[MenuItem("PlayGen Tools/UI/Move Selected Object Child Of Sibling %#RIGHT")]
 		static void MoveObjectIn()
 		{
 			var selected = Selection.gameObjects;

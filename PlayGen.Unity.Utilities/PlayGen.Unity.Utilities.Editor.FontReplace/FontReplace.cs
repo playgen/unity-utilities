@@ -9,7 +9,7 @@ namespace PlayGen.Unity.Utilities.Editor.FontReplace
 		private readonly List<Font> _gameFonts = new List<Font>();
 		private List<string> _names = new List<string>();
 
-		[MenuItem("Tools/Replace Fonts")]
+		[MenuItem("PlayGen Tools/Replace Fonts")]
 		public static void ShowWindow()
 		{
 			GetWindow(typeof(FontReplace));
@@ -62,9 +62,9 @@ namespace PlayGen.Unity.Utilities.Editor.FontReplace
 
 			foreach (var t in allTexts)
 			{
-				if (!fontNames.Contains(t.font.ToString()))
+				if (!fontNames.Contains(t.font.name))
 				{
-					fontNames.Add(t.font.ToString());
+					fontNames.Add(t.font.name);
 				}
 			}
 			return fontNames;

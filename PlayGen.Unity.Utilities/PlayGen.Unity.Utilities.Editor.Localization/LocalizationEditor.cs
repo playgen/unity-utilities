@@ -1,18 +1,20 @@
-﻿using UnityEditor;
+﻿using PlayGen.Unity.Utilities.Localization;
+
+using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 
 namespace PlayGen.Unity.Utilities.Editor.Localization
 {
-	[CustomEditor(typeof(Utilities.Localization.Localization))]
+	[CustomEditor(typeof(UILocalization), true)]
 	[CanEditMultipleObjects]
 	public class LocalizationEditor : UnityEditor.Editor
 	{
-		private Utilities.Localization.Localization _myLoc;
+		private UILocalization _myLoc;
 
 		public void Awake()
 		{
-			_myLoc = (Utilities.Localization.Localization)target;
+			_myLoc = (UILocalization)target;
 		}
 
 		public override void OnInspectorGUI()

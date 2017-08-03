@@ -1,79 +1,44 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using SimpleJSON;
-using UnityEngine.UI;
 using System;
 using System.Globalization;
 using System.Linq;
 
 namespace PlayGen.Unity.Utilities.Localization
 {
-    [RequireComponent(typeof(Text))]
-	public class Localization : MonoBehaviour
+	public static class Localization
 	{
 		private static readonly Dictionary<CultureInfo, Dictionary<string, string>> LocalizationDict = new Dictionary<CultureInfo, Dictionary<string, string>>();
-
-        /// <summary>
-        /// Localization Key for this text object
-        /// </summary>
-        [Tooltip("Localization Key for this text object")]
-		public string Key;
-        /// <summary>
-        /// Should the text be converted to be upper case?
-        /// </summary>
-        [Tooltip("Should the text be converted to be upper case?")]
-        public bool ToUpper;
-
 		private const string EmptyStringText = "XXXX";
-        private const string FilePath = "Localization";
+		private const string FilePath = "Localization";
 
-        public static List<CultureInfo> Languages = new List<CultureInfo>();
-        /// <summary>
-        /// The Language currently in-use
-        /// </summary>
+		public static List<CultureInfo> Languages = new List<CultureInfo>();
+		/// <summary>
+		/// The Language currently in-use
+		/// </summary>
 		public static CultureInfo SelectedLanguage { get; set; }
-        /// <summary>
-        /// Language to use if none is set or selected language does not have text for provided key
-        /// </summary>
+		/// <summary>
+		/// The Specific version of the Language currently in-use
+		/// </summary>
+		public static CultureInfo SpecificSelectedLanguage => SelectedLanguage.IsNeutralCulture ? CultureInfo.CreateSpecificCulture(SelectedLanguage.Name) : SelectedLanguage;
+		/// <summary>
+		/// Language to use if none is set or selected language does not have text for provided key
+		/// </summary>
 		public static CultureInfo DefaultLanguage = new CultureInfo("en-gb");
-        /// <summary>
-        /// Event triggered by changing of SelectedLanguage
-        /// </summary>
+		/// <summary>
+		/// Event triggered by changing of SelectedLanguage
+		/// </summary>
 		public static event Action LanguageChange = delegate { };
-
-		#region LocalizationTesting
-		[Header("Localization Testing")]
-		[Tooltip("Use this enum to test other languages")]
-		public string LanguageOverride;
-		#endregion
-
-		private void OnEnable()
-		{
-			Set();
-		}
-
-        /// <summary>
-        /// Set the text on this object to match the localized string for the provided key
-        /// </summary>
-		public void Set()
-		{
-			Text text = GetComponent<Text>();
-			if (!text)
-			{
-				Debug.LogError("Localization script could not find Text component attached to this gameObject: " + gameObject.name);
-				return;
-			}
-			text.text = Get(Key, ToUpper, LanguageOverride);
-		}
 
 		private static void GetLocalizationDictionary()
 		{
 			TextAsset[] jsonTextAssets = Resources.LoadAll(FilePath, typeof(TextAsset)).Cast<TextAsset>().ToArray();
 
-            foreach (var textAsset in jsonTextAssets)
-            {
-	            AddLocalization(textAsset);
-            }
+			foreach (var textAsset in jsonTextAssets)
+			{
+				AddLocalization(textAsset);
+			}
 
 			UpdateLanguage(PlayerPrefs.GetString("Last_Saved_Language"));
 			if (SelectedLanguage == null || string.IsNullOrEmpty(SelectedLanguage.Name))
@@ -166,9 +131,9 @@ namespace PlayGen.Unity.Utilities.Localization
 			}
 		}
 
-        /// <summary>
-        /// Get the localized string for the provided key
-        /// </summary>
+		/// <summary>
+		/// Get the localized string for the provided key
+		/// </summary>
 		public static string Get(string key, bool toUpper = false, string overrideLanguage = null)
 		{
 			if (SelectedLanguage == null)
@@ -183,9 +148,9 @@ namespace PlayGen.Unity.Utilities.Localization
 			var newKey = key.ToUpper();
 			newKey = newKey.Replace('-', '_');
 
-            var getLang = SelectedLanguage;
+			var getLang = SelectedLanguage;
 
-            if (!string.IsNullOrEmpty(overrideLanguage) && overrideLanguage != SelectedLanguage.Name)
+			if (!string.IsNullOrEmpty(overrideLanguage) && overrideLanguage != SelectedLanguage.Name)
 			{
 				getLang = GetLanguage(new CultureInfo(overrideLanguage));
 			}
@@ -233,25 +198,25 @@ namespace PlayGen.Unity.Utilities.Localization
 			return txt;
 		}
 
-        /// <summary>
-        /// Get the localized string for the provided key and format it using the args provided
-        /// </summary>
+		/// <summary>
+		/// Get the localized string for the provided key and format it using the args provided
+		/// </summary>
 		public static string GetAndFormat(string key, bool toUpper, params object[] args)
 		{
 			return string.Format(Get(key, toUpper), args);
 		}
 
-        /// <summary>
-        /// Get the localized string for the provided key and format it using the args provided
-        /// </summary>
+		/// <summary>
+		/// Get the localized string for the provided key and format it using the args provided
+		/// </summary>
 		public static string GetAndFormat(string key, bool toUpper, params string[] args)
 		{
 			return GetAndFormat(key, toUpper, args.ToArray<object>());
 		}
 
-        /// <summary>
-        /// Check if the SelectedLanguage contains the provided key
-        /// </summary>
+		/// <summary>
+		/// Check if the SelectedLanguage contains the provided key
+		/// </summary>
 		public static bool HasKey(string key)
 		{
 			var newKey = key.ToUpper();
@@ -276,35 +241,35 @@ namespace PlayGen.Unity.Utilities.Localization
 			return culture;
 		}
 
-        /// <summary>
-        /// Update the SelectedLanguage using the numerical value of the Language within the enum
-        /// </summary>
+		/// <summary>
+		/// Update the SelectedLanguage using the numerical value of the Language within the enum
+		/// </summary>
 		public static void UpdateLanguage(string language)
 		{
-            var intTest = 0;
-            if (string.IsNullOrEmpty(language) || int.TryParse(language, out intTest))
-            {
-                return;
-            }
+			var intTest = 0;
+			if (string.IsNullOrEmpty(language) || int.TryParse(language, out intTest))
+			{
+				return;
+			}
 
-            var cultureLang = new CultureInfo(language);
+			var cultureLang = new CultureInfo(language);
 
-            if (!Equals(cultureLang, SelectedLanguage) && !string.IsNullOrEmpty(cultureLang.Name) && Languages.Contains(cultureLang))
+			if (!Equals(cultureLang, SelectedLanguage) && !string.IsNullOrEmpty(cultureLang.Name) && Languages.Contains(cultureLang))
 			{
 				UpdateLanguage(cultureLang);
 			}
 		}
 
-        /// <summary>
-        /// Update the SelectedLanguage
-        /// </summary>
+		/// <summary>
+		/// Update the SelectedLanguage
+		/// </summary>
 		public static void UpdateLanguage(CultureInfo language)
 		{
 			if (language != SelectedLanguage)
 			{
 				SelectedLanguage = language;
 				PlayerPrefs.SetString("Last_Saved_Language", language.Name);
-				((Localization[])FindObjectsOfType(typeof(Localization))).ToList().ForEach(l => l.Set());
+				((UILocalization[])UnityEngine.Object.FindObjectsOfType(typeof(UILocalization))).ToList().ForEach(l => l.Set());
 				LanguageChange();
 				Debug.Log(SelectedLanguage);
 			}

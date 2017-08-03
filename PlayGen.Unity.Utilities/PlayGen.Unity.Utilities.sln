@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26228.9
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlayGen.Unity.Utilities.BestFit", "PlayGen.Unity.Utilities.BestFit\PlayGen.Unity.Utilities.BestFit.csproj", "{3B4C2193-E58F-4E5F-A409-11C397566CC9}"
 EndProject
@@ -24,6 +24,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlayGen.Unity.Utilities.Platforms", "PlayGen.Unity.Utilities.Platforms\PlayGen.Unity.Utilities.Platforms.csproj", "{BC10B5D2-CC7C-461C-A513-FD4F27334D96}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlayGen.Unity.Utilities.Editor.Localization", "PlayGen.Unity.Utilities.Editor.Localization\PlayGen.Unity.Utilities.Editor.Localization.csproj", "{F669107F-65CF-4172-B217-B2F483302360}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlayGen.Unity.Utilities.AudioManagement", "PlayGen.Unity.Utilities.AudioManagement\PlayGen.Unity.Utilities.AudioManagement.csproj", "{A160F98C-9D11-44C9-8188-C749ADFFE685}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -75,6 +77,10 @@ Global
 		{F669107F-65CF-4172-B217-B2F483302360}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F669107F-65CF-4172-B217-B2F483302360}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F669107F-65CF-4172-B217-B2F483302360}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A160F98C-9D11-44C9-8188-C749ADFFE685}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A160F98C-9D11-44C9-8188-C749ADFFE685}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A160F98C-9D11-44C9-8188-C749ADFFE685}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A160F98C-9D11-44C9-8188-C749ADFFE685}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

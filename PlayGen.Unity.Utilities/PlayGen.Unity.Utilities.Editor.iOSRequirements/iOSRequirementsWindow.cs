@@ -13,7 +13,7 @@ namespace PlayGen.Unity.Utilities.Editor.iOSRequirements
 		private XmlDocument _requirementsXml;
 		private Vector2 _scrollPosition;
 
-		[MenuItem("Tools/iOS Requirements")]
+		[MenuItem("PlayGen Tools/iOS Requirements")]
 		public static void ShowWindow()
 		{
 			GetWindow(typeof(iOSRequirementsWindow), true, "iOS Requirements Manager", true);

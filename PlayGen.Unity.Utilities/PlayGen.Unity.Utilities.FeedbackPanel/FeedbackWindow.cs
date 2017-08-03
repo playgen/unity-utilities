@@ -16,10 +16,10 @@ namespace PlayGen.Unity.Utilities.FeedbackPanel
 
 		public void Setup(UnityAction<string> action)
 		{
-			_cancelButton = transform.FindChild("Panel/FooterPanel/CancelButton").GetComponent<Button>();
-			_sendButton = transform.FindChild("Panel/FooterPanel/SendButton").GetComponent<Button>();
+			_cancelButton = transform.Find("Panel/FooterPanel/CancelButton").GetComponent<Button>();
+			_sendButton = transform.Find("Panel/FooterPanel/SendButton").GetComponent<Button>();
 
-			_feedbackText = transform.FindChild("Panel/BodyPanel/Feedback").GetComponent<InputField>();
+			_feedbackText = transform.Find("Panel/BodyPanel/Feedback").GetComponent<InputField>();
 
 			_feedbackText.text = "";
 
