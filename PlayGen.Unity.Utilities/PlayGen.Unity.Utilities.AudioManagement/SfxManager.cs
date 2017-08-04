@@ -5,31 +5,34 @@ namespace PlayGen.Unity.Utilities.AudioManagement
 {
 	public class SfxManager : MonoBehaviour
 	{
-		[SerializeField] protected List<SfxClip> _audioClips;
+		[SerializeField] private List<SfxClip> _audioClips;
 
-		protected readonly Dictionary<string, AudioSource> _audioSources = new Dictionary<string, AudioSource>();
+		private readonly Dictionary<string, AudioSource> _audioSources = new Dictionary<string, AudioSource>();
 
-		private static SfxManager _sfxInstance;
+		private float _volume;
 
-		protected virtual void Awake()
+		private static SfxManager _instance;
+
+		private void Awake()
 		{
-			if (_sfxInstance)
+			if (_instance)
 			{
 				Destroy(gameObject);
 				return;
 			}
-			_sfxInstance = this;
+			_instance = this;
 			DontDestroyOnLoad(this);
 		}
 
-		protected virtual void Start()
+		private void Start()
 		{
+			_volume = PlayerPrefs.GetFloat("Sound Volume", 1);
 			foreach (var audioClip in _audioClips)
 			{
 				var source = gameObject.AddComponent<AudioSource>();
 				source.clip = audioClip.Clip;
 				source.priority = audioClip.Priority;
-				source.volume = audioClip.Volume;
+				source.volume = audioClip.Volume * _volume;
 
 				source.loop = audioClip.Loop;
 				source.playOnAwake = audioClip.AutoPlay;
@@ -45,10 +48,10 @@ namespace PlayGen.Unity.Utilities.AudioManagement
 
 		public static void Play(string name)
 		{
-			if (_sfxInstance._audioSources.ContainsKey(name))
+			if (_instance._audioSources.ContainsKey(name))
 			{
-				_sfxInstance._audioSources[name].Stop();
-				_sfxInstance._audioSources[name].Play();
+				_instance._audioSources[name].Stop();
+				_instance._audioSources[name].Play();
 			}
 			else
 			{
@@ -58,11 +61,11 @@ namespace PlayGen.Unity.Utilities.AudioManagement
 
 		public static void Stop(string name)
 		{
-			if (_sfxInstance._audioSources.ContainsKey(name))
+			if (_instance._audioSources.ContainsKey(name))
 			{
-				if (_sfxInstance._audioSources[name].isPlaying)
+				if (_instance._audioSources[name].isPlaying)
 				{
-					_sfxInstance._audioSources[name].Stop();
+					_instance._audioSources[name].Stop();
 				}
 			}
 			else
@@ -73,11 +76,11 @@ namespace PlayGen.Unity.Utilities.AudioManagement
 
 		public static void Pause(string name)
 		{
-			if (_sfxInstance._audioSources.ContainsKey(name))
+			if (_instance._audioSources.ContainsKey(name))
 			{
-				if (_sfxInstance._audioSources[name].isPlaying)
+				if (_instance._audioSources[name].isPlaying)
 				{
-					_sfxInstance._audioSources[name].Pause();
+					_instance._audioSources[name].Pause();
 				}
 			}
 			else
@@ -88,9 +91,9 @@ namespace PlayGen.Unity.Utilities.AudioManagement
 
 		public static void Resume(string name)
 		{
-			if (_sfxInstance._audioSources.ContainsKey(name))
+			if (_instance._audioSources.ContainsKey(name))
 			{
-				_sfxInstance._audioSources[name].Play();
+				_instance._audioSources[name].Play();
 			}
 			else
 			{
@@ -100,12 +103,18 @@ namespace PlayGen.Unity.Utilities.AudioManagement
 
 		public static bool IsPlaying(string name)
 		{
-			if (_sfxInstance._audioSources.ContainsKey(name))
+			if (_instance._audioSources.ContainsKey(name))
 			{
-				return _sfxInstance._audioSources[name].isPlaying;
+				return _instance._audioSources[name].isPlaying;
 			}
 			Debug.LogWarning("Invalid Clip Name: " + name);
 			return false;
+		}
+
+		public static void UpdateVolume()
+		{
+			_instance._volume = PlayerPrefs.GetFloat("Sound Volume", 1);
+			_instance._audioClips.ForEach(a => a.AudioSource.volume = a.Volume * _instance._volume);
 		}
 	}
 }
