@@ -1,15 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
-using SimpleJSON;
 using System;
 using System.Globalization;
 using System.Linq;
+
+using Newtonsoft.Json;
 
 namespace PlayGen.Unity.Utilities.Localization
 {
 	public static class Localization
 	{
-		private static readonly Dictionary<CultureInfo, Dictionary<string, string>> LocalizationDict = new Dictionary<CultureInfo, Dictionary<string, string>>();
+		private static Dictionary<CultureInfo, Dictionary<string, string>> _localizationDict = new Dictionary<CultureInfo, Dictionary<string, string>>();
 		private const string EmptyStringText = "XXXX";
 		private const string FilePath = "Localization";
 
@@ -34,24 +35,23 @@ namespace PlayGen.Unity.Utilities.Localization
 		private static void GetLocalizationDictionary(bool loadLang = true)
 		{
 			var jsonTextAssets = Resources.LoadAll(FilePath, typeof(TextAsset)).Cast<TextAsset>().ToArray();
-
 			foreach (var textAsset in jsonTextAssets)
 			{
 				AddLocalization(textAsset);
 			}
 
-            if (loadLang)
-            {
-                UpdateLanguage(PlayerPrefs.GetString("Last_Saved_Language"));
-                if (string.IsNullOrEmpty(SelectedLanguage?.Name))
-                {
-                    UpdateLanguage(GetLanguage(CultureInfo.CurrentUICulture));
-                    if (SelectedLanguage != null)
-                    {
-                        PlayerPrefs.SetString("Last_Saved_Language", SelectedLanguage.Name);
-                    }
-                }
-            }
+			if (loadLang)
+			{
+				UpdateLanguage(PlayerPrefs.GetString("Last_Saved_Language"));
+				if (string.IsNullOrEmpty(SelectedLanguage?.Name))
+				{
+					UpdateLanguage(GetLanguage(CultureInfo.CurrentUICulture));
+					if (SelectedLanguage != null)
+					{
+						PlayerPrefs.SetString("Last_Saved_Language", SelectedLanguage.Name);
+					}
+				}
+			}
 		}
 
 		public static void AddLocalization(TextAsset textAsset)
@@ -61,18 +61,20 @@ namespace PlayGen.Unity.Utilities.Localization
 
 		public static void AddLocalization(string text)
 		{
-			AddLanguages(text);
-			AddToDict(text);
+			var json = JsonConvert.DeserializeObject<List<Dictionary<string, string>>>(text);
+			var comparer = StringComparer.OrdinalIgnoreCase;
+			json = json.Select(d => new Dictionary<string, string>(d, comparer)).ToList();
+			AddLanguages(json);
+			AddToDict(json);
 			RemoveUnused();
 		}
 
-		private static void AddLanguages(string text)
+		private static void AddLanguages(List<Dictionary<string, string>> json)
 		{
-			var n = JSON.Parse(text);
-			var keys = n[0].AsObject.Keys;
-			for (var i = 1; i < keys.Count; i++)
+			var keys = json.SelectMany(j => j.Keys.Where(k => !k.Equals("key", StringComparison.OrdinalIgnoreCase))).Distinct().ToList();
+			foreach (var key in keys)
 			{
-				var culture = new CultureInfo(keys[i]);
+				var culture = new CultureInfo(key);
 				if (!Languages.Contains(culture))
 				{
 					if (Languages.Count == 0)
@@ -84,42 +86,35 @@ namespace PlayGen.Unity.Utilities.Localization
 			}
 		}
 
-		private static void AddToDict(string text)
+		private static void AddToDict(List<Dictionary<string, string>> json)
 		{
 			foreach (var l in Languages)
 			{
-				var languageStrings = new Dictionary<string, string>();
-				var n = JSON.Parse(text);
-				for (var i = 0; i < n.Count; i++)
+				var comparer = StringComparer.OrdinalIgnoreCase;
+				if (!_localizationDict.ContainsKey(l))
 				{
-					//go through the list and add the strings to the dictionary
-					if (n[i][l.Name.ToLower()] != null)
-					{
-						var key = n[i][0].ToString();
-						key = key.Replace("\"", "").ToUpper();
-						var value = n[i][l.Name.ToLower()].ToString();
-						value = value.Replace("\"", "");
-						if (value != EmptyStringText)
-						{
-							languageStrings[key] = value;
-						}
-					}
+					_localizationDict.Add(l, new Dictionary<string, string>(comparer));
 				}
-				if (languageStrings.Count > 0)
+			}
+
+			foreach (var dict in json)
+			{
+				if (dict.TryGetValue("key", out var key))
 				{
-					if (LocalizationDict.ContainsKey(l))
+					foreach (var l in Languages)
 					{
-						foreach (var s in languageStrings)
+						if (dict.TryGetValue(l.Name, out var str) && str != EmptyStringText)
 						{
-							if (!LocalizationDict[l].ContainsKey(s.Key))
+							if (_localizationDict[l].ContainsKey(key))
 							{
-								LocalizationDict[l][s.Key] = s.Value;
+								_localizationDict[l][key] = str;
 							}
+							else
+							{
+								_localizationDict[l].Add(key, str);
+							}
+							
 						}
-					}
-					else
-					{
-						LocalizationDict[l] = languageStrings;
 					}
 				}
 			}
@@ -127,18 +122,8 @@ namespace PlayGen.Unity.Utilities.Localization
 
 		private static void RemoveUnused()
 		{
-			var langToRemove = new List<CultureInfo>();
-			foreach (var l in Languages)
-			{
-				if (!LocalizationDict.ContainsKey(l))
-				{
-					langToRemove.Add(l);
-				}
-			}
-			foreach (var l in langToRemove)
-			{
-				Languages.Remove(l);
-			}
+			_localizationDict = _localizationDict.Where(l => l.Value.Count > 0).ToDictionary(k => k.Key, v => v.Value);
+			Languages = Languages.Where(l => _localizationDict.ContainsKey(l)).ToList();
 		}
 
 		/// <summary>
@@ -156,7 +141,7 @@ namespace PlayGen.Unity.Utilities.Localization
 			}
 			string txt;
 			var newKey = key.ToUpper();
-			newKey = newKey.Replace('-', '_');
+			newKey = newKey.Replace('-', '_').Trim();
 
 			var getLang = SelectedLanguage;
 
@@ -164,7 +149,7 @@ namespace PlayGen.Unity.Utilities.Localization
 			{
 				getLang = GetLanguage(new CultureInfo(overrideLanguage));
 			}
-			LocalizationDict[getLang].TryGetValue(newKey, out txt);
+			_localizationDict[getLang].TryGetValue(newKey, out txt);
 			if (txt == null || txt == EmptyStringText)
 			{
 				if (txt == null)
@@ -173,7 +158,7 @@ namespace PlayGen.Unity.Utilities.Localization
 				}
 				if (!Equals(getLang.Parent, CultureInfo.InvariantCulture) && Languages.Contains(getLang.Parent))
 				{
-					LocalizationDict[getLang.Parent].TryGetValue(newKey, out txt);
+					_localizationDict[getLang.Parent].TryGetValue(newKey, out txt);
 				}
 			}
 			if (txt == null || txt == EmptyStringText)
@@ -183,7 +168,7 @@ namespace PlayGen.Unity.Utilities.Localization
 				{
 					if (Equals(lang.Parent, parentLang) && !Equals(lang, getLang))
 					{
-						LocalizationDict[lang].TryGetValue(newKey, out txt);
+						_localizationDict[lang].TryGetValue(newKey, out txt);
 						if (txt != null && txt != EmptyStringText)
 						{
 							break;
@@ -193,7 +178,7 @@ namespace PlayGen.Unity.Utilities.Localization
 			}
 			if (Languages.Contains(DefaultLanguage) && (txt == null || txt == EmptyStringText))
 			{
-				LocalizationDict[DefaultLanguage].TryGetValue(newKey, out txt);
+				_localizationDict[DefaultLanguage].TryGetValue(newKey, out txt);
 			}
 			if (txt == null || txt == EmptyStringText)
 			{
@@ -231,7 +216,7 @@ namespace PlayGen.Unity.Utilities.Localization
 		{
 			var newKey = key.ToUpper();
 			newKey = newKey.Replace('-', '_');
-			return LocalizationDict[SelectedLanguage].ContainsKey(newKey);
+			return _localizationDict[SelectedLanguage].ContainsKey(newKey);
 		}
 
 		private static CultureInfo GetLanguage(CultureInfo language)
@@ -271,7 +256,7 @@ namespace PlayGen.Unity.Utilities.Localization
 		/// </summary>
 		public static void UpdateLanguage(CultureInfo cultureLang)
 		{
-			if (SelectedLanguage == null)
+			if (Languages.Count == 0)
 			{
 				GetLocalizationDictionary(false);
 			}
@@ -300,10 +285,13 @@ namespace PlayGen.Unity.Utilities.Localization
 				if (Languages.Contains(language))
 				{
 					SelectedLanguage = language;
-					PlayerPrefs.SetString("Last_Saved_Language", language.Name);
-					((UILocalization[])UnityEngine.Object.FindObjectsOfType(typeof(UILocalization))).ToList().ForEach(l => l.Set());
-					LanguageChange();
-					Debug.Log(SelectedLanguage);
+					if (Application.isPlaying)
+					{
+						PlayerPrefs.SetString("Last_Saved_Language", language.Name);
+						((UILocalization[])UnityEngine.Object.FindObjectsOfType(typeof(UILocalization))).ToList().ForEach(l => l.Set());
+						LanguageChange();
+						Debug.Log(SelectedLanguage);
+					}
 				}
 			}
 		}
