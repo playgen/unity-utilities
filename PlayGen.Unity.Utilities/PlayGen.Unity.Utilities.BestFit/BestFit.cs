@@ -26,9 +26,12 @@ namespace PlayGen.Unity.Utilities.BestFit
 		[Tooltip("The largest font size text should be set to when using this extension")]
 		public int MaxFontSize = 25;
 
+		public Canvas Canvas { get; private set; }
+
 		private void Awake()
 		{
 			_previousResolution = new Vector2(Screen.width, Screen.height);
+			Canvas = GetComponent<Canvas>();
 		}
 
 		private void LateUpdate()
@@ -47,147 +50,171 @@ namespace PlayGen.Unity.Utilities.BestFit
 		/// Set all text on this GameObject and children of this GameObject to be the same size
 		/// If setBestFitValues is set to false, the best fit values set on object will be used instead of MinFontSize and MaxFontSize
 		/// </summary>
-		public static void BestFit(this GameObject go, bool setBestFitValues = true)
+		public static int BestFit(this GameObject go, bool setBestFitValues = true, List<string> newStrings = null)
 		{
 			var childGo = new List<GameObject>();
 			foreach (Transform child in go.transform)
 			{
 				childGo.Add(child.gameObject);
 			}
-			BestFit(childGo, setBestFitValues);
+			return BestFit(childGo, setBestFitValues, newStrings);
 		}
 
 		/// <summary>
 		/// Set all text on this Transform and children of this Transform to be the same size
 		/// If setBestFitValues is set to false, the best fit values set on object will be used instead of MinFontSize and MaxFontSize
 		/// </summary>
-		public static void BestFit(this Transform trans, bool setBestFitValues = true)
+		public static int BestFit(this Transform trans, bool setBestFitValues = true, List<string> newStrings = null)
 		{
 			var childGo = new List<GameObject>();
 			foreach (Transform child in trans)
 			{
 				childGo.Add(child.gameObject);
 			}
-			BestFit(childGo, setBestFitValues);
+			return BestFit(childGo, setBestFitValues, newStrings);
 		}
 
 		/// <summary>
 		/// Set all text in this list of selectables to be the same size
 		/// If setBestFitValues is set to false, the best fit values set on object will be used instead of MinFontSize and MaxFontSize
 		/// </summary>
-		public static void BestFit(this List<Selectable> selectableObjects, bool setBestFitValues = true)
+		public static int BestFit(this List<Selectable> selectableObjects, bool setBestFitValues = true, List<string> newStrings = null)
 		{
-			BestFit(selectableObjects.ToArray(), setBestFitValues);
+			return BestFit(selectableObjects.ToArray(), setBestFitValues, newStrings);
 		}
 
 		/// <summary>
 		/// Set all text in this IEnumerable  of selectables to be the same size
 		/// If setBestFitValues is set to false, the best fit values set on object will be used instead of MinFontSize and MaxFontSize
 		/// </summary>
-		public static void BestFit(this IEnumerable<Selectable> selectableObjects, bool setBestFitValues = true)
+		public static int BestFit(this IEnumerable<Selectable> selectableObjects, bool setBestFitValues = true, List<string> newStrings = null)
 		{
-			BestFit(selectableObjects.ToArray(), setBestFitValues);
+			return BestFit(selectableObjects.ToArray(), setBestFitValues, newStrings);
 		}
 
 		/// <summary>
 		/// Set all text in this array to of selectables be the same size
 		/// If setBestFitValues is set to false, the best fit values set on object will be used instead of MinFontSize and MaxFontSize
 		/// </summary>
-		public static void BestFit(this Selectable[] selectableObjects, bool setBestFitValues = true)
+		public static int BestFit(this Selectable[] selectableObjects, bool setBestFitValues = true, List<string> newStrings = null)
 		{
-			BestFit(selectableObjects.Select(selectable => selectable.gameObject).ToArray(), setBestFitValues);
+			return BestFit(selectableObjects.Select(selectable => selectable.gameObject).ToArray(), setBestFitValues, newStrings);
 		}
 
 		/// <summary>
 		/// Set all text in this list to be the same size
 		/// If setBestFitValues is set to false, the best fit values set on object will be used instead of MinFontSize and MaxFontSize
 		/// </summary>
-		public static void BestFit(this List<Text> textObjects, bool setBestFitValues = true)
+		public static int BestFit(this List<Text> textObjects, bool setBestFitValues = true, List<string> newStrings = null)
 		{
-			BestFit(textObjects.ToArray(), setBestFitValues);
+			return BestFit(textObjects.ToArray(), setBestFitValues, newStrings);
 		}
 
 		/// <summary>
 		/// Set all text in this IEnumerable to be the same size
 		/// If setBestFitValues is set to false, the best fit values set on object will be used instead of MinFontSize and MaxFontSize
 		/// </summary>
-		public static void BestFit(this IEnumerable<Text> textObjects, bool setBestFitValues = true)
+		public static int BestFit(this IEnumerable<Text> textObjects, bool setBestFitValues = true, List<string> newStrings = null)
 		{
-			BestFit(textObjects.ToArray(), setBestFitValues);
+			return BestFit(textObjects.ToArray(), setBestFitValues, newStrings);
 		}
 
 		/// <summary>
 		/// Set all text in this array to be the same size
 		/// If setBestFitValues is set to false, the best fit values set on object will be used instead of MinFontSize and MaxFontSize
 		/// </summary>
-		public static void BestFit(this Text[] textObjects, bool setBestFitValues = true)
+		public static int BestFit(this Text[] textObjects, bool setBestFitValues = true, List<string> newStrings = null)
 		{
-			BestFit(textObjects.Select(text => text.gameObject).ToArray(), setBestFitValues);
+			return BestFit(textObjects.Select(text => text.gameObject).ToArray(), setBestFitValues, newStrings);
 		}
 
 		/// <summary>
 		/// Set all text in this list of GameObjects to be the same size
 		/// If setBestFitValues is set to false, the best fit values set on object will be used instead of MinFontSize and MaxFontSize
 		/// </summary>
-		public static void BestFit(this List<GameObject> gameObjects, bool setBestFitValues = true)
+		public static int BestFit(this List<GameObject> gameObjects, bool setBestFitValues = true, List<string> newStrings = null)
 		{
-			BestFit(gameObjects.ToArray(), setBestFitValues);
+			return BestFit(gameObjects.ToArray(), setBestFitValues, newStrings);
 		}
 
 		/// <summary>
 		/// Set all text in this IEnumerable of GameObjects to be the same size
 		/// If setBestFitValues is set to false, the best fit values set on object will be used instead of MinFontSize and MaxFontSize
 		/// </summary>
-		public static void BestFit(this IEnumerable<GameObject> gameObjects, bool setBestFitValues = true)
+		public static int BestFit(this IEnumerable<GameObject> gameObjects, bool setBestFitValues = true, List<string> newStrings = null)
 		{
-			BestFit(gameObjects.ToArray(), setBestFitValues);
+			return BestFit(gameObjects.ToArray(), setBestFitValues, newStrings);
 		}
 
 		/// <summary>
 		/// Set all text in this array of GameObjects to be the same size
 		/// If setBestFitValues is set to false, the best fit values set on object will be used instead of MinFontSize and MaxFontSize
 		/// </summary>
-		public static void BestFit(this GameObject[] gameObjects, bool setBestFitValues = true)
+		public static int BestFit(this GameObject[] gameObjects, bool setBestFitValues = true, List<string> newStrings = null)
 		{
+			var previousSmallSize = 0;
 			var smallestFontSize = 0;
-			foreach (var go in gameObjects)
+			var checkCount = 0;
+			while ((previousSmallSize == 0 || previousSmallSize != smallestFontSize) && checkCount < 10)
 			{
-				var dropObj = go.GetComponentsInChildren<Dropdown>(true);
-				foreach (var drop in dropObj)
+				previousSmallSize = smallestFontSize;
+				var layoutGroups = gameObjects.SelectMany(g => g.GetComponentsInParent<LayoutGroup>(true).Select(l => (RectTransform)l.transform)).ToList();
+				layoutGroups = layoutGroups.Concat(gameObjects.Select(g => (RectTransform)g.transform).ToList()).ToList();
+				layoutGroups = layoutGroups.Concat(gameObjects.SelectMany(g => g.GetComponentsInChildren<LayoutGroup>(true).Select(l => (RectTransform)l.transform)).ToList()).Distinct().ToList();
+				layoutGroups.Reverse();
+				foreach (var lg in layoutGroups)
 				{
-					drop.template.gameObject.SetActive(true);
+					LayoutRebuilder.ForceRebuildLayoutImmediate(lg);
 				}
-				LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)go.transform);
-
-				var mono = setBestFitValues ? go.GetComponentInParent<BestFit>() : null;
-				var textObj = go.GetComponentsInChildren<Text>(true);
-				foreach (var text in textObj)
+				foreach (var go in gameObjects)
 				{
-					var dropdown = text.GetComponentInParent<Dropdown>();
-					var newSize = dropdown ? GetBestFitSize(text, mono, setBestFitValues, dropdown.options.Select(o => o.text).ToList()) : GetBestFitSize(text, mono, setBestFitValues);
-					if (newSize < smallestFontSize || smallestFontSize == 0)
+					var dropObj = go.GetComponentsInChildren<Dropdown>(true);
+					foreach (var drop in dropObj)
 					{
-						smallestFontSize = newSize;
+						drop.template.gameObject.SetActive(true);
+					}
+					var mono = setBestFitValues ? go.GetComponentInParent<BestFit>() : null;
+					var textObj = go.GetComponentsInChildren<Text>(true);
+					foreach (var text in textObj)
+					{
+						var dropdown = text.GetComponentInParent<Dropdown>();
+						if (dropdown)
+						{
+							if (newStrings != null)
+							{
+								newStrings.AddRange(dropdown.options.Select(o => o.text).ToList());
+							}
+							else
+							{
+								newStrings = dropdown.options.Select(o => o.text).ToList();
+							}
+						}
+						var newSize = GetBestFitSize(text, mono, setBestFitValues, newStrings);
+						if (newSize < smallestFontSize || smallestFontSize == 0)
+						{
+							smallestFontSize = newSize;
+						}
 					}
 				}
-			}
-			foreach (var go in gameObjects)
-			{
-				var textObj = go.GetComponentsInChildren<Text>(true);
-				foreach (var text in textObj)
+				foreach (var go in gameObjects)
 				{
-					text.fontSize = smallestFontSize;
+					var textObj = go.GetComponentsInChildren<Text>(true);
+					foreach (var text in textObj)
+					{
+						text.fontSize = smallestFontSize;
+					}
+					var dropObj = go.GetComponentsInChildren<Dropdown>(true);
+					foreach (var drop in dropObj)
+					{
+						drop.template.gameObject.SetActive(false);
+					}
 				}
-				var dropObj = go.GetComponentsInChildren<Dropdown>(true);
-				foreach (var drop in dropObj)
-				{
-					
-					drop.template.gameObject.SetActive(false);
-				}
+				checkCount++;
 			}
+			return smallestFontSize;
 		}
 
-		private static int GetBestFitSize(Text text, BestFit mono, bool setBestFitValue, List<string> newStrings = null)
+		private static int GetBestFitSize(Text text, BestFit mono, bool setBestFitValue, List<string> newStrings)
 		{
 			var smallestFontSize = 0;
 			var currentText = text.text;
