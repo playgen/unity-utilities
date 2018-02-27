@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26228.9
+VisualStudioVersion = 15.0.27130.2036
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlayGen.Unity.Utilities.BestFit", "PlayGen.Unity.Utilities.BestFit\PlayGen.Unity.Utilities.BestFit.csproj", "{3B4C2193-E58F-4E5F-A409-11C397566CC9}"
 EndProject
@@ -26,6 +26,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlayGen.Unity.Utilities.Editor.Localization", "PlayGen.Unity.Utilities.Editor.Localization\PlayGen.Unity.Utilities.Editor.Localization.csproj", "{F669107F-65CF-4172-B217-B2F483302360}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlayGen.Unity.Utilities.AudioManagement", "PlayGen.Unity.Utilities.AudioManagement\PlayGen.Unity.Utilities.AudioManagement.csproj", "{A160F98C-9D11-44C9-8188-C749ADFFE685}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlayGen.Unity.Utilities.Extensions", "PlayGen.Unity.Utilities.Extensions\PlayGen.Unity.Utilities.Extensions.csproj", "{5698C72E-1969-4380-88FB-53595F4EB1A9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlayGen.Unity.Utilities.Video", "PlayGen.Unity.Utilities.Video\PlayGen.Unity.Utilities.Video.csproj", "{4DC510AE-3A2E-47C3-895C-92B6AB14C53B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -81,8 +85,19 @@ Global
 		{A160F98C-9D11-44C9-8188-C749ADFFE685}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A160F98C-9D11-44C9-8188-C749ADFFE685}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A160F98C-9D11-44C9-8188-C749ADFFE685}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5698C72E-1969-4380-88FB-53595F4EB1A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5698C72E-1969-4380-88FB-53595F4EB1A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5698C72E-1969-4380-88FB-53595F4EB1A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5698C72E-1969-4380-88FB-53595F4EB1A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4DC510AE-3A2E-47C3-895C-92B6AB14C53B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4DC510AE-3A2E-47C3-895C-92B6AB14C53B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4DC510AE-3A2E-47C3-895C-92B6AB14C53B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4DC510AE-3A2E-47C3-895C-92B6AB14C53B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A314B77D-BD35-4C3C-B17D-939F98CEF389}
 	EndGlobalSection
 EndGlobal
