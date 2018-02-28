@@ -213,12 +213,26 @@ Prefab:
     - target: {fileID: 224697470047734280, guid: 474184b3d6cc0514f8609860c2d02978,
         type: 2}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224729101491651960, guid: 474184b3d6cc0514f8609860c2d02978,
         type: 2}
       propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1653291562681704, guid: 474184b3d6cc0514f8609860c2d02978, type: 2}
+      propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 328172342206956548, guid: 474184b3d6cc0514f8609860c2d02978,
+        type: 2}
+      propertyPath: m_DirectAudioVolumes.Array.data[0]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 328172342206956548, guid: 474184b3d6cc0514f8609860c2d02978,
+        type: 2}
+      propertyPath: m_EnabledAudioTracks.Array.data[0]
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 474184b3d6cc0514f8609860c2d02978, type: 2}
@@ -388,9 +402,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1026788519}
   - component: {fileID: 1026788518}
-  - component: {fileID: 1026788517}
-  - component: {fileID: 1026788516}
   - component: {fileID: 1026788515}
+  - component: {fileID: 1026788516}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -405,20 +418,18 @@ AudioListener:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1026788514}
   m_Enabled: 1
---- !u!124 &1026788516
-Behaviour:
+--- !u!114 &1026788516
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1026788514}
   m_Enabled: 1
---- !u!92 &1026788517
-Behaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1026788514}
-  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92f0f6d2adf6c3547ba8156ae0a5c7da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _video: {fileID: 1325830161}
 --- !u!20 &1026788518
 Camera:
   m_ObjectHideFlags: 0
@@ -472,3 +483,9 @@ RectTransform:
   m_PrefabParentObject: {fileID: 224442878014297424, guid: 474184b3d6cc0514f8609860c2d02978,
     type: 2}
   m_PrefabInternal: {fileID: 49652029}
+--- !u!114 &1325830161 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114068428410916342, guid: 474184b3d6cc0514f8609860c2d02978,
+    type: 2}
+  m_PrefabInternal: {fileID: 49652029}
+  m_Script: {fileID: 311000991, guid: 3e52c27242076e34f8adf5d712b21b80, type: 3}

@@ -44,6 +44,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PlatformPositioning.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScrollRectFollowFocused.cs" />
     <Compile Include="SliderHandleSizeSetter.cs" />

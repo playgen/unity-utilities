@@ -31,6 +31,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlayGen.Unity.Utilities.Ext
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlayGen.Unity.Utilities.Video", "PlayGen.Unity.Utilities.Video\PlayGen.Unity.Utilities.Video.csproj", "{4DC510AE-3A2E-47C3-895C-92B6AB14C53B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlayGen.Unity.Utilities.Editor.UI", "PlayGen.Unity.Utilities.Editor.UI\PlayGen.Unity.Utilities.Editor.UI.csproj", "{5E02F713-3F4C-4E22-B304-4053D78CCE86}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -93,6 +95,10 @@ Global
 		{4DC510AE-3A2E-47C3-895C-92B6AB14C53B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4DC510AE-3A2E-47C3-895C-92B6AB14C53B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4DC510AE-3A2E-47C3-895C-92B6AB14C53B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5E02F713-3F4C-4E22-B304-4053D78CCE86}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E02F713-3F4C-4E22-B304-4053D78CCE86}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E02F713-3F4C-4E22-B304-4053D78CCE86}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E02F713-3F4C-4E22-B304-4053D78CCE86}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
