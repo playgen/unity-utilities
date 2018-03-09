@@ -86,10 +86,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1915119198112400}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1827919002, guid: 44b76ab2330e8114cbd3c0d303ab9e71, type: 3}
+  m_Script: {fileID: 1827919002, guid: a0f21d3b367dedd469426cc10ca429f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _spinSpeed: 600
+  _spinSpeed: 200
   _spinClockwise: 0
 --- !u!114 &114275902201842706
 MonoBehaviour:
