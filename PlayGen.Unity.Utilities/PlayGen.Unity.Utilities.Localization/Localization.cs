@@ -45,7 +45,18 @@ namespace PlayGen.Unity.Utilities.Localization
 				UpdateLanguage(PlayerPrefs.GetString("Last_Saved_Language"));
 				if (string.IsNullOrEmpty(SelectedLanguage?.Name))
 				{
-					UpdateLanguage(GetLanguage(CultureInfo.CurrentUICulture));
+					if (!string.IsNullOrEmpty(CultureInfo.CurrentUICulture.Name))
+					{
+						UpdateLanguage(GetLanguage(CultureInfo.CurrentUICulture));
+					}
+					else if (!string.IsNullOrEmpty(CultureInfo.CurrentCulture.Name))
+					{
+						UpdateLanguage(GetLanguage(CultureInfo.CurrentCulture));
+					}
+					else
+					{
+						UpdateLanguage(GetLanguage(GetFromSystemLanguage()));
+					}
 					if (SelectedLanguage != null)
 					{
 						PlayerPrefs.SetString("Last_Saved_Language", SelectedLanguage.Name);
@@ -139,7 +150,6 @@ namespace PlayGen.Unity.Utilities.Localization
 			{
 				return string.Empty;
 			}
-			string txt;
 			var newKey = key.ToUpper();
 			newKey = newKey.Replace('-', '_').Trim();
 
@@ -149,7 +159,7 @@ namespace PlayGen.Unity.Utilities.Localization
 			{
 				getLang = GetLanguage(new CultureInfo(overrideLanguage));
 			}
-			_localizationDict[getLang].TryGetValue(newKey, out txt);
+			_localizationDict[getLang].TryGetValue(newKey, out var txt);
 			if (txt == null || txt == EmptyStringText)
 			{
 				if (txt == null)
@@ -219,12 +229,17 @@ namespace PlayGen.Unity.Utilities.Localization
 			return _localizationDict[SelectedLanguage].ContainsKey(newKey);
 		}
 
+		public static CultureInfo GetFromSystemLanguage()
+		{
+			return CultureInfo.GetCultures(CultureTypes.NeutralCultures).First(r => r.EnglishName == Application.systemLanguage.ToString());
+		}
+
 		private static CultureInfo GetLanguage(CultureInfo language)
 		{
 			var culture = language;
 			if (!Languages.Contains(culture))
 			{
-				if (!Equals(language.Parent, CultureInfo.InvariantCulture))
+				if (language != null && !Equals(language.Parent, CultureInfo.InvariantCulture))
 				{
 					culture = language.Parent;
 				}
@@ -241,8 +256,7 @@ namespace PlayGen.Unity.Utilities.Localization
 		/// </summary>
 		public static void UpdateLanguage(string language)
 		{
-			int intTest;
-			if (string.IsNullOrEmpty(language) || int.TryParse(language, out intTest))
+			if (string.IsNullOrEmpty(language) || int.TryParse(language, out _))
 			{
 				return;
 			}
