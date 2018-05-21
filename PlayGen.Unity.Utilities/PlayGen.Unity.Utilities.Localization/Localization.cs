@@ -53,9 +53,13 @@ namespace PlayGen.Unity.Utilities.Localization
 					{
 						UpdateLanguage(GetLanguage(CultureInfo.CurrentCulture));
 					}
-					else
+					else if (!string.IsNullOrEmpty(GetLanguage(GetFromSystemLanguage()).Name))
 					{
 						UpdateLanguage(GetLanguage(GetFromSystemLanguage()));
+					}
+					else
+					{
+						UpdateLanguage(GetLanguage(DefaultLanguage));
 					}
 					if (SelectedLanguage != null)
 					{
@@ -231,7 +235,7 @@ namespace PlayGen.Unity.Utilities.Localization
 
 		public static CultureInfo GetFromSystemLanguage()
 		{
-			return CultureInfo.GetCultures(CultureTypes.NeutralCultures).First(r => r.EnglishName == Application.systemLanguage.ToString());
+			return CultureInfo.GetCultures(CultureTypes.NeutralCultures).FirstOrDefault(r => r.EnglishName == Application.systemLanguage.ToString());
 		}
 
 		private static CultureInfo GetLanguage(CultureInfo language)
