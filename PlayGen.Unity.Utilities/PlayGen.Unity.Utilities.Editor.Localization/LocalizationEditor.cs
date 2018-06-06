@@ -3,6 +3,7 @@
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace PlayGen.Unity.Utilities.Editor.Localization
 {
@@ -24,7 +25,7 @@ namespace PlayGen.Unity.Utilities.Editor.Localization
 			{
 				if (!EditorApplication.isPlaying)
 				{
-					EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
+					EditorSceneManager.MarkSceneDirty(SceneManager.GetActiveScene());
 				}
 				_myLoc.gameObject.SetActive(false);
 				_myLoc.Set();

@@ -51,9 +51,9 @@ namespace PlayGen.Unity.Utilities.Extensions
             return transform.Find(find).gameObject;
         }
 
-        public static T FindComponentInChildren<T>(this Transform transform, string find)
+        public static T FindComponentInChildren<T>(this Transform transform, string find, bool includeInactive)
         {
-            return transform.Find(find).GetComponentInChildren<T>();
+            return transform.Find(find).GetComponentInChildren<T>(includeInactive);
         }
     }
 }

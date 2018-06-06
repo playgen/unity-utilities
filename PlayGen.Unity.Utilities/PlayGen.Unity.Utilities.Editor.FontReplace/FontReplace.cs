@@ -14,7 +14,8 @@ namespace PlayGen.Unity.Utilities.Editor.FontReplace
 		{
 			GetWindow(typeof(FontReplace));
 		}
-		void OnGUI()
+
+		private void OnGUI()
 		{
 			GUILayout.Label("Replace selected fonts", EditorStyles.boldLabel);
 			if (GUILayout.Button("Refresh") || _gameFonts.Count == 0)
@@ -39,7 +40,8 @@ namespace PlayGen.Unity.Utilities.Editor.FontReplace
 				EditorGUILayout.EndHorizontal();
 			}
 		}
-		void ReplaceFont(string fontName, Font font)
+
+		private void ReplaceFont(string fontName, Font font)
 		{
 			//check the font has been set to a valid font
 			if (font == null || font.fontNames.Length == 0)
@@ -54,7 +56,8 @@ namespace PlayGen.Unity.Utilities.Editor.FontReplace
 				}
 			}
 		}
-		List<string> FontNames()
+
+		private List<string> FontNames()
 		{
 			//return a string of font names
 			var fontNames = new List<string>();

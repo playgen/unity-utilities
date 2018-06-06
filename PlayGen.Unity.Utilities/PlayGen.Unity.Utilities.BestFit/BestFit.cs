@@ -158,6 +158,7 @@ namespace PlayGen.Unity.Utilities.BestFit
 			while ((previousSmallSize == 0 || previousSmallSize != smallestFontSize) && checkCount < 10)
 			{
 				previousSmallSize = smallestFontSize;
+
 				var layoutGroups = gameObjects.SelectMany(g => g.GetComponentsInParent<LayoutGroup>(true).Select(l => (RectTransform)l.transform)).ToList();
 				layoutGroups = layoutGroups.Concat(gameObjects.Select(g => (RectTransform)g.transform).ToList()).ToList();
 				layoutGroups = layoutGroups.Concat(gameObjects.SelectMany(g => g.GetComponentsInChildren<LayoutGroup>(true).Select(l => (RectTransform)l.transform)).ToList()).Distinct().ToList();
@@ -166,6 +167,23 @@ namespace PlayGen.Unity.Utilities.BestFit
 				{
 					LayoutRebuilder.ForceRebuildLayoutImmediate(lg);
 				}
+
+				var aspectRatioFitters = gameObjects.SelectMany(g => g.GetComponentsInParent<AspectRatioFitter>(true)).ToList();
+				aspectRatioFitters = aspectRatioFitters.Concat(gameObjects.Select(g => g.GetComponent<AspectRatioFitter>()).Where(a => a != null).ToList()).ToList();
+				aspectRatioFitters = aspectRatioFitters.Concat(gameObjects.SelectMany(g => g.GetComponentsInChildren<AspectRatioFitter>(true)).ToList()).Distinct().ToList();
+				aspectRatioFitters.Reverse();
+				foreach (var arf in aspectRatioFitters)
+				{
+					if (arf.aspectMode == AspectRatioFitter.AspectMode.HeightControlsWidth)
+					{
+						((RectTransform)arf.transform).SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, ((RectTransform)arf.transform).rect.height * arf.aspectRatio);
+					}
+					else if (arf.aspectMode == AspectRatioFitter.AspectMode.WidthControlsHeight)
+					{
+						((RectTransform)arf.transform).SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, ((RectTransform)arf.transform).rect.width / arf.aspectRatio);
+					}
+				}
+
 				foreach (var go in gameObjects)
 				{
 					var dropObj = go.GetComponentsInChildren<Dropdown>(true);
@@ -246,13 +264,13 @@ namespace PlayGen.Unity.Utilities.BestFit
 					newSizeRescale = text.rectTransform.rect.size.y / text.cachedTextGenerator.rectExtents.size.y;
 				}
 				newSize = Mathf.FloorToInt(newSize * newSizeRescale);
-				if (newSize < smallestFontSize || smallestFontSize == 0)
+				if (newSize != 0 && (newSize < smallestFontSize || smallestFontSize == 0))
 				{
 					smallestFontSize = newSize;
 				}
 			}
 			text.text = currentText;
-			return smallestFontSize;
+			return Mathf.Max(smallestFontSize, mono ? mono.MinFontSize : 1);
 		}
 	}
 }

@@ -438,13 +438,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 243514597}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -1169801823, guid: 9989e0bf524228e4480bba2718f8b032, type: 3}
+  m_Script: {fileID: -1169801823, guid: 6697aa2b41467464ab4848f2798b2f18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _previousResolution: {x: 0, y: 0}
   MinFontSize: 1
   MaxFontSize: 100
-  <Canvas>k__BackingField: {fileID: 0}
 --- !u!1 &705963644
 GameObject:
   m_ObjectHideFlags: 0
@@ -800,6 +798,7 @@ Camera:
   m_TargetEye: 3
   m_HDR: 0
   m_AllowMSAA: 1
+  m_AllowDynamicResolution: 0
   m_ForceIntoRT: 0
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
@@ -1089,7 +1088,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1967346823}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9a24b4873e5dac1498fd4926984d980c, type: 3}
   m_Name: 
@@ -1100,7 +1099,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1967346823}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 1159228509, guid: 6697aa2b41467464ab4848f2798b2f18, type: 3}
   m_Name: 

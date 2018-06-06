@@ -14,7 +14,7 @@ namespace PlayGen.Unity.Utilities.UI
 		[SerializeField]
 		private float _scale = 1.2f;
 
-		void Update()
+		private void Update()
 		{
 			if (transform.hasChanged)
 			{

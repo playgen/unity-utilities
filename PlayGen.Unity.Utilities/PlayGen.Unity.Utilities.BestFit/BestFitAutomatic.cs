@@ -12,7 +12,7 @@ namespace PlayGen.Unity.Utilities.BestFit
 	{
 		private List<Text> _bestFitChildren = new List<Text>();
 
-		void OnEnable()
+		private void OnEnable()
 		{
 			if (_bestFitChildren.Count == 0)
 			{

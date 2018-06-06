@@ -15,7 +15,7 @@ namespace PlayGen.Unity.Utilities.AudioManagement
 
 		public static event Action TrackChange = delegate { };
 
-		void Awake()
+		private void Awake()
 		{
 			if (_instance)
 			{
@@ -26,7 +26,7 @@ namespace PlayGen.Unity.Utilities.AudioManagement
 			DontDestroyOnLoad(this);
 		}
 
-		void Start()
+		private void Start()
 		{
 			_audio = GetComponent<AudioSource>();
 			if (!_audio)
@@ -37,7 +37,7 @@ namespace PlayGen.Unity.Utilities.AudioManagement
 			PlayTrack();
 		}
 
-		void Update()
+		private void Update()
 		{
 			if (!_audio.isPlaying && _music[_currentTrack].Clip.loadState != AudioDataLoadState.Loading)
 			{
@@ -56,7 +56,7 @@ namespace PlayGen.Unity.Utilities.AudioManagement
 			_instance.PlayTrack();
 		}
 
-		void PlayTrack()
+		private void PlayTrack()
 		{
 			_audio.clip = _music[_currentTrack].Clip;
 			_audio.volume = _volume * _music[_currentTrack].MaxVolume;

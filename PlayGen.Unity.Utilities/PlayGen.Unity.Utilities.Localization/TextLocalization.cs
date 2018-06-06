@@ -34,8 +34,6 @@ namespace PlayGen.Unity.Utilities.Localization
 				return;
 			}
 			_text.text = Localization.Get(Key, ToUpper, LanguageOverride);
-
-            base.Set();
 		}
 	}
 }

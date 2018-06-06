@@ -6,7 +6,7 @@ namespace PlayGen.Unity.Utilities.UI
     public class PlatformPositioning : MonoBehaviour
     {
         [Serializable]
-        private class Anchor
+        private struct Anchor
         {
             public Vector2 Min;
             public Vector2 Max;

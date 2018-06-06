@@ -27,7 +27,7 @@ namespace PlayGen.Unity.Utilities.Loading
 
         public bool IsActive => _container.gameObject.activeSelf;
 
-        void Awake()
+		private void Awake()
 		{
 			Loading.LoadingSpinner = this;
 			_container = transform.GetChild(0).gameObject;
