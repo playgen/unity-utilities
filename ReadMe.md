@@ -80,12 +80,15 @@ If making this available publicly, remove the PlayGen api keys in elastic email
 Shorthand extensions for commonly used functions in unity
 ### Usage
 There are 3 types of components that have been extended in this utility
-- GameObject
+
+**GameObject**
+
 ``` c#
   void GameObject.Active(bool active)
     Checks if the GameObject active status is different to the new status then changes the GameObject active status
 ```
-- RectTransform
+**RectTransform**
+
 ``` c#
   RectTransform Transform.RectTransform()
     Returns the RectTransform from a Transform
@@ -108,13 +111,15 @@ There are 3 types of components that have been extended in this utility
   T Transform.FindComponentInChildren<T>(string find, bool includeInactive)
     Finds a child of Type T by name and returns it, includeInactive determines in inactive objects should also be included in the search 
 ```
-- Transform
+**Transform**
+
 ``` c#
   Transform Transform.FindInactive(string name)
     Finds a child Transform and includes inactive Objects
   List<Transform> Transform.FindAll(string name, bool includeInactive = false)
     Finds all children Transforms by name and returns them 
 ```
+
 ### Gotchas
 This utility does not add extra functionality, just makes it more efficient to do repetitive tasks
 
