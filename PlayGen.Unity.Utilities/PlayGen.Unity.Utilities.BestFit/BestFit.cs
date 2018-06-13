@@ -26,12 +26,9 @@ namespace PlayGen.Unity.Utilities.BestFit
 		[Tooltip("The largest font size text should be set to when using this extension")]
 		public int MaxFontSize = 25;
 
-		public Canvas Canvas { get; private set; }
-
 		private void Awake()
 		{
 			_previousResolution = new Vector2(Screen.width, Screen.height);
-			Canvas = GetComponent<Canvas>();
 		}
 
 		private void LateUpdate()
@@ -263,6 +260,13 @@ namespace PlayGen.Unity.Utilities.BestFit
 				{
 					newSizeRescale = text.rectTransform.rect.size.y / text.cachedTextGenerator.rectExtents.size.y;
 				}
+				//log logic copied from https://bitbucket.org/Unity-Technologies/ui/src/a3f89d5f7d145e4b6fa11cf9f2de768fea2c500f/UnityEngine.UI/UI/Core/Layout/CanvasScaler.cs?at=2017.3&fileviewer=file-view-default
+				//allows calculation to be accurate from the first frame
+				var logWidth = Mathf.Log(Screen.width / text.GetComponentInParent<CanvasScaler>().referenceResolution.x, 2);
+				var logHeight = Mathf.Log(Screen.height / text.GetComponentInParent<CanvasScaler>().referenceResolution.y, 2);
+				var logWeightedAverage = Mathf.Lerp(logWidth, logHeight, text.GetComponentInParent<CanvasScaler>().matchWidthOrHeight);
+				var logScaleFactor = Mathf.Pow(2, logWeightedAverage);
+				newSizeRescale *= text.GetComponentInParent<Canvas>().transform.localScale.x / logScaleFactor;
 				newSize = Mathf.FloorToInt(newSize * newSizeRescale);
 				if (newSize != 0 && (newSize < smallestFontSize || smallestFontSize == 0))
 				{
@@ -270,7 +274,7 @@ namespace PlayGen.Unity.Utilities.BestFit
 				}
 			}
 			text.text = currentText;
-			return Mathf.Max(smallestFontSize, mono ? mono.MinFontSize : 1);
+			return Mathf.Min(Mathf.Max(smallestFontSize, mono ? mono.MinFontSize : 1), mono ? mono.MaxFontSize : 25);
 		}
 	}
 }

@@ -32,8 +32,7 @@ namespace PlayGen.Unity.Utilities.Editor.iOSRequirements
 
 				var requirements = iOSRequirements.ReadXml();
 
-				string message;
-				if (!iOSRequirements.IsXmlValid(requirements, out message))
+				if (!iOSRequirements.IsXmlValid(requirements, out var message))
 				{
 					Debug.LogWarning(message);
 					return;
@@ -47,7 +46,7 @@ namespace PlayGen.Unity.Utilities.Editor.iOSRequirements
 				foreach (XmlNode requirementNode in requirements.FirstChild.ChildNodes)
 				{
 					var requiredNode = requirementNode["Required"];
-					if (requiredNode.InnerText == "True")
+					if (requiredNode != null && requiredNode.InnerText == "True")
 					{
 						var keyNode = requirementNode["Key"];
 						var valueNode = requirementNode["Value"];

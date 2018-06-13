@@ -27,7 +27,7 @@ namespace PlayGen.Unity.Utilities.Editor.Shortcuts
 		/// Reset the offsets for the selected Rect Transform to 0
 		/// </summary>
 		[MenuItem("PlayGen Tools/UI/Reset Offsets %&r")]
-		static void ResetRectTransformOffsets()
+		private static void ResetRectTransformOffsets()
 		{
 			var objects = Selection.gameObjects;
 			foreach (var o in objects)
@@ -42,7 +42,7 @@ namespace PlayGen.Unity.Utilities.Editor.Shortcuts
 		/// Create a button that fills the panel it is created in
 		/// </summary>
 		[MenuItem("PlayGen Tools/UI/Create Button %&q")]
-		static void CreateButtonAsChild()
+		private static void CreateButtonAsChild()
 		{
 			var go = new GameObject();
 			go.transform.parent = Selection.activeGameObject.transform;
@@ -81,10 +81,10 @@ namespace PlayGen.Unity.Utilities.Editor.Shortcuts
 		/// Move an object up in the hierarchy
 		/// </summary>
 		[MenuItem("PlayGen Tools/UI/Move Selected Object Up %#UP")]
-		static void MoveObjectUp()
+		private static void MoveObjectUp()
 		{
 			var selected = Selection.gameObjects;
-			foreach (GameObject go in selected)
+			foreach (var go in selected)
 			{
 				MoveObjectInHierarchy(go, Direction.up);
 			}
@@ -94,7 +94,7 @@ namespace PlayGen.Unity.Utilities.Editor.Shortcuts
 		/// Move an object down in the hierarchy
 		/// </summary>
 		[MenuItem("PlayGen Tools/UI/Move Selected Object Down %#DOWN")]
-		static void MoveObjectDown()
+		private static void MoveObjectDown()
 		{
 			var selected = Selection.gameObjects;
 			for (var i = selected.Length - 1; i >= 0; i--)
@@ -107,7 +107,7 @@ namespace PlayGen.Unity.Utilities.Editor.Shortcuts
 		/// Move an object Out of parent in the hierarchy
 		/// </summary>
 		[MenuItem("PlayGen Tools/UI/Move Selected Object Sibling Of Parent %#LEFT")]
-		static void MoveObjectOut()
+		private static void MoveObjectOut()
 		{
 			var selected = Selection.gameObjects;
 			foreach (var obj in selected)
@@ -120,7 +120,7 @@ namespace PlayGen.Unity.Utilities.Editor.Shortcuts
 		/// Move an object into object below in the hierarchy
 		/// </summary>
 		[MenuItem("PlayGen Tools/UI/Move Selected Object Child Of Sibling %#RIGHT")]
-		static void MoveObjectIn()
+		private static void MoveObjectIn()
 		{
 			var selected = Selection.gameObjects;
 			foreach (var obj in selected)
@@ -131,7 +131,7 @@ namespace PlayGen.Unity.Utilities.Editor.Shortcuts
 
 		#region MoveObjects
 
-		enum Direction { up, down, siblingOfParent, childOfSibling }
+		private enum Direction { up, down, siblingOfParent, childOfSibling }
 
 		private static void MoveObjectInHierarchy(GameObject go, Direction direction)
 		{

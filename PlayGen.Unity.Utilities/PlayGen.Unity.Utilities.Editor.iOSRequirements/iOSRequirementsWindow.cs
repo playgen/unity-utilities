@@ -19,15 +19,14 @@ namespace PlayGen.Unity.Utilities.Editor.iOSRequirements
 			GetWindow(typeof(iOSRequirementsWindow), true, "iOS Requirements Manager", true);
 		}
 
-		void OnEnable()
+		private void OnEnable()
 		{
 			_requirementsXml = iOSRequirements.ReadXml();
 		}
 
-		void OnGUI()
+		private void OnGUI()
 		{
-			string message;
-			if (!iOSRequirements.IsXmlValid(_requirementsXml, out message))
+			if (!iOSRequirements.IsXmlValid(_requirementsXml, out var message))
 			{
 				GUILayout.Label(message);
 				return;

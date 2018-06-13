@@ -111,7 +111,7 @@ namespace PlayGen.Unity.Utilities.Video
         {
             if (_player)
             {
-                if (_player.time == 0)
+                if (Mathf.Approximately((float)_player.time, 0))
                 {
                     Play();
                 }

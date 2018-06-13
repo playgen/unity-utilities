@@ -9,7 +9,7 @@ namespace PlayGen.Unity.Utilities.FeedbackPanel
 
 		public static ElasticEmail Instance;
 
-		void Awake()
+		private void Awake()
 		{
 			Instance = this;
 		}
