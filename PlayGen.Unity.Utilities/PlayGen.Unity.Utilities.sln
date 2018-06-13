@@ -21,8 +21,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlayGen.Unity.Utilities.Fee
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlayGen.Unity.Utilities.UI", "PlayGen.Unity.Utilities.UI\PlayGen.Unity.Utilities.UI.csproj", "{EC7174D0-8C0A-4AD1-91DB-704EEAF397FD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlayGen.Unity.Utilities.Platforms", "PlayGen.Unity.Utilities.Platforms\PlayGen.Unity.Utilities.Platforms.csproj", "{BC10B5D2-CC7C-461C-A513-FD4F27334D96}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlayGen.Unity.Utilities.Editor.Localization", "PlayGen.Unity.Utilities.Editor.Localization\PlayGen.Unity.Utilities.Editor.Localization.csproj", "{F669107F-65CF-4172-B217-B2F483302360}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlayGen.Unity.Utilities.AudioManagement", "PlayGen.Unity.Utilities.AudioManagement\PlayGen.Unity.Utilities.AudioManagement.csproj", "{A160F98C-9D11-44C9-8188-C749ADFFE685}"
