@@ -262,11 +262,20 @@ namespace PlayGen.Unity.Utilities.BestFit
 				}
 				//log logic copied from https://bitbucket.org/Unity-Technologies/ui/src/a3f89d5f7d145e4b6fa11cf9f2de768fea2c500f/UnityEngine.UI/UI/Core/Layout/CanvasScaler.cs?at=2017.3&fileviewer=file-view-default
 				//allows calculation to be accurate from the first frame
-				var logWidth = Mathf.Log(Screen.width / text.GetComponentInParent<CanvasScaler>().referenceResolution.x, 2);
-				var logHeight = Mathf.Log(Screen.height / text.GetComponentInParent<CanvasScaler>().referenceResolution.y, 2);
-				var logWeightedAverage = Mathf.Lerp(logWidth, logHeight, text.GetComponentInParent<CanvasScaler>().matchWidthOrHeight);
+				var canvasScaler = text.GetComponentInParent<CanvasScaler>();
+				var canvas = text.GetComponentInParent<Canvas>();
+				var logWidth = Mathf.Log(Screen.width / canvasScaler.referenceResolution.x, 2);
+				var logHeight = Mathf.Log(Screen.height / canvasScaler.referenceResolution.y, 2);
+				var logWeightedAverage = Mathf.Lerp(logWidth, logHeight, canvasScaler.matchWidthOrHeight);
 				var logScaleFactor = Mathf.Pow(2, logWeightedAverage);
-				newSizeRescale *= text.GetComponentInParent<Canvas>().transform.localScale.x / logScaleFactor;
+				if (canvas.renderMode == RenderMode.ScreenSpaceCamera && canvas.worldCamera)
+				{
+					logScaleFactor *= canvas.worldCamera.orthographicSize / (Screen.height * 0.5f);
+				}
+				if (canvas.renderMode == RenderMode.ScreenSpaceOverlay || (canvas.renderMode == RenderMode.ScreenSpaceCamera && !canvas.worldCamera) || (canvas.renderMode == RenderMode.ScreenSpaceCamera && canvas.worldCamera && canvas.worldCamera.orthographic))
+				{
+					newSizeRescale *= canvas.transform.localScale.x / logScaleFactor;
+				}
 				newSize = Mathf.FloorToInt(newSize * newSizeRescale);
 				if (newSize != 0 && (newSize < smallestFontSize || smallestFontSize == 0))
 				{
