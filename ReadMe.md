@@ -87,7 +87,7 @@ The SFX manager can be used as follows
 
   // Check if an SFX is playing
   bool SfxManager.IsPlaying(string name)
-  
+
   // Update volume based on master volume
   void SfxManager.UpdateVolume()
 ```
@@ -142,9 +142,6 @@ Get the localized string for the provided key, toUpper will return an upper case
 ``` c#
   string Get(string key, bool toUpper = false, string overrideLanguage = null)
 ```
-
-### Limitations
-todo
 
 ## Shortcuts
 ### Function 
@@ -283,4 +280,5 @@ The utitlity allows the following interactions
 ```
 
 ### Limitations
-todo
+- Currently no audio
+- Does not work with URL as a source
