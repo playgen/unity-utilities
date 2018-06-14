@@ -61,28 +61,28 @@ The audio management controls both Music Tracks and Sound Effects (SFX). Audio f
 
 The music manager can be used as follows:
 ```c#
-  Go To Next Track
-    void MusicManager.NextTrack();
-  Play the current track
-    void MusicManager.PlayTrack();
-  Update Volume (value between 0 and 1)
-    void MusicManager.UpdateVolume(float newValue)
+  // Go To Next Track
+  void MusicManager.NextTrack();
+  // Play the current track
+  void MusicManager.PlayTrack();
+  // Update Volume (value between 0 and 1)
+  void MusicManager.UpdateVolume(float newValue)
 ```
 
 The SFX manager can be used as follows
 ```c#
-  Play SFX by name
-    void SfxManager.Play(string name)
-  Stop SFX by name
-    void SfxManager.Stop(string name)
-  Pause SFX by name
-    void SfxManager.Pause(string name)
-  Resume SFX by name
-    void SfxManager.Resume(string name)
-  Check if an SFX is playing
-    bool SfxManager.IsPlaying(string name)
-  Update volume based on master volume
-    void SfxManager.UpdateVolume()
+  // Play SFX by name
+  void SfxManager.Play(string name)
+  // Stop SFX by name
+  void SfxManager.Stop(string name)
+  // Pause SFX by name
+  void SfxManager.Pause(string name)
+  // Resume SFX by name
+  void SfxManager.Resume(string name)
+  // Check if an SFX is playing
+  bool SfxManager.IsPlaying(string name)
+  // Update volume based on master volume
+  void SfxManager.UpdateVolume()
 ```
 
 ### Gotchas
@@ -186,45 +186,45 @@ There are 3 types of components that have been extended in this utility
 **RectTransform**
 
 ``` c#
-  Returns the RectTransform from a Transform
-    RectTransform Transform.RectTransform();
+  // Returns the RectTransform from a Transform
+  RectTransform Transform.RectTransform();
   
-  Returns the RectTransform from a GameObject
-    RectTransform GaneObject.RectTransform();
+  // Returns the RectTransform from a GameObject
+  RectTransform GaneObject.RectTransform();
   
-  Returns the RectTransform from a MonoBehaviour
-    RectTransform MonoBehaviour.RectTransform();
+  // Returns the RectTransform from a MonoBehaviour
+  RectTransform MonoBehaviour.RectTransform();
   
-  Finds a child RectTransform by name and returns it
-    RectTransform Transform.FindRect(string find);
+  // Finds a child RectTransform by name and returns it
+  RectTransform Transform.FindRect(string find);
   
-  Finds a component of type T that is a child of the current Transform and returns it
-    T Transform.FindComponent<T>(string find);
+  // Finds a component of type T that is a child of the current Transform and returns it
+  T Transform.FindComponent<T>(string find);
   
-  Finds a child Image by name and returns it
-    Image Transform.FindImage(string find);
+  // Finds a child Image by name and returns it
+  Image Transform.FindImage(string find);
   
-  Finds a child text by name and returns it
-    Text Transform.FindText(string find);
+  // Finds a child text by name and returns it
+  Text Transform.FindText(string find);
   
-  Finds a child button by name and returns it
-    Button Transform.FindButton(string find);
+  // Finds a child button by name and returns it
+  Button Transform.FindButton(string find);
   
-  Finds a child GameObject by name and returns it
-    GameObject Transform.FindObject(string find);
+  // Finds a child GameObject by name and returns it
+  GameObject Transform.FindObject(string find);
   
-  Finds a child of Type T by name and returns it, includeInactive determines in inactive objects should also be included in the search
-    T Transform.FindComponentInChildren<T>(string find, bool includeInactive);
+  // Finds a child of Type T by name and returns it, includeInactive determines in inactive objects should also be included in the search
+  T Transform.FindComponentInChildren<T>(string find, bool includeInactive);
   
 ```
 **Transform**
 
 ``` c#
-  Finds a child Transform and includes inactive Objects
-    Transform Transform.FindInactive(string name)
+  // Finds a child Transform and includes inactive Objects
+  Transform Transform.FindInactive(string name)
   
-  Finds all children Transforms by name and returns them 
-    List<Transform> Transform.FindAll(string name, bool includeInactive = false)
+  // Finds all children Transforms by name and returns them 
+  List<Transform> Transform.FindAll(string name, bool includeInactive = false)
 ```
 
 ### Gotchas
@@ -241,14 +241,14 @@ Loading screen that can be started and stopped at command
 ### Usage
 Use the following functions to use the loading spinner
 ``` c#
-  Set the speed and direction that the spinner will spin at
-    void LoadingSpinner.Set(int speed, bool clockwise);
+  // Set the speed and direction that the spinner will spin at
+  void LoadingSpinner.Set(int speed, bool clockwise);
   
-  Call to start the loading spinner, it will continue to spin until stop is called.
-    void LoadingSpinner.Start(string text = "");
+  // Call to start the loading spinner, it will continue to spin until stop is called.
+  void LoadingSpinner.Start(string text = "");
   
-  Call to stop the loading spinner, a stop Delay will provide time for the text to be displayed to the player 
-    void LoadingSpinner.Stop(string text = "", float stopDelay = 0f);
+  // Call to stop the loading spinner, a stop Delay will provide time for the text to be displayed to the player 
+  void LoadingSpinner.Stop(string text = "", float stopDelay = 0f);
 ```
 
 ## Video Player
@@ -262,17 +262,17 @@ The video player requires 2 components to work
 
 The utitlity allows the following interactions
 ``` c#
-  Play the selected VideoPlayer
-    IEnumerator PlayVideo();
+  // Play the selected VideoPlayer
+  IEnumerator PlayVideo();
   
-  Continue playing the selected VideoPlayer
-    void Continue();
+  // Continue playing the selected VideoPlayer
+  void Continue();
   
-  Pause the selected VideoPlayer
-    void Pause();
+  // Pause the selected VideoPlayer
+  void Pause();
   
-  Stop playing the selected VideoPlayer
-    void Stop();
+  // Stop playing the selected VideoPlayer
+  void Stop();
 ```
 
 ### Limitations
