@@ -263,7 +263,15 @@ namespace PlayGen.Unity.Utilities.BestFit
 				//log logic copied from https://bitbucket.org/Unity-Technologies/ui/src/a3f89d5f7d145e4b6fa11cf9f2de768fea2c500f/UnityEngine.UI/UI/Core/Layout/CanvasScaler.cs?at=2017.3&fileviewer=file-view-default
 				//allows calculation to be accurate from the first frame
 				var canvasScaler = text.GetComponentInParent<CanvasScaler>();
+				while (canvasScaler != null && canvasScaler.transform.parent != null && canvasScaler.transform.parent.GetComponentInParent<CanvasScaler>())
+				{
+					canvasScaler = canvasScaler.transform.parent.GetComponentInParent<CanvasScaler>();
+				}
 				var canvas = text.GetComponentInParent<Canvas>();
+				while (canvas != null && canvas.transform.parent != null && canvas.transform.parent.GetComponentInParent<Canvas>())
+				{
+					canvas = canvas.transform.parent.GetComponentInParent<Canvas>();
+				}
 				var logWidth = Mathf.Log(Screen.width / canvasScaler.referenceResolution.x, 2);
 				var logHeight = Mathf.Log(Screen.height / canvasScaler.referenceResolution.y, 2);
 				var logWeightedAverage = Mathf.Lerp(logWidth, logHeight, canvasScaler.matchWidthOrHeight);
