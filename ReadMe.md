@@ -63,8 +63,10 @@ The music manager can be used as follows:
 ```c#
   // Go To Next Track
   void MusicManager.NextTrack();
+
   // Play the current track
   void MusicManager.PlayTrack();
+
   // Update Volume (value between 0 and 1)
   void MusicManager.UpdateVolume(float newValue)
 ```
@@ -73,14 +75,19 @@ The SFX manager can be used as follows
 ```c#
   // Play SFX by name
   void SfxManager.Play(string name)
+
   // Stop SFX by name
   void SfxManager.Stop(string name)
+
   // Pause SFX by name
   void SfxManager.Pause(string name)
+
   // Resume SFX by name
   void SfxManager.Resume(string name)
+
   // Check if an SFX is playing
   bool SfxManager.IsPlaying(string name)
+  
   // Update volume based on master volume
   void SfxManager.UpdateVolume()
 ```
