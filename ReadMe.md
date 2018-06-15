@@ -1,5 +1,8 @@
 A collection of Unity based Utilities
 
+# Licensing
+See the [LICENCE](LICENCE.md) file included in this project.
+
 # Key Project Structure
 - **Assets**: *Unity project files for testing utilities*
   - **[UtitilityName]**: *Folder for example usage, used for testing purposes*
