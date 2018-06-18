@@ -12,12 +12,11 @@ namespace PlayGen.Unity.Utilities.Editor.FontReplace
 		[MenuItem("PlayGen Tools/Replace Fonts")]
 		public static void ShowWindow()
 		{
-			GetWindow(typeof(FontReplace));
+			GetWindow(typeof(FontReplace), false, "Replace Fonts");
 		}
 
 		private void OnGUI()
 		{
-			GUILayout.Label("Replace selected fonts", EditorStyles.boldLabel);
 			if (GUILayout.Button("Refresh") || _gameFonts.Count == 0)
 			{
 				GUILayout.Space(10f);
@@ -27,7 +26,9 @@ namespace PlayGen.Unity.Utilities.Editor.FontReplace
 			{
 				//list all the fonts
 				if (_gameFonts.Count == 0 || _gameFonts.Count < i + 1)
+				{
 					_gameFonts.Add(new Font());
+				}
 				EditorGUILayout.BeginHorizontal();
 				GUILayout.Label(_names[i]);
 				if (GUILayout.Button("Replace With"))
@@ -36,7 +37,6 @@ namespace PlayGen.Unity.Utilities.Editor.FontReplace
 				}
 				_gameFonts[i] = (Font)EditorGUILayout.ObjectField(_gameFonts[i], typeof(Font), true);
 				//create a button to replace the selected font with the font dragged in
-
 				EditorGUILayout.EndHorizontal();
 			}
 		}
@@ -45,16 +45,21 @@ namespace PlayGen.Unity.Utilities.Editor.FontReplace
 		{
 			//check the font has been set to a valid font
 			if (font == null || font.fontNames.Length == 0)
+			{
 				return;
+			}
 			//now get all text types in the scene and change the ones with a matching font fontName to the new font
 			var allTexts = Resources.FindObjectsOfTypeAll<UnityEngine.UI.Text>();
+			var changedtext = new List<Object>();
 			foreach (var t in allTexts)
 			{
 				if (t.font.ToString() == fontName)
 				{
 					t.font = font;
+					changedtext.Add(t.gameObject);
 				}
 			}
+			Undo.RecordObjects(changedtext.ToArray(), "FontChange");
 		}
 
 		private List<string> FontNames()

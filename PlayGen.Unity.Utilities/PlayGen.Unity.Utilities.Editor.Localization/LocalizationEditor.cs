@@ -1,36 +1,19 @@
-﻿using PlayGen.Unity.Utilities.Localization;
-
-using UnityEditor;
-using UnityEditor.SceneManagement;
-using UnityEngine;
-using UnityEngine.SceneManagement;
+﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace PlayGen.Unity.Utilities.Editor.Localization
 {
-	[CustomEditor(typeof(UILocalization), true)]
-	[CanEditMultipleObjects]
-	public class LocalizationEditor : UnityEditor.Editor
+	public class LocalizationEditor
 	{
-		private UILocalization _myLoc;
+		internal static List<string> Languages;
 
-		public void Awake()
+		internal static void GetLanguages()
 		{
-			_myLoc = (UILocalization)target;
-		}
-
-		public override void OnInspectorGUI()
-		{
-			DrawDefaultInspector();
-			if (GUILayout.Button("Localize Text"))
+			if (Languages == null || Languages.Count == 0)
 			{
-				if (!EditorApplication.isPlaying)
-				{
-					EditorSceneManager.MarkSceneDirty(SceneManager.GetActiveScene());
-				}
-				_myLoc.gameObject.SetActive(false);
-				_myLoc.Set();
-				_myLoc.gameObject.SetActive(true);
-
+				Languages = new List<string>();
+				Utilities.Localization.Localization.Initialize();
+				Languages = Utilities.Localization.Localization.Languages.Select(l => l.Name).ToList();
 			}
 		}
 	}

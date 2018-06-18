@@ -114,17 +114,14 @@ Can be used in the following ways:
 **To set child objects of an object use**
 ```c#
   GameObject.BestFit();
-  Transform.BestFit();
+  Component.BestFit();
 ```
 
 **To set a specified group of Text Components of an object use**
 ```c#
-  List<Selectable>.BestFit();
-  IEnumerable<Selectable>.BestFit();
-  Selectable[].BestFit();
-  List<Text>.BestFit();
-  IEnumerable<Text>.BestFit();
-  Text[].BestFit();
+  List<Component>.BestFit();
+  IEnumerable<Component>.BestFit();
+  Component[].BestFit();
   List<GameObject>.BestFit();
   IEnumerable<GameObject>.BestFit();
   GameObject[].BestFit();
@@ -137,21 +134,70 @@ Can be used in the following ways:
 ### Function 
 Allows for a single place to monitor which Fonts are used in your unity project and replace unwanted Fonts with a new Font easily.
 ### Usage
-Launch the tool in Unity at PlayGen Tools > Replace Fonts. This will launch the replace fonts UI, which will take a few seconds to evaluate all fonts used in the project. By selecting a font in the right most box and selecting "Replace With", all intsances of that font will be replaced with the new font
+Launch the tool in Unity at PlayGen Tools > Replace Fonts. This will launch the replace fonts UI, which will take a few seconds to evaluate all fonts used in the project. By selecting a font in the right most box and selecting "Replace With", all instances of that font will be replaced with the new font
 ### Limitations
 - There is no undo button available. 
-- Not thoroughly tested with the use of prefabs
-#### Gotchas
+- Not thoroughly tested with the use of prefabs.
+- Doesn't seem to work.
+### Gotchas
 - Would be advised to use the FontManager model, a singleton that contains and enum for Text types (title, body, button etc.) and a mapping for each font. On each Text Component there should be a class to retrieve the font for their type at run time. This is more dynamic and gives more control and consistency
 
 ## Localization
 ### Function 
-A package to handle the storing a retrieving of different languages
+A package to handle the storing and retrieving of text translated into multiple languages.
 ### Usage
-Get the localized string for the provided key, toUpper will return an upper case variant of the returned string, overrideLanguage allows for a different language to be returned from the currently selected language
+The following process is taken to set CurrentLanguage upon application start-up:
+1. If localization has been set in the past, it is loaded using PlayerPrefs with the key "Last_Saved_Language".
+2. If no language was saved or was not included as an option in the application, CultureInfo.CurrentUICulture is used.
+3. If CultureInfo.CurrentUICulture was null or was not included as an option in the application, CultureInfo.CurrentCulture is used.
+4. If CultureInfo.CurrentCulture was null or was not included as an option in the application, the language returned by GetFromSystemLanguage(), which uses Unity's Application.systemLanguage, is used.
+5. If the language returned by GetFromSystemLanguage() is null or was not included as an option in the application, the DefaultLanguage is used.
+
+The following process is used to decide which string is returned when getting localized text:
+0. If in editor, not playing and LangaugeOverride has been set, LanguageOverride is efeectively CurrentLanguage in that situation.
+1. If a value exists for the CurrentLanguage for the Key provided and it doesn't match the EmptyStringText, that value will be returned.
+2. Otherwise, if the parent of the CurrentLanguage does not match the InvariantCulture, is included in the Language list and has a value that doesn't match the EmptyStringText, that value will be returned.
+3. Otherwise, if any children of the CurrentLanguage's parent (or CurrentLnaguage if its parent matches the InvariantCulture) has a value that doesn't match the EmptyStringText, the first value found will be returned.
+4. Otherwise, if a value exists for the DefaultLanguage for the Key provided and it doesn't match the EmptyStringText, that value will be returned.
+5. Otherwise, the key itself will be returned.
+#### UILocalization
+Base class for UI, such as Text and Dropdown, to localize upon being enabled. Features an abstract 'Set' method which is called within the 'OnEnable' method.
+
+LanguageOverride and 'Localize Text' buttons can be used to test localization on that UI element whilst not in Play Mode in-editor.
+
+#### TextLocalization
+Sets text to match the localized string for the provided key upon OnEnable or whenever the 'Set' method is called in code. Toggling ToUpper on results in a completely upper case variant being used.
+
+#### DropdownLocalization
+Set the options for the Dropdown to be localized upon OnEnable or whenever the 'Set' method is called in code. Dropdown options are set by passing all localization keys via the 'SetOptions' method in code or by setting them in-editor.
+``` c#
+  string SetOptions(List<string> options)
+```
+
+#### Code calls
+In order to set text programmatically, the following methods can be used:
 ``` c#
   string Get(string key, bool toUpper = false, string overrideLanguage = null)
+  string GetAndFormat(string key, bool toUpper, params object[] args)
+  string GetAndFormat(string key, bool toUpper, params string[] args)
 ```
+In order to update the CurrentLanguage, the following methods can be used:
+``` c#
+  string UpdateLanguage(string language)
+  string UpdateLanguage(CultureInfo cultureLang)
+```
+Alongside being loaded from Resources at start-up, JSON can also be passed to Localization using the following:
+``` c#
+  string AddLocalization(TextAsset textAsset)
+  string AddLocalization(string text)
+```
+### Limitations
+- EmptyStringText const is set to 'XXXX' in code and currently cannot be changed.
+- FilePath in Resources is set to 'Localization' and currently cannot be changed.
+- PlayerPrefs key is set in code and currently cannot be changed.
+
+### Gotchas
+- Only initialized on first Get or Set call, meaning that a dummy 'Get' is sometimes required to get CurrentLanguage/list of Languages before this point in order to force initialization early.
 
 ## Shortcuts
 ### Function 
@@ -170,9 +216,9 @@ The following shortcuts are used
 
 ## iOS Requirements
 ### Function 
-Automatically generates privacy permission information for iOS builds. As of IOS 10.0, all privacy system requirement usage must be explained to the user when choosing if they want to accept permissions, Unity provides minimal fields for this in player settings and Xcode generate will not generate the privacy properties.
+Automatically generates privacy permission information for iOS builds. As of iOS 10.0, all privacy system requirement usage must be explained to the user when choosing if they want to accept permissions. Unity provides minimal fields for this in player settings and Xcode will not generate the privacy properties.
 ### Usage
-The tool is launched PlayGen Tools > iOS Requirements. Which displays a form which provides a list of privacy permissions available to request from the user, simply select the permission needed in Tools/iOS Requirements and provide a short description of how the game uses it.
+The tool is launched via PlayGen Tools > iOS Requirements, which displays a form which provides a list of privacy permissions available to request from the user. Simply select the permission needed in Tools/iOS Requirements and provide a short description of how the game uses it.
 ### Gotchas
 - If there are troubles running this package, make sure that the filePath in iOSRequirements.cs is correct
 - This asset heavily relies on keys being set to the exact name, as expected in the iOS requirements list, a full list of all requirements can be found [here](https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CocoaKeys.html#//apple_ref/doc/uid/TP40009251-SW1)

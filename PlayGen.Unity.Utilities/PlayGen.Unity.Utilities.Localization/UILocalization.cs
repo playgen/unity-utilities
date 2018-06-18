@@ -5,8 +5,7 @@ namespace PlayGen.Unity.Utilities.Localization
 	public abstract class UILocalization : MonoBehaviour
 	{
 		#region LocalizationTesting
-		[Header("Localization Testing")]
-		[Tooltip("Use this enum to test other languages")]
+		[HideInInspector]
 		public string LanguageOverride;
 		#endregion
 

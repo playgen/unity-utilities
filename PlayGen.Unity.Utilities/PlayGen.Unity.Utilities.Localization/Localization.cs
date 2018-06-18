@@ -32,6 +32,14 @@ namespace PlayGen.Unity.Utilities.Localization
 		/// </summary>
 		public static event Action LanguageChange = delegate { };
 
+		public static void Initialize()
+		{
+			if (Languages.Count == 0)
+			{
+				GetLocalizationDictionary();
+			}
+		}
+
 		private static void GetLocalizationDictionary(bool loadLang = true)
 		{
 			var jsonTextAssets = Resources.LoadAll(FilePath, typeof(TextAsset)).Cast<TextAsset>().ToArray();
@@ -159,7 +167,7 @@ namespace PlayGen.Unity.Utilities.Localization
 
 			var getLang = SelectedLanguage;
 
-			if (SelectedLanguage == null || !string.IsNullOrEmpty(overrideLanguage) && overrideLanguage != SelectedLanguage.Name)
+			if (Application.isEditor && !Application.isPlaying && (SelectedLanguage == null || !string.IsNullOrEmpty(overrideLanguage) && overrideLanguage != SelectedLanguage.Name))
 			{
 				getLang = GetLanguage(new CultureInfo(overrideLanguage));
 			}

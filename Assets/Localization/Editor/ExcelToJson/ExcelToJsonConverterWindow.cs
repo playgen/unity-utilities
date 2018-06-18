@@ -28,15 +28,13 @@ public class ExcelToJsonConverterWindow : EditorWindow
 			_excelProcessor = new ExcelToJsonConverter();
 		}
 
-		_inputPath = EditorPrefs.GetString(kExcelToJsonConverterInputPathPrefsName + Application.productName, Application.dataPath);
-		_outputPath = EditorPrefs.GetString(kExcelToJsonConverterOuputPathPrefsName + Application.productName, Application.dataPath);
-		_onlyModifiedFiles = EditorPrefs.GetBool(kExcelToJsonConverterModifiedFilesOnlyPrefsName, false);
+		_inputPath = Path.Combine(Application.dataPath, "Editor/Localization");
+		_outputPath = Path.Combine(Application.dataPath, "Resources/Localization");
+        _onlyModifiedFiles = EditorPrefs.GetBool(kExcelToJsonConverterModifiedFilesOnlyPrefsName, false);
 	}
 	
 	public void OnDisable()
 	{
-		EditorPrefs.SetString(kExcelToJsonConverterInputPathPrefsName + Application.productName, _inputPath);
-		EditorPrefs.SetString(kExcelToJsonConverterOuputPathPrefsName + Application.productName, _outputPath);
 		EditorPrefs.SetBool(kExcelToJsonConverterModifiedFilesOnlyPrefsName, _onlyModifiedFiles);
 	}
 
@@ -78,6 +76,7 @@ public class ExcelToJsonConverterWindow : EditorWindow
 		if (GUILayout.Button("Convert Excel Files"))
 		{
 			_excelProcessor.ConvertExcelFilesToJson(_inputPath, _outputPath, _onlyModifiedFiles);
+            AssetDatabase.Refresh();
 		}
 
 		GUILayout.EndArea();
@@ -86,7 +85,7 @@ public class ExcelToJsonConverterWindow : EditorWindow
 	}
 }
 
-[InitializeOnLoad]
+//[InitializeOnLoad]
 public class ExcelToJsonAutoConverter 
 {	
 	/// <summary>
@@ -94,8 +93,8 @@ public class ExcelToJsonAutoConverter
 	/// </summary>
 	static ExcelToJsonAutoConverter() 
 	{
-		string inputPath = EditorPrefs.GetString(ExcelToJsonConverterWindow.kExcelToJsonConverterInputPathPrefsName + Application.productName, Application.dataPath);
-		string outputPath = EditorPrefs.GetString(ExcelToJsonConverterWindow.kExcelToJsonConverterOuputPathPrefsName + Application.productName, Application.dataPath);
+		string inputPath = EditorPrefs.GetString(ExcelToJsonConverterWindow.kExcelToJsonConverterInputPathPrefsName, Application.dataPath);
+		string outputPath = EditorPrefs.GetString(ExcelToJsonConverterWindow.kExcelToJsonConverterOuputPathPrefsName, Application.dataPath);
 		bool onlyModifiedFiles = EditorPrefs.GetBool(ExcelToJsonConverterWindow.kExcelToJsonConverterModifiedFilesOnlyPrefsName, false);
 		
 		ExcelToJsonConverter excelProcessor = new ExcelToJsonConverter();
