@@ -14,11 +14,6 @@ namespace PlayGen.Unity.Utilities.BestFit
 
 		private void OnEnable()
 		{
-			if (_bestFitChildren.Count == 0)
-			{
-				var children = transform.GetComponentsInChildren<Text>();
-				_bestFitChildren = children.Where(child => child.resizeTextForBestFit).ToList();
-			}
 			OnChange();
 			BestFit.ResolutionChange += OnChange;
 		}
@@ -30,7 +25,11 @@ namespace PlayGen.Unity.Utilities.BestFit
 
 		private void OnChange()
 		{
-			_bestFitChildren.BestFit(false);
+			_bestFitChildren = _bestFitChildren.Where(t => t != null).ToList();
+			var children = transform.GetComponentsInChildren<Text>().Where(child => child.resizeTextForBestFit).ToList();
+			_bestFitChildren.AddRange(children);
+			_bestFitChildren = _bestFitChildren.Distinct().ToList();
+			_bestFitChildren.BestFit(false, false);
 		}
 	}
 }
