@@ -175,11 +175,11 @@ namespace PlayGen.Unity.Utilities.Localization
 
 			var getLang = SelectedLanguage;
 
-			if (Application.isEditor && !Application.isPlaying && (SelectedLanguage == null || !string.IsNullOrEmpty(overrideLanguage) && overrideLanguage != SelectedLanguage.Name))
+			if (Application.isEditor && !Application.isPlaying && !string.IsNullOrEmpty(overrideLanguage) && (SelectedLanguage == null || overrideLanguage != SelectedLanguage.Name))
 			{
 				getLang = GetLanguage(new CultureInfo(overrideLanguage));
 			}
-			_localizationDict[getLang].TryGetValue(newKey, out var txt);
+			_localizationDict[getLang ?? DefaultLanguage].TryGetValue(newKey, out var txt);
 			if (txt == null || txt == EmptyStringText)
 			{
 				if (txt == null)

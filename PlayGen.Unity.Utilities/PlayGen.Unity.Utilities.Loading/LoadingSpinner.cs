@@ -7,35 +7,35 @@ namespace PlayGen.Unity.Utilities.Loading
 {
 	public class LoadingSpinner : MonoBehaviour
 	{
-		private GameObject _container;
-		private Image _spinner;
-		private Text _text;
-        /// <summary>
-        /// The speed that the spinner rotates at
-        /// </summary>
-        [Tooltip("The speed that the spinner rotates at")]
-        [SerializeField]
-		private float _spinSpeed = 1;
-        /// <summary>
-        /// The direction of spinner rotation
-        /// </summary>
-        [Tooltip("The direction of spinner rotation")]
-        [SerializeField]
-		private bool _spinClockwise;
-		private bool _animate;
-		private float _stopDelay;
+		protected GameObject _container;
+		protected Image _spinner;
+		protected Text _text;
+		/// <summary>
+		/// The speed that the spinner rotates at
+		/// </summary>
+		[Tooltip("The speed that the spinner rotates at")]
+		[SerializeField]
+		protected float _spinSpeed = 1;
+		/// <summary>
+		/// The direction of spinner rotation
+		/// </summary>
+		[Tooltip("The direction of spinner rotation")]
+		[SerializeField]
+		protected bool _spinClockwise;
+		protected bool _animate;
+		protected float _stopDelay;
 
-        public bool IsActive => _container.gameObject.activeSelf;
+		public bool IsActive => _container.gameObject.activeSelf;
 
-		private void Awake()
+		protected virtual void Awake()
 		{
 			Loading.LoadingSpinner = this;
-			_container = transform.GetChild(0).gameObject;
-			_spinner = _container.GetComponentsInChildren<Image>(true).First(i => i.gameObject != _container.gameObject);
+			_container = transform.GetChild(0)?.gameObject;
+			_spinner = _container?.GetComponentsInChildren<Image>(true).First(i => i.gameObject != _container.gameObject);
 			_text = GetComponentInChildren<Text>(true);
 		}
 
-		private void Update()
+		protected virtual void Update()
 		{
 			if (_container.gameObject.activeSelf)
 			{
@@ -52,22 +52,28 @@ namespace PlayGen.Unity.Utilities.Loading
 			}
 		}
 
-		public void Set(bool clockwise, float speed)
+		public virtual void Set(bool clockwise, float speed)
 		{
 			_spinClockwise = clockwise;
 			_spinSpeed = speed;
 		}
 
-		public void StartSpinner(string text)
+		public virtual void StartSpinner(string text)
 		{
 			_container.gameObject.SetActive(true);
-			_text.text = text;
+			if (_text)
+			{
+				_text.text = text;
+			}
 			_animate = true;
 		}
 
-		public void StopSpinner(string text, float stopDelay)
+		public virtual void StopSpinner(string text, float stopDelay)
 		{
-			_text.text = text;
+			if (_text)
+			{
+				_text.text = text;
+			}
 			_animate = false;
 			_stopDelay = stopDelay;
 		}

@@ -3,10 +3,8 @@ using UnityEngine;
 
 namespace PlayGen.Unity.Utilities.FeedbackPanel
 {
-
 	public class ElasticEmail : MonoBehaviour
 	{
-
 		public static ElasticEmail Instance;
 
 		private void Awake()

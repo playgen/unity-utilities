@@ -201,15 +201,15 @@ Alongside being loaded from Resources at start-up, JSON can also be passed to Lo
 
 ## Shortcuts
 ### Function 
-A selection of shortcuts for unity to make UI creation and editing easier
+A selection of shortcuts for Unity to make UI creation and editing easier.
 ### Usage
-The following shortcuts are used
-1. Reset Offsets: Ctrl + Alt + R - Sets the offsets of the currently selected rect transform offsets to equal 0, useful for setting up anchors for elements
-2. Create Button: Ctrl + Alt + Q - Creates a new generic button (no text) object that will fill the currently selected transform. The default Unity UI button is a set size and contains a text element.
-3. Move Selected Object Up: Ctrl + Shift + UpArrow - Move the currently selected object up in the hierarchy
-4. Move Selected Object Down: Ctrl + Shift + DownArrow - Move the currently selected object down in the hierarchy
-5. Move Selected Object Sibling Of Parent: Ctrl + Shift + LeftArrow - Move the currently selected object to be a child of the object below it in the hierarchy 
-6. Move Selected Object Child Of Sibling: Ctrl + Shift + RightArrow - Move the currently selected object to be a sibling of the object it is currently a child of
+The following shortcuts are used:
+1. Reset Offsets: Ctrl + Alt + R - Sets the offsets of the currently selected rect transform offsets to equal 0, useful for setting up anchors for elements.
+2. Create Button: Ctrl + Alt + Q - Creates a new generic button (no text) object that will fill the currently selected transforms. The default Unity UI button is a set size and contains a text element.
+3. Move Selected Object Up: Ctrl + Shift + UpArrow - Move the currently selected object up in the hierarchy.
+4. Move Selected Object Down: Ctrl + Shift + DownArrow - Move the currently selected object down in the hierarchy.
+5. Move Selected Object Sibling Of Parent: Ctrl + Shift + LeftArrow - Move the currently selected object to be a child of the object below it in the hierarchy.
+6. Move Selected Object Child Of Sibling: Ctrl + Shift + RightArrow - Move the currently selected object to be a sibling of the object it is currently a child of.
 ### Limitations
 - No warnings for breaking prefabs
 - When moving object to be a child of an object, it does not maintain focus unless the new parent is already expanded
@@ -227,21 +227,21 @@ The tool is launched via PlayGen Tools > iOS Requirements, which displays a form
 ### Function 
 A customisable panel for getting users to send feedback in game to a specified email using ElasticEmail.
 ### Usage
-Setup for this asset is within the PlayGen.Unity.Utilities.FeedbackPanel Solution. By default it uses the PlayGen elastic email account, this is set in ElasticEmailClient.cs. Once rebuilt, the prefab can be added to the project and visuals edited as required.
+Setup for this asset is within the PlayGen.Unity.Utilities.FeedbackPanel Solution. By default it uses generic details, this is set in ElasticEmailClient.cs. Once rebuilt, the prefab can be added to the project and visuals edited as required.
 ### Gotchas
-- If making this available publicly, remove the PlayGen api keys in elastic email
+- If making this available publicly, make generic details available to developers in-editor/code, unusable otherwise.
 
 ## Extensions
 ### Function 
-Shorthand extensions for commonly used functions in unity
+Shorthand extensions for commonly used functions in Unity.
 ### Usage
-There are 3 types of components that have been extended in this utility
+There are 3 types of components that have been extended in this utility:
 
 **GameObject**
 
 ``` c#
-  Checks if the GameObject active status is different to the new status then changes the GameObject active status
-    void GameObject.Active(bool active)
+    // Returns the GameObject of the parent or null if a root object.
+    GameObject GameObject.Parent();
 ```
 **RectTransform**
 
@@ -257,8 +257,11 @@ There are 3 types of components that have been extended in this utility
   
   // Finds a child RectTransform by name and returns it
   RectTransform Transform.FindRect(string find);
-  
-  // Finds a component of type T that is a child of the current Transform and returns it
+```
+**Transform**
+
+``` c#
+// Finds a component of type T that is a child of the current Transform and returns it
   T Transform.FindComponent<T>(string find);
   
   // Finds a child Image by name and returns it
@@ -272,14 +275,13 @@ There are 3 types of components that have been extended in this utility
   
   // Finds a child GameObject by name and returns it
   GameObject Transform.FindObject(string find);
+
+   // Returns the GameObject of the parent or null if a root object.
+  GameObject Transform.Parent();
   
   // Finds a child of Type T by name and returns it, includeInactive determines in inactive objects should also be included in the search
   T Transform.FindComponentInChildren<T>(string find, bool includeInactive);
-  
-```
-**Transform**
 
-``` c#
   // Finds a child Transform and includes inactive Objects
   Transform Transform.FindInactive(string name)
   

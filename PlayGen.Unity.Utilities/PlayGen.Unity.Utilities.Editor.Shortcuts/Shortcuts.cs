@@ -42,7 +42,7 @@ namespace PlayGen.Unity.Utilities.Editor.Shortcuts
 		// Validate the menu item defined by the function above.
 		// The menu item will be disabled if this function returns false.
 		[MenuItem("PlayGen Tools/UI/Reset Offsets %&r", true)]
-		static bool ValidateResetRectTransformOffsets()
+		private static bool ValidateResetRectTransformOffsets()
 		{
 			var objects = Selection.transforms;
 			return objects.Any(o => o.GetComponent<RectTransform>());
@@ -74,7 +74,7 @@ namespace PlayGen.Unity.Utilities.Editor.Shortcuts
 		}
 
 		[MenuItem("PlayGen Tools/UI/Create Button %&q", true)]
-		static bool ValidateCreateButtonAsChild()
+		private static bool ValidateCreateButtonAsChild()
 		{
 			var objects = Selection.gameObjects;
 			return objects.Any(o => o.GetComponent<RectTransform>());
@@ -113,7 +113,7 @@ namespace PlayGen.Unity.Utilities.Editor.Shortcuts
 		}
 
 		[MenuItem("PlayGen Tools/UI/Move Selected Object Up %#UP", true)]
-		static bool ValidateMoveObjectUp()
+		private static bool ValidateMoveObjectUp()
 		{
 			var objects = Selection.gameObjects;
 			return objects.Any();
@@ -133,7 +133,7 @@ namespace PlayGen.Unity.Utilities.Editor.Shortcuts
 		}
 
 		[MenuItem("PlayGen Tools/UI/Move Selected Object Down %#DOWN", true)]
-		static bool ValidateMoveObjectDown()
+		private static bool ValidateMoveObjectDown()
 		{
 			var objects = Selection.gameObjects;
 			return objects.Any();
@@ -153,7 +153,7 @@ namespace PlayGen.Unity.Utilities.Editor.Shortcuts
 		}
 
 		[MenuItem("PlayGen Tools/UI/Move Selected Object Sibling Of Parent %#LEFT", true)]
-		static bool ValidateMoveObjectOut()
+		private static bool ValidateMoveObjectOut()
 		{
 			var objects = Selection.gameObjects;
 			return objects.Any();
@@ -173,7 +173,7 @@ namespace PlayGen.Unity.Utilities.Editor.Shortcuts
 		}
 
 		[MenuItem("PlayGen Tools/UI/Move Selected Object Child Of Sibling %#RIGHT", true)]
-		static bool ValidateMoveObjectIn()
+		private static bool ValidateMoveObjectIn()
 		{
 			var objects = Selection.gameObjects;
 			return objects.Any();

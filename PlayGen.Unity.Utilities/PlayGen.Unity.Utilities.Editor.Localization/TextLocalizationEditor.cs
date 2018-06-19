@@ -1,7 +1,5 @@
 ﻿using PlayGen.Unity.Utilities.Localization;
-
 using UnityEditor;
-
 using UnityEngine;
 
 namespace PlayGen.Unity.Utilities.Editor.Localization

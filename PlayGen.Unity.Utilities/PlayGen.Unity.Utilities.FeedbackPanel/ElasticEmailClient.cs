@@ -2,10 +2,8 @@
 
 namespace PlayGen.Unity.Utilities.FeedbackPanel
 {
-
 	public class ElasticEmailClient : MonoBehaviour
 	{
-
 		private const string ApiKey = "";
 		private const string Address = "https://api.elasticemail.com/v2/email/send";
 		private const string FromEmail = "sender@domain.com";
