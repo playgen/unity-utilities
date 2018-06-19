@@ -1,19 +1,30 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
+using System.Globalization;
 
 namespace PlayGen.Unity.Utilities.Editor.Localization
 {
 	public class LocalizationEditor
 	{
-		internal static List<string> Languages;
+		internal static List<CultureInfo> Languages;
+		internal static List<string> Keys;
 
-		internal static void GetLanguages()
+		internal static void GetKeys(bool reload = false)
 		{
-			if (Languages == null || Languages.Count == 0)
+			if (reload || Keys == null || Keys.Count == 0)
 			{
-				Languages = new List<string>();
-				Utilities.Localization.Localization.Initialize();
-				Languages = Utilities.Localization.Localization.Languages.Select(l => l.Name).ToList();
+				GetLanguages(true);
+				Keys = new List<string>();
+				Keys = Utilities.Localization.Localization.Keys();
+			}
+		}
+
+		internal static void GetLanguages(bool reload = false)
+		{
+			if (reload || Languages == null || Languages.Count == 0)
+			{
+				Languages = new List<CultureInfo>();
+				Utilities.Localization.Localization.ClearAndInitialize();
+				Languages = Utilities.Localization.Localization.Languages;
 			}
 		}
 	}

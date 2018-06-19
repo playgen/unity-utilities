@@ -197,7 +197,7 @@ Alongside being loaded from Resources at start-up, JSON can also be passed to Lo
 - PlayerPrefs key is set in code and currently cannot be changed.
 
 ### Gotchas
-- Only initialized on first Get or Set call, meaning that a dummy 'Get' is sometimes required to get CurrentLanguage/list of Languages before this point in order to force initialization early.
+
 
 ## Shortcuts
 ### Function 

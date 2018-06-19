@@ -40,6 +40,14 @@ namespace PlayGen.Unity.Utilities.Localization
 			}
 		}
 
+		public static void ClearAndInitialize()
+		{
+			_localizationDict.Clear();
+			Languages.Clear();
+			SelectedLanguage = null;
+			GetLocalizationDictionary();
+		}
+
 		private static void GetLocalizationDictionary(bool loadLang = true)
 		{
 			var jsonTextAssets = Resources.LoadAll(FilePath, typeof(TextAsset)).Cast<TextAsset>().ToArray();
@@ -239,6 +247,16 @@ namespace PlayGen.Unity.Utilities.Localization
 			var newKey = key.ToUpper();
 			newKey = newKey.Replace('-', '_');
 			return _localizationDict[SelectedLanguage].ContainsKey(newKey);
+		}
+
+		/// <summary>
+		/// List of all keys currently available
+		/// </summary>
+		public static List<string> Keys()
+		{
+			var keyList = _localizationDict.Values.SelectMany(l => l.Keys).Distinct().ToList();
+			keyList.Sort();
+			return keyList;
 		}
 
 		public static CultureInfo GetFromSystemLanguage()

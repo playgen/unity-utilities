@@ -1,12 +1,13 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 
 using PlayGen.Unity.Utilities.Localization;
 
 using UnityEditor;
 using UnityEditor.SceneManagement;
+
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 namespace PlayGen.Unity.Utilities.Editor.Localization
 {
@@ -14,9 +15,9 @@ namespace PlayGen.Unity.Utilities.Editor.Localization
 	[CanEditMultipleObjects]
 	public class UILocalizationEditor : UnityEditor.Editor
 	{
-		private UILocalization _myLoc;
+		protected UILocalization _myLoc;
 
-		public void Awake()
+		protected virtual void Awake()
 		{
 			_myLoc = (UILocalization)target;
 		}
@@ -24,18 +25,36 @@ namespace PlayGen.Unity.Utilities.Editor.Localization
 		public override void OnInspectorGUI()
 		{
 			DrawDefaultInspector();
-			LocalizationEditor.GetLanguages();
-			var index = Mathf.Max(0, LocalizationEditor.Languages.IndexOf(_myLoc.LanguageOverride));
-			_myLoc.LanguageOverride = LocalizationEditor.Languages[EditorGUILayout.Popup("Language Override", index, LocalizationEditor.Languages.ToArray())];
-			if (GUILayout.Button("Localize Text"))
+			DrawTestingGUI();
+		}
+
+		public void DrawTestingGUI()
+		{
+			if (!EditorApplication.isPlaying)
 			{
-				if (!EditorApplication.isPlaying)
+				LocalizationEditor.GetLanguages();
+				if (LocalizationEditor.Keys.Count != 0 && LocalizationEditor.Languages.Count != 0)
 				{
-					EditorSceneManager.MarkSceneDirty(SceneManager.GetActiveScene());
+					GUILayout.Space(10);
+					GUILayout.Label("Localization Testing", EditorStyles.boldLabel);
+					var index = Mathf.Max(0, LocalizationEditor.Languages.FindIndex(lang => _myLoc.LanguageOverride == lang.Name));
+
+					EditorGUI.BeginChangeCheck();
+					var overrideLang = LocalizationEditor.Languages[EditorGUILayout.Popup("Language Override", index, LocalizationEditor.Languages.Select(lang => lang.EnglishName).ToArray())].Name;
+					if (EditorGUI.EndChangeCheck())
+					{
+						Undo.RecordObject(_myLoc, "Localization Override Change");
+						_myLoc.LanguageOverride = overrideLang;
+					}
+					if (GUILayout.Button("Localize Text"))
+					{
+						Undo.RecordObject(_myLoc.GetComponent<Text>(), "Localization Override Change");
+						_myLoc.gameObject.SetActive(false);
+						_myLoc.Set();
+						_myLoc.gameObject.SetActive(true);
+						//EditorSceneManager.MarkSceneDirty(SceneManager.GetActiveScene());
+					}
 				}
-				_myLoc.gameObject.SetActive(false);
-				_myLoc.Set();
-				_myLoc.gameObject.SetActive(true);
 			}
 		}
 	}
