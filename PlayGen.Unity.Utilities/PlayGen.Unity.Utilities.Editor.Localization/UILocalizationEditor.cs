@@ -3,10 +3,8 @@
 using PlayGen.Unity.Utilities.Localization;
 
 using UnityEditor;
-using UnityEditor.SceneManagement;
 
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace PlayGen.Unity.Utilities.Editor.Localization
@@ -52,7 +50,6 @@ namespace PlayGen.Unity.Utilities.Editor.Localization
 						_myLoc.gameObject.SetActive(false);
 						_myLoc.Set();
 						_myLoc.gameObject.SetActive(true);
-						//EditorSceneManager.MarkSceneDirty(SceneManager.GetActiveScene());
 					}
 				}
 			}

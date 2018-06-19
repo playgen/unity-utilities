@@ -6,8 +6,7 @@ using UnityEngine.SceneManagement;
 
 namespace PlayGen.Unity.Utilities.Editor.Shortcuts
 {
-
-	public class Shortcuts : MonoBehaviour
+	public static class Shortcuts
 	{
 		/// <summary>
 		/// This class handles custom shortcuts to use in the unity editor
@@ -29,13 +28,24 @@ namespace PlayGen.Unity.Utilities.Editor.Shortcuts
 		[MenuItem("PlayGen Tools/UI/Reset Offsets %&r")]
 		private static void ResetRectTransformOffsets()
 		{
-			var objects = Selection.gameObjects;
+			var objects = Selection.transforms.Select(o => o.GetComponent<RectTransform>()).ToList();
+			if (objects.Any())
+			{
+				Undo.RecordObjects(objects.ToArray(), "Reset Offset");
+			}
 			foreach (var o in objects)
 			{
-				var rect = o.GetComponent<RectTransform>();
-
-				ResetOffset(rect);
+				ResetOffset(o);
 			}
+		}
+
+		// Validate the menu item defined by the function above.
+		// The menu item will be disabled if this function returns false.
+		[MenuItem("PlayGen Tools/UI/Reset Offsets %&r", true)]
+		static bool ValidateResetRectTransformOffsets()
+		{
+			var objects = Selection.transforms;
+			return objects.Any(o => o.GetComponent<RectTransform>());
 		}
 
 		/// <summary>
@@ -44,18 +54,30 @@ namespace PlayGen.Unity.Utilities.Editor.Shortcuts
 		[MenuItem("PlayGen Tools/UI/Create Button %&q")]
 		private static void CreateButtonAsChild()
 		{
-			var go = new GameObject();
-			go.transform.parent = Selection.activeGameObject.transform;
+			var objects = Selection.gameObjects;
+			foreach (var o in objects)
+			{
+				var go = new GameObject();
+				go.transform.parent = o.transform;
 
-			go.AddComponent<Button>();
-			var rt = go.AddComponent<RectTransform>();
-			go.AddComponent<Image>();
+				go.AddComponent<Button>();
+				var rt = go.AddComponent<RectTransform>();
+				go.AddComponent<Image>();
 
-			go.name = "New Button";
+				go.name = "New Button";
 
-			ResetAnchors(rt);
-			ResetOffset(rt);
-			ResetScale(rt);
+				ResetAnchors(rt);
+				ResetOffset(rt);
+				ResetScale(rt);
+				Undo.RegisterCreatedObjectUndo(go, "Create Button");
+			}
+		}
+
+		[MenuItem("PlayGen Tools/UI/Create Button %&q", true)]
+		static bool ValidateCreateButtonAsChild()
+		{
+			var objects = Selection.gameObjects;
+			return objects.Any(o => o.GetComponent<RectTransform>());
 		}
 
 		#region Reset Rects
@@ -90,6 +112,13 @@ namespace PlayGen.Unity.Utilities.Editor.Shortcuts
 			}
 		}
 
+		[MenuItem("PlayGen Tools/UI/Move Selected Object Up %#UP", true)]
+		static bool ValidateMoveObjectUp()
+		{
+			var objects = Selection.gameObjects;
+			return objects.Any();
+		}
+
 		/// <summary>
 		/// Move an object down in the hierarchy
 		/// </summary>
@@ -101,6 +130,13 @@ namespace PlayGen.Unity.Utilities.Editor.Shortcuts
 			{
 				MoveObjectInHierarchy(selected[i], Direction.down);
 			}
+		}
+
+		[MenuItem("PlayGen Tools/UI/Move Selected Object Down %#DOWN", true)]
+		static bool ValidateMoveObjectDown()
+		{
+			var objects = Selection.gameObjects;
+			return objects.Any();
 		}
 
 		/// <summary>
@@ -116,6 +152,13 @@ namespace PlayGen.Unity.Utilities.Editor.Shortcuts
 			}
 		}
 
+		[MenuItem("PlayGen Tools/UI/Move Selected Object Sibling Of Parent %#LEFT", true)]
+		static bool ValidateMoveObjectOut()
+		{
+			var objects = Selection.gameObjects;
+			return objects.Any();
+		}
+
 		/// <summary>
 		/// Move an object into object below in the hierarchy
 		/// </summary>
@@ -127,6 +170,13 @@ namespace PlayGen.Unity.Utilities.Editor.Shortcuts
 			{
 				MoveObjectInHierarchy(obj, Direction.childOfSibling);
 			}
+		}
+
+		[MenuItem("PlayGen Tools/UI/Move Selected Object Child Of Sibling %#RIGHT", true)]
+		static bool ValidateMoveObjectIn()
+		{
+			var objects = Selection.gameObjects;
+			return objects.Any();
 		}
 
 		#region MoveObjects
@@ -141,11 +191,9 @@ namespace PlayGen.Unity.Utilities.Editor.Shortcuts
 			switch (direction)
 			{
 				case Direction.up:
-
 					MoveToNewChildIndex(go, index - 1);
 					break;
 				case Direction.down:
-
 					MoveToNewChildIndex(go, index + 1);
 					break;
 				case Direction.siblingOfParent:
@@ -156,7 +204,7 @@ namespace PlayGen.Unity.Utilities.Editor.Shortcuts
 
 						parent = parent.parent;
 
-						go.transform.SetParent(parent);
+						Undo.SetTransformParent(go.transform, parent, "Move Selected Object Sibling Of Parent");
 						go.transform.SetSiblingIndex(newIndex);
 					}
 					break;
@@ -169,7 +217,7 @@ namespace PlayGen.Unity.Utilities.Editor.Shortcuts
 						}
 						parent = parent.GetChild(index + 1);
 
-						go.transform.SetParent(parent);
+						Undo.SetTransformParent(go.transform, parent, "Move Selected Object Child Of Sibling");
 						go.transform.SetSiblingIndex(0);
 					}
 					else
@@ -182,7 +230,7 @@ namespace PlayGen.Unity.Utilities.Editor.Shortcuts
 						{
 							if (i == index + 1)
 							{
-								go.transform.SetParent(root[i].transform);
+								Undo.SetTransformParent(go.transform, root[i].transform, "Move Selected Object Child Of Sibling");
 								go.transform.SetSiblingIndex(0);
 							}
 						}
@@ -193,8 +241,12 @@ namespace PlayGen.Unity.Utilities.Editor.Shortcuts
 
 		private static void MoveToNewChildIndex(GameObject go, int newIndex)
 		{
-			if (newIndex >= 0)
+			if (newIndex >= 0 && (go.transform.parent == null || newIndex < go.transform.parent.childCount))
 			{
+				if (go.transform.parent != null)
+				{
+					Undo.RegisterFullObjectHierarchyUndo(go.transform.parent, "Move Selected Object");
+				}
 				go.transform.SetSiblingIndex(newIndex);
 			}
 		}
