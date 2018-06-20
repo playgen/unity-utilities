@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
@@ -34,17 +36,29 @@ namespace PlayGen.Unity.Utilities.UI
 		{
 			Canvas.ForceUpdateCanvases();
 
-			var diff = target.anchoredPosition.y % target.sizeDelta.y;
-			var pos = (target.anchoredPosition.y - diff) / (_scrollRect.content.sizeDelta.y - (diff * 2));
-			if (pos > 1)
+			var diffY = target.anchoredPosition.y % target.sizeDelta.y;
+			var posY = (target.anchoredPosition.y - diffY) / (_scrollRect.content.sizeDelta.y - (diffY * 2));
+			if (posY > 1)
 			{
-				pos = 1;
+				posY = 1;
 			}
-			if (pos < 0)
+			if (posY < 0)
 			{
-				pos = 0;
+				posY = 0;
 			}
-			_scrollRect.verticalNormalizedPosition = pos;
+			_scrollRect.verticalNormalizedPosition = posY;
+
+			var diffX = target.anchoredPosition.x % target.sizeDelta.x;
+			var posX = (target.anchoredPosition.x - diffX) / (_scrollRect.content.sizeDelta.x - (diffX * 2));
+			if (posX > 1)
+			{
+				posX = 1;
+			}
+			if (posX < 0)
+			{
+				posX = 0;
+			}
+			_scrollRect.horizontalNormalizedPosition = posX;
 		}
 	}
 

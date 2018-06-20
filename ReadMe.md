@@ -204,15 +204,21 @@ Alongside being loaded from Resources at start-up, JSON can also be passed to Lo
 A selection of shortcuts for Unity to make UI creation and editing easier.
 ### Usage
 The following shortcuts are used:
-1. Reset Offsets: Ctrl + Alt + R - Sets the offsets of the currently selected rect transform offsets to equal 0, useful for setting up anchors for elements.
-2. Create Button: Ctrl + Alt + Q - Creates a new generic button (no text) object that will fill the currently selected transforms. The default Unity UI button is a set size and contains a text element.
-3. Move Selected Object Up: Ctrl + Shift + UpArrow - Move the currently selected object up in the hierarchy.
-4. Move Selected Object Down: Ctrl + Shift + DownArrow - Move the currently selected object down in the hierarchy.
-5. Move Selected Object Sibling Of Parent: Ctrl + Shift + LeftArrow - Move the currently selected object to be a child of the object below it in the hierarchy.
-6. Move Selected Object Child Of Sibling: Ctrl + Shift + RightArrow - Move the currently selected object to be a sibling of the object it is currently a child of.
+Function | Shortcut | Description
+--- | --- | ---
+Reset Offsets | Ctrl + Alt + R | Sets the offsets of the currently selected rect transform offsets to equal 0, useful for setting up anchors for elements.
+Create Button | Ctrl + Alt + Q | Creates a new generic button (no text) object that will fill the currently selected transforms. The default Unity UI button is a set size and contains a text element.
+Move Selected Object Up | Ctrl + Shift + UpArrow | Move the currently selected object up in the hierarchy.
+Move Selected Object Down | Ctrl + Shift + DownArrow | Move the currently selected object down in the hierarchy.
+Move Selected Object Sibling Of Parent | Ctrl + Shift + LeftArrow | Move the currently selected object to be a child of the object below it in the hierarchy.
+Move Selected Object Child Of Sibling | Ctrl + Shift + RightArrow | Move the currently selected object to be a sibling of the object it is currently a child of.
+
 ### Limitations
 - No warnings for breaking prefabs
 - When moving object to be a child of an object, it does not maintain focus unless the new parent is already expanded
+
+## Gotchas
+- Shortcuts still work when Editor text fields are focused.
 
 ## iOS Requirements
 ### Function 
@@ -294,41 +300,64 @@ There are 3 types of components that have been extended in this utility:
 
 ## Form Keyboard Controls
 ### Function 
-Allows for tabbing between unity forms
+Allows for tabbing between unity forms.
+### Usage
+
 ### Gotchas
+
 
 ## Loading Screen
 ### Function 
-Loading screen that can be started and stopped at command
+Loading screen that can be started and stopped at command.
 ### Usage
-Use the following functions to use the loading spinner
+A GameObject with the LoadingSpinner script on the root should exist and be active at the beginning of any Scene where it is needed. Following the layout set out in the LoadingSpinner class, the GameObject should have the following elements:
+- 'Container' - Child of the root GameObject. Image which effectively blocks any buttons being clicked behind the spinner whilst it is active.
+- 'Spinner' - Child of the Container GameObject. The image that will spin whilst the object is active.
+- 'Text' - Child of the Container GameObject. The text that is displayed whilst the object is active.
+
+The 'Loading' prefab provided follows the above structure.
+
+Please note that all fields and methods in the LoadingSpinner class are at least protected and all methods are virtual, meaning this logic can be adjusted by creating a new class which inherits from LoadingSpinner. The only required element is that the following should be called in Awake():
+``` c#
+  Loading.LoadingSpinner = this;
+```
+
+Use the following functions to use the loading spinner:
 ``` c#
   // Set the speed and direction that the spinner will spin at
   void LoadingSpinner.Set(int speed, bool clockwise);
   
-  // Call to start the loading spinner, it will continue to spin until stop is called.
+  // Call to start the loading spinner, which will continue to spin until stop is called
   void LoadingSpinner.Start(string text = "");
   
-  // Call to stop the loading spinner, a stop Delay will provide time for the text to be displayed to the player 
+  // Call to stop the loading spinner after a stopDelay amount of seconds has passed
   void LoadingSpinner.Stop(string text = "", float stopDelay = 0f);
 ```
 
 ## Video Player
 ### Function 
-A basic video player that allows for play, pause, stop and scrubbing through a video clip in unity.
+A basic video player that allows for playing, pausing, stopping and scrubbing through a video clip in Unity.
 
 ### Usage
-The video player requires 2 components to work
+The video player requires 2 components to work:
 1. VideoPlayer (UnityEngine.Video.VideoPlayer)
 2. RawImage (UnityEngine.UI.RawImage)
 
-The utitlity allows the following interactions
+Al other components related to pausing/playing etc are optional.
+
+The utility allows the following interactions:
 ``` c#
+  // Set the video clip to play
+  void SetClip(VideoClip clip);
+
+  // Set the video url to play
+  void SetURL(string url);
+
   // Play the selected VideoPlayer
-  IEnumerator PlayVideo();
+  IEnumerator PlayVideo(bool loop = false, float playbackSpeed = 1f);
   
   // Continue playing the selected VideoPlayer
-  void Continue();
+  void Continue(bool loop = false, float playbackSpeed = 1f);
   
   // Pause the selected VideoPlayer
   void Pause();
@@ -338,5 +367,32 @@ The utitlity allows the following interactions
 ```
 
 ### Limitations
-- Currently no audio
-- Does not work with URL as a source
+- Videos will refuse to play if the editor is paused whilst playing.
+- Bad audio quality, [seemingly a Unity issue](https://issuetracker.unity3d.com/issues/win-stuttering-sound-of-mp4-files-video-lags), fixed in 2018.2.
+- Audio in effect does not work if playback speed is not 1.
+- Does not work with URL as a source.
+- Playback speed is capped at 3, otherwise the player consistently skipped back and does not play properly.
+- Position slider skips back to previous point when jumping to another point.
+- Play via URL Does not work with YouTube links currently.
+
+## UI
+### Function 
+A set of classes utility to add additional UI functionality.
+
+### Usage
+#### ScrollRectFollowFocused
+Place on a object that has a ScrollRect component. Primary for use with the 'Template' object on Dropdowns. Ensures that the focused UI element is visible within the ScrollRect.
+
+#### SliderHandleSizeSetter
+Place on the 'Handle' within the 'Handle Slide Area' of a Slider object. Sets the width of the Handle to be the height of the Handle Slide Area multipled by the scale provided. Hieght is automatically set to match the height of the Handle Slide Area by the Slider itself.
+
+#### PlatformPositioning
+Place on any RectTransform. Will set RectTransform anchors to match the anchors provided for the platform.
+
+Script has Context Menu "Set Values to Current" which will set the Mobile and Standalone Positioning values to match the current anchors being used.
+
+Editor has menu items for setting all objects with this script to match their Mobile or Standalone Positioning values.
+
+### Limitations
+- Cursor interacting with the ScrollRect can result in odd behaviour. Only intended for projects that are keyboard/controller only.
+- For PlatformPositioning to work UI has to be set up using anchors rather than offsets. Will not fully work on transforms where the anchors are set by parent objects.
