@@ -3,6 +3,7 @@
 A selection of shortcuts for Unity to make UI creation and editing easier.
 ## Usage
 The following shortcuts are used:
+
 Function | Shortcut | Description
 --- | --- | ---
 Reset Offsets | Ctrl + Alt + R | Sets the offsets of the currently selected rect transform offsets to equal 0, useful for setting up anchors for elements.

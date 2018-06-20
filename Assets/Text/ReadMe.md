@@ -34,3 +34,8 @@ Expanding upon the BestFit script, this script can also be placed on any UI Game
 ## Gotchas
 - When using Layout Elements (Layout Groups, Aspect Ratio Fitters etc), inaccurate results will be returned if the Layout Element game object is made active after calling Best Fit.
 - Depending on when BestFit is called, the scaling up/down of text may be visible to players for a couple frames.
+
+# Cut Off
+
+
+# Force One Line

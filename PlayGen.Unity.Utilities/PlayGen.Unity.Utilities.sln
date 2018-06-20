@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2020
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlayGen.Unity.Utilities.BestFit", "PlayGen.Unity.Utilities.BestFit\PlayGen.Unity.Utilities.BestFit.csproj", "{3B4C2193-E58F-4E5F-A409-11C397566CC9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlayGen.Unity.Utilities.Text", "PlayGen.Unity.Utilities.Text\PlayGen.Unity.Utilities.Text.csproj", "{3B4C2193-E58F-4E5F-A409-11C397566CC9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlayGen.Unity.Utilities.Editor.FontReplace", "PlayGen.Unity.Utilities.Editor.FontReplace\PlayGen.Unity.Utilities.Editor.FontReplace.csproj", "{3D39E9CA-A2C5-4328-B107-798EEBF4CF27}"
 EndProject

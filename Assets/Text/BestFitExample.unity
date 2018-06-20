@@ -615,11 +615,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 243514597}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -1169801823, guid: 6697aa2b41467464ab4848f2798b2f18, type: 3}
+  m_Script: {fileID: -1375533202, guid: 6697aa2b41467464ab4848f2798b2f18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   MinFontSize: 1
-  MaxFontSize: 100
+  MaxFontSize: 300
 --- !u!1 &705963644
 GameObject:
   m_ObjectHideFlags: 0
@@ -1716,7 +1716,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1878478706}
   m_Enabled: 0
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1159228509, guid: 6697aa2b41467464ab4848f2798b2f18, type: 3}
+  m_Script: {fileID: 1923024115, guid: 6697aa2b41467464ab4848f2798b2f18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   MinFontSize: 1
@@ -2047,7 +2047,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1967346823}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1159228509, guid: 6697aa2b41467464ab4848f2798b2f18, type: 3}
+  m_Script: {fileID: 1923024115, guid: 6697aa2b41467464ab4848f2798b2f18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   MinFontSize: 1

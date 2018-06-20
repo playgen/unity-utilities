@@ -49,15 +49,15 @@ If the path of the unity-utilities project is C:\Users\Bob\Projects\unity-utilit
 
 # Utilities Included
 
-- [Audio Management](Assets/Audio/ReadMe.md)
-- [Best Fit](Assets/BestFit/ReadMe.md)
-- [Extensions](Assets/Extensions/ReadMe.md)
-- [Feedback Panel](Assets/SendFeedbackAsset/ReadMe.md)
-- [Font Replace](Assets/Editor/Plugins/FontReplace/ReadMe.md)
-- [Form Keyboard Controls](Assets/FormKeyboardControls/ReadMe.md)
-- [iOS Requirements](Assets/iOSRequirements/ReadMe.md)
-- [Loading](Assets/Loading/ReadMe.md)
-- [Localization](Assets/Localization/ReadMe.md)
-- [Shortcuts](Assets/Editor/Plugins/Shortcuts/ReadMe.md)
-- [UI](Assets/UI/ReadMe.md)
-- [Video Player](Assets/Video/ReadMe.md)
+- [**Audio Management**](Assets/Audio/ReadMe.md) - A utility to handle multiple audio sources in Unity.
+- [**Extensions**](Assets/Extensions/ReadMe.md) - Shorthand extensions for commonly used functions in Unity.
+- [**Feedback Panel**](Assets/SendFeedbackAsset/ReadMe.md) - A customisable panel for getting users to send feedback in game to a specified email using ElasticEmail.
+- [**Font Replace**](Assets/Editor/Plugins/FontReplace/ReadMe.md) - Allows for a single place to monitor which Fonts are used in your Unity project and replace unwanted Fonts with a new Font easily.
+- [**Form Keyboard Controls**](Assets/FormKeyboardControls/ReadMe.md) - Allows for tabbing between Selectable elements in a form-like layout.
+- [**iOS Requirements**](Assets/iOSRequirements/ReadMe.md) - Automatically generates privacy permission information for iOS builds. As of iOS 10.0, all privacy system requirement usage must be explained to the user when choosing if they want to accept permissions. Unity provides minimal fields for this in player settings and Xcode will not generate the privacy properties.
+- [**Loading**](Assets/Loading/ReadMe.md) - Loading screen that can be started and stopped at command.
+- [**Localization**](Assets/Localization/ReadMe.md) - A package to handle the storing and retrieving of text translated into multiple languages.
+- [**Shortcuts**](Assets/Editor/Plugins/Shortcuts/ReadMe.md) - A selection of shortcuts for Unity to make UI creation and editing easier.
+- [**Text**](Assets/Text/ReadMe.md) - Allows for better control of the Best Fit functionality in Unity and adds functionality for cutting off text and forcing text to one line.
+- [**UI**](Assets/UI/ReadMe.md) - A set of classes which add additional UI functionality.
+- [**Video Player**](Assets/Video/ReadMe.md) - A basic video player that allows for playing, pausing, stopping and scrubbing through a video clip in Unity.

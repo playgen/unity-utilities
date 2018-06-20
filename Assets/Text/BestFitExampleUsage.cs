@@ -1,4 +1,4 @@
-﻿using PlayGen.Unity.Utilities.BestFit;
+﻿using PlayGen.Unity.Utilities.Text;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

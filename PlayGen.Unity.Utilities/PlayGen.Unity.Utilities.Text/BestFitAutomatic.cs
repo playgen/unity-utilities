@@ -2,16 +2,15 @@
 using System.Collections.Generic;
 
 using UnityEngine;
-using UnityEngine.UI;
 
-namespace PlayGen.Unity.Utilities.BestFit
+namespace PlayGen.Unity.Utilities.Text
 {
 	/// <summary>
 	/// Add this class as a component of an object that you want children with best fit to all be the same size
 	/// </summary>
 	public class BestFitAutomatic : BestFit
 	{
-		protected List<Text> _bestFitChildren = new List<Text>();
+		protected List<UnityEngine.UI.Text> _bestFitChildren = new List<UnityEngine.UI.Text>();
 		/// <summary>
 		/// Should inactive GameObjects and text components be resized and used in resizing calculations?
 		/// </summary>
@@ -44,7 +43,7 @@ namespace PlayGen.Unity.Utilities.BestFit
 		public virtual void OnChange(bool includeInactive, List<string> newStrings = null)
 		{
 			_bestFitChildren = _bestFitChildren.Where(t => t != null).ToList();
-			var children = transform.GetComponentsInChildren<Text>().ToList();
+			var children = transform.GetComponentsInChildren<UnityEngine.UI.Text>().ToList();
 			_bestFitChildren.AddRange(children);
 			_bestFitChildren = _bestFitChildren.Distinct().ToList();
 			_bestFitChildren.BestFit(includeInactive, newStrings);

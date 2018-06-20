@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace PlayGen.Unity.Utilities.BestFit
+namespace PlayGen.Unity.Utilities.Text
 {
 	[DisallowMultipleComponent]
 	public class BestFit : MonoBehaviour
@@ -177,7 +177,7 @@ namespace PlayGen.Unity.Utilities.BestFit
 					{
 						drop.template.gameObject.SetActive(true);
 					}
-					var textObj = go.GetComponentsInChildren<Text>(includeInactive);
+					var textObj = go.GetComponentsInChildren<UnityEngine.UI.Text>(includeInactive);
 					foreach (var text in textObj)
 					{
 						var dropdown = text.GetComponentInParent<Dropdown>();
@@ -201,7 +201,7 @@ namespace PlayGen.Unity.Utilities.BestFit
 				}
 				foreach (var go in gameObjects)
 				{
-					var textObj = go.GetComponentsInChildren<Text>(includeInactive);
+					var textObj = go.GetComponentsInChildren<UnityEngine.UI.Text>(includeInactive);
 					foreach (var text in textObj)
 					{
 						text.fontSize = smallestFontSize;
@@ -217,7 +217,7 @@ namespace PlayGen.Unity.Utilities.BestFit
 			return smallestFontSize;
 		}
 
-		private static int GetBestFitSize(Text text, List<string> newStrings)
+		private static int GetBestFitSize(UnityEngine.UI.Text text, List<string> newStrings)
 		{
 			var smallestFontSize = 0;
 			var currentText = text.text;
