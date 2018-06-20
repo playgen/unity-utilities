@@ -1719,6 +1719,10 @@ MonoBehaviour:
   m_Script: {fileID: 1159228509, guid: 6697aa2b41467464ab4848f2798b2f18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MinFontSize: 1
+  MaxFontSize: 300
+  _includeInactive: 1
+  _newStrings: []
 --- !u!114 &1878478709
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2030,7 +2034,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1967346823}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9a24b4873e5dac1498fd4926984d980c, type: 3}
   m_Name: 
@@ -2041,11 +2045,15 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1967346823}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 1159228509, guid: 6697aa2b41467464ab4848f2798b2f18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MinFontSize: 1
+  MaxFontSize: 30
+  _includeInactive: 1
+  _newStrings: []
 --- !u!1 &2033668679
 GameObject:
   m_ObjectHideFlags: 0

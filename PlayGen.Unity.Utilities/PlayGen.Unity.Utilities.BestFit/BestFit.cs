@@ -13,7 +13,7 @@ namespace PlayGen.Unity.Utilities.BestFit
 		/// Event triggered by resolution width or height changing
 		/// </summary>
 		public static event Action ResolutionChange = delegate { };
-		protected Vector2 _previousResolution;
+		protected static Vector2 _previousResolution = Vector2.zero;
 		/// <summary>
 		/// The smallest font size text should be set to. Set to 1 if no BestFit object is above the text object in the hierarchy.
 		/// </summary>
@@ -27,15 +27,18 @@ namespace PlayGen.Unity.Utilities.BestFit
 
 		protected virtual void Awake()
 		{
-			_previousResolution = new Vector2(Screen.width, Screen.height);
+			if (_previousResolution == Vector2.zero)
+			{
+				_previousResolution = new Vector2(Screen.width, Screen.height);
+			}
 		}
 
 		protected virtual void LateUpdate()
 		{
 			if (!Mathf.Approximately(_previousResolution.x, Screen.width) || !Mathf.Approximately(_previousResolution.y, Screen.height))
 			{
-				ResolutionChange();
 				_previousResolution = new Vector2(Screen.width, Screen.height);
+				ResolutionChange();
 			}
 		}
 	}
@@ -44,73 +47,73 @@ namespace PlayGen.Unity.Utilities.BestFit
 	{
 		/// <summary>
 		/// Set all text on this Component and children of this Transform to be the same size
-		/// If setBestFitValues is set to false, the best fit values set on object will be used instead of MinFontSize and MaxFontSize
+		/// If includeInactive is set to false, inactive GameObjects and text components will not be resized or used in resizing calculations
 		/// </summary>
-		public static int BestFit(this Component obj, bool includeInactive = true, bool setBestFitValues = true, List<string> newStrings = null)
+		public static int BestFit(this Component obj, bool includeInactive = true, List<string> newStrings = null)
 		{
-			return BestFit(obj?.gameObject, includeInactive, setBestFitValues, newStrings);
+			return BestFit(obj?.gameObject, includeInactive, newStrings);
 		}
 
 		/// <summary>
 		/// Set all text in this list of Components to be the same size
-		/// If setBestFitValues is set to false, the best fit values set on object will be used instead of MinFontSize and MaxFontSize
+		/// If includeInactive is set to false, inactive GameObjects and text components will not be resized or used in resizing calculations
 		/// </summary>
-		public static int BestFit(this List<Component> objects, bool includeInactive = true, bool setBestFitValues = true, List<string> newStrings = null)
+		public static int BestFit(this List<Component> objects, bool includeInactive = true, List<string> newStrings = null)
 		{
-			return BestFit(objects?.ToArray(), includeInactive, setBestFitValues, newStrings);
+			return BestFit(objects?.ToArray(), includeInactive, newStrings);
 		}
 
 		/// <summary>
 		/// Set all text in this IEnumerable  of Components to be the same size
-		/// If setBestFitValues is set to false, the best fit values set on object will be used instead of MinFontSize and MaxFontSize
+		/// If includeInactive is set to false, inactive GameObjects and text components will not be resized or used in resizing calculations
 		/// </summary>
-		public static int BestFit(this IEnumerable<Component> objects, bool includeInactive = true, bool setBestFitValues = true, List<string> newStrings = null)
+		public static int BestFit(this IEnumerable<Component> objects, bool includeInactive = true, List<string> newStrings = null)
 		{
-			return BestFit(objects?.ToArray(), includeInactive, setBestFitValues, newStrings);
+			return BestFit(objects?.ToArray(), includeInactive, newStrings);
 		}
 
 		/// <summary>
 		/// Set all text in this array to of Components be the same size
-		/// If setBestFitValues is set to false, the best fit values set on object will be used instead of MinFontSize and MaxFontSize
+		/// If includeInactive is set to false, inactive GameObjects and text components will not be resized or used in resizing calculations
 		/// </summary>
-		public static int BestFit(this Component[] objects, bool includeInactive = true, bool setBestFitValues = true, List<string> newStrings = null)
+		public static int BestFit(this Component[] objects, bool includeInactive = true, List<string> newStrings = null)
 		{
 			//requires where as will produce errors if component is null
-			return BestFit(objects?.Where(obj => obj != null).Select(obj => obj.gameObject), includeInactive, setBestFitValues, newStrings);
+			return BestFit(objects?.Where(obj => obj != null).Select(obj => obj.gameObject), includeInactive, newStrings);
 		}
 
 		/// <summary>
 		/// Set all text on this GameObject and children of this GameObject to be the same size
-		/// If setBestFitValues is set to false, the best fit values set on object will be used instead of MinFontSize and MaxFontSize
+		/// If includeInactive is set to false, inactive GameObjects and text components will not be resized or used in resizing calculations
 		/// </summary>
-		public static int BestFit(this GameObject go, bool includeInactive = true, bool setBestFitValues = true, List<string> newStrings = null)
+		public static int BestFit(this GameObject go, bool includeInactive = true, List<string> newStrings = null)
 		{
-			return BestFit(new[] { go }, includeInactive, setBestFitValues, newStrings);
+			return BestFit(new[] { go }, includeInactive, newStrings);
 		}
 
 		/// <summary>
 		/// Set all text in this list of GameObjects to be the same size
-		/// If setBestFitValues is set to false, the best fit values set on object will be used instead of MinFontSize and MaxFontSize
+		/// If includeInactive is set to false, inactive GameObjects and text components will not be resized or used in resizing calculations
 		/// </summary>
-		public static int BestFit(this List<GameObject> gameObjects, bool includeInactive = true, bool setBestFitValues = true, List<string> newStrings = null)
+		public static int BestFit(this List<GameObject> gameObjects, bool includeInactive = true, List<string> newStrings = null)
 		{
-			return BestFit(gameObjects?.ToArray(), includeInactive, setBestFitValues, newStrings);
+			return BestFit(gameObjects?.ToArray(), includeInactive, newStrings);
 		}
 
 		/// <summary>
 		/// Set all text in this IEnumerable of GameObjects to be the same size
-		/// If setBestFitValues is set to false, the best fit values set on object will be used instead of MinFontSize and MaxFontSize
+		/// If includeInactive is set to false, inactive GameObjects and text components will not be resized or used in resizing calculations
 		/// </summary>
-		public static int BestFit(this IEnumerable<GameObject> gameObjects, bool includeInactive = true, bool setBestFitValues = true, List<string> newStrings = null)
+		public static int BestFit(this IEnumerable<GameObject> gameObjects, bool includeInactive = true, List<string> newStrings = null)
 		{
-			return BestFit(gameObjects?.ToArray(), includeInactive, setBestFitValues, newStrings);
+			return BestFit(gameObjects?.ToArray(), includeInactive, newStrings);
 		}
 
 		/// <summary>
 		/// Set all text in this array of GameObjects to be the same size
-		/// If setBestFitValues is set to false, the best fit values set on object will be used instead of MinFontSize and MaxFontSize
+		/// If includeInactive is set to false, inactive GameObjects and text components will not be resized or used in resizing calculations
 		/// </summary>
-		public static int BestFit(this GameObject[] gameObjects, bool includeInactive = true, bool setBestFitValues = true, List<string> newStrings = null)
+		public static int BestFit(this GameObject[] gameObjects, bool includeInactive = true, List<string> newStrings = null)
 		{
 			//remove null gameobjects
 			gameObjects = gameObjects?.Where(go => go != null).Distinct().ToArray();
@@ -189,7 +192,7 @@ namespace PlayGen.Unity.Utilities.BestFit
 								newStrings = dropdown.options.Select(o => o.text).ToList();
 							}
 						}
-						var newSize = GetBestFitSize(text, setBestFitValues, newStrings);
+						var newSize = GetBestFitSize(text, newStrings);
 						if (newSize != 0 && (newSize < smallestFontSize || smallestFontSize == 0))
 						{
 							smallestFontSize = newSize;
@@ -214,7 +217,7 @@ namespace PlayGen.Unity.Utilities.BestFit
 			return smallestFontSize;
 		}
 
-		private static int GetBestFitSize(Text text, bool setBestFitValue, List<string> newStrings)
+		private static int GetBestFitSize(Text text, List<string> newStrings)
 		{
 			var smallestFontSize = 0;
 			var currentText = text.text;
@@ -231,12 +234,9 @@ namespace PlayGen.Unity.Utilities.BestFit
 			{
 				text.text = s;
 				text.resizeTextForBestFit = true;
-				if (setBestFitValue)
-				{
-					text.resizeTextMinSize = bestFitBehaviour ? bestFitBehaviour.MinFontSize : 1;
-					text.resizeTextMaxSize = (bestFitBehaviour ? bestFitBehaviour.MaxFontSize : 300) + 1;
-					text.fontSize = text.resizeTextMaxSize;
-				}
+				text.resizeTextMinSize = bestFitBehaviour ? bestFitBehaviour.MinFontSize : 1;
+				text.resizeTextMaxSize = (bestFitBehaviour ? bestFitBehaviour.MaxFontSize : 300) + 1;
+				text.fontSize = text.resizeTextMaxSize;
 				text.cachedTextGenerator.Invalidate();
 				text.cachedTextGenerator.Populate(text.text, text.GetGenerationSettings(text.rectTransform.rect.size));
 				text.resizeTextForBestFit = false;

@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Collections.Generic;
+
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,28 +9,45 @@ namespace PlayGen.Unity.Utilities.BestFit
 	/// <summary>
 	/// Add this class as a component of an object that you want children with best fit to all be the same size
 	/// </summary>
-	public class BestFitAutomatic : MonoBehaviour
+	public class BestFitAutomatic : BestFit
 	{
-		private List<Text> _bestFitChildren = new List<Text>();
+		protected List<Text> _bestFitChildren = new List<Text>();
+		/// <summary>
+		/// Should inactive GameObjects and text components be resized and used in resizing calculations?
+		/// </summary>
+		[Tooltip("Should inactive GameObjects and text components be resized and used in resizing calculations?")]
+		[SerializeField]
+		protected bool _includeInactive = true;
+		/// <summary>
+		/// A list of strings that will also be tested on every text component as well as the current text
+		/// </summary>
+		[Tooltip("A list of strings that will also be tested on every text component as well as the current text")]
+		[SerializeField]
+		protected List<string> _newStrings = new List<string>();
 
-		private void OnEnable()
+		protected virtual void OnEnable()
 		{
 			OnChange();
-			BestFit.ResolutionChange += OnChange;
+			ResolutionChange += OnChange;
 		}
 
-		private void OnDisable()
+		protected virtual void OnDisable()
 		{
-			BestFit.ResolutionChange -= OnChange;
+			ResolutionChange -= OnChange;
 		}
 
-		private void OnChange()
+		public virtual void OnChange()
+		{
+			OnChange(_includeInactive, _newStrings); ;
+		}
+
+		public virtual void OnChange(bool includeInactive, List<string> newStrings = null)
 		{
 			_bestFitChildren = _bestFitChildren.Where(t => t != null).ToList();
-			var children = transform.GetComponentsInChildren<Text>().Where(child => child.resizeTextForBestFit).ToList();
+			var children = transform.GetComponentsInChildren<Text>().ToList();
 			_bestFitChildren.AddRange(children);
 			_bestFitChildren = _bestFitChildren.Distinct().ToList();
-			_bestFitChildren.BestFit(false, false);
+			_bestFitChildren.BestFit(includeInactive, newStrings);
 		}
 	}
 }
