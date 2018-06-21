@@ -27,7 +27,7 @@ namespace PlayGen.Unity.Utilities.UI
 			SetPosition();
 		}
 
-		protected virtual void SetPosition(bool forced = false, bool isForcedMobile = false)
+		public virtual void SetPosition(bool forced = false, bool isForcedMobile = false)
 		{
 			if ((forced && isForcedMobile) || Application.isMobilePlatform)
 			{
