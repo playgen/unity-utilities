@@ -9,17 +9,17 @@ namespace PlayGen.Unity.Utilities.Localization
 	[RequireComponent(typeof(Dropdown))]
 	public class DropdownLocalization : UILocalization
 	{
-        /// <summary>
-        /// The localization keys for this dropdown
-        /// </summary>
-        [Tooltip("The localization keys for this dropdown")]
-        [SerializeField]
-		private List<string> _options;
+		/// <summary>
+		/// The localization keys for this dropdown
+		/// </summary>
+		[Tooltip("The localization keys for this dropdown")]
+		[SerializeField]
+		protected List<string> _options;
 
-        /// <summary>
-        /// Set the dropdown option localization keys
-        /// </summary>
-		public void SetOptions(List<string> options)
+		/// <summary>
+		/// Set the dropdown option localization keys
+		/// </summary>
+		public virtual void SetOptions(List<string> options)
 		{
 			_options = options;
 			Set();

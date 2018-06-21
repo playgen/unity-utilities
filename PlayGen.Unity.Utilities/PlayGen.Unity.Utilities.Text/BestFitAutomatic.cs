@@ -37,7 +37,7 @@ namespace PlayGen.Unity.Utilities.Text
 
 		public virtual void OnChange()
 		{
-			OnChange(_includeInactive, _newStrings); ;
+			OnChange(_includeInactive, _newStrings);
 		}
 
 		public virtual void OnChange(bool includeInactive, List<string> newStrings = null)

@@ -4,14 +4,13 @@ using System.Xml;
 
 namespace PlayGen.Unity.Utilities.Editor.iOSRequirements
 {
-
 	public class iOSRequirementsWindow : EditorWindow
 	{
 		// The full list of privacy requirments that need to be included in the plist
 		// from https://developer.apple.com/library/content/documentation/General/Reference/InfoPlistKeyReference/Articles/CocoaKeys.html
 
-		private XmlDocument _requirementsXml;
-		private Vector2 _scrollPosition;
+		protected XmlDocument _requirementsXml;
+		protected Vector2 _scrollPosition;
 
 		[MenuItem("PlayGen Tools/iOS Requirements")]
 		public static void ShowWindow()
@@ -19,12 +18,12 @@ namespace PlayGen.Unity.Utilities.Editor.iOSRequirements
 			GetWindow(typeof(iOSRequirementsWindow), true, "iOS Requirements Manager", true);
 		}
 
-		private void OnEnable()
+		protected virtual void OnEnable()
 		{
 			_requirementsXml = iOSRequirements.ReadXml();
 		}
 
-		private void OnGUI()
+		protected virtual void OnGUI()
 		{
 			if (!iOSRequirements.IsXmlValid(_requirementsXml, out var message))
 			{
@@ -76,7 +75,6 @@ namespace PlayGen.Unity.Utilities.Editor.iOSRequirements
 					EditorUtility.DisplayDialog("Warning", message, "Ok");
 					Debug.Log(message);
 				}
-
 			}
 		}
 	}

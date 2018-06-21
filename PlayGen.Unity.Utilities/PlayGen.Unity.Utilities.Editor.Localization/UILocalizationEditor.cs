@@ -26,7 +26,7 @@ namespace PlayGen.Unity.Utilities.Editor.Localization
 			DrawTestingGUI();
 		}
 
-		public void DrawTestingGUI()
+		public virtual void DrawTestingGUI()
 		{
 			if (!EditorApplication.isPlaying)
 			{

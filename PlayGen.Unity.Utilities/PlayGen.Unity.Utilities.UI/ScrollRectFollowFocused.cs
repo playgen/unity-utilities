@@ -6,15 +6,15 @@ namespace PlayGen.Unity.Utilities.UI
 {
 	public class ScrollRectFollowFocused : MonoBehaviour
 	{
-		private ScrollRect _scrollRect;
-		private GameObject _lastSelected;
+		protected ScrollRect _scrollRect;
+		protected GameObject _lastSelected;
 
-		private void Start()
+		protected virtual void Start()
 		{
 			_scrollRect = GetComponent<ScrollRect>();
 		}
 
-		private void Update()
+		protected virtual void Update()
 		{
 			if (_lastSelected != EventSystem.current.currentSelectedGameObject)
 			{
@@ -30,7 +30,7 @@ namespace PlayGen.Unity.Utilities.UI
 			}
 		}
 
-		private void SnapTo(RectTransform target)
+		protected virtual void SnapTo(RectTransform target)
 		{
 			Canvas.ForceUpdateCanvases();
 

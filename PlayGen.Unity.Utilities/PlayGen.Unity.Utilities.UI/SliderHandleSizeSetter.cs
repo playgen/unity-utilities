@@ -12,9 +12,9 @@ namespace PlayGen.Unity.Utilities.UI
 		/// </summary>
 		[Tooltip("The scale of the handle compared to its parent")]
 		[SerializeField]
-		private float _scale = 2.4f;
+		protected float _scale = 2.4f;
 
-		private void Update()
+		protected virtual void Update()
 		{
 			if (transform.hasChanged)
 			{

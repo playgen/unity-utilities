@@ -179,7 +179,7 @@ namespace PlayGen.Unity.Utilities.Localization
 			{
 				getLang = GetLanguage(new CultureInfo(overrideLanguage));
 			}
-			_localizationDict[getLang ?? DefaultLanguage].TryGetValue(newKey, out var txt);
+			_localizationDict[getLang].TryGetValue(newKey, out var txt);
 			if (txt == null || txt == EmptyStringText)
 			{
 				if (txt == null)

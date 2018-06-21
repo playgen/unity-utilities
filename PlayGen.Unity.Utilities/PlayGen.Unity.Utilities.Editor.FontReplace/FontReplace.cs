@@ -7,8 +7,8 @@ namespace PlayGen.Unity.Utilities.Editor.FontReplace
 {
 	public class FontReplace : EditorWindow
 	{
-		private readonly List<Font> _gameFonts = new List<Font>();
-		private List<string> _names = new List<string>();
+		protected readonly List<Font> _gameFonts = new List<Font>();
+		protected List<string> _names = new List<string>();
 
 		[MenuItem("PlayGen Tools/Replace Fonts")]
 		public static void ShowWindow()
@@ -16,7 +16,7 @@ namespace PlayGen.Unity.Utilities.Editor.FontReplace
 			GetWindow(typeof(FontReplace), false, "Replace Fonts");
 		}
 
-		private void OnGUI()
+		protected virtual void OnGUI()
 		{
 			if (GUILayout.Button("Refresh") || _gameFonts.Count == 0)
 			{
@@ -42,7 +42,7 @@ namespace PlayGen.Unity.Utilities.Editor.FontReplace
 			}
 		}
 
-		private void ReplaceFont(string fontName, Font font)
+		protected virtual void ReplaceFont(string fontName, Font font)
 		{
 			//check the font has been set to a valid font
 			if (font == null || font.fontNames.Length == 0)
@@ -58,7 +58,7 @@ namespace PlayGen.Unity.Utilities.Editor.FontReplace
 			}
 		}
 
-		private List<string> FontNames()
+		protected virtual List<string> FontNames()
 		{
 			//return a string of font names
 			var fontNames = new List<string>();

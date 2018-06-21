@@ -3,7 +3,6 @@ using System.Xml;
 
 namespace PlayGen.Unity.Utilities.Editor.iOSRequirements
 {
-
 	public class iOSRequirements : MonoBehaviour
 	{
 		private static string FilePath => Application.dataPath + "/iOSRequirements/Editor/iOSRequirements/Requirements.xml";
@@ -23,6 +22,7 @@ namespace PlayGen.Unity.Utilities.Editor.iOSRequirements
 			requirements.Save(FilePath);
 			Debug.Log(string.Format("Saved changes to {0}", FilePath));
 		}
+
 		/// <summary>
 		/// Check that the xml data is valid
 		/// Each node contains a Key, Value and Required element
@@ -45,6 +45,7 @@ namespace PlayGen.Unity.Utilities.Editor.iOSRequirements
 
 			return true;
 		}
+
 		/// <summary>
 		/// Check if requirements that are enabled have a description
 		/// </summary>

@@ -13,22 +13,22 @@ namespace PlayGen.Unity.Utilities.FormKeyboardControls
 		/// </summary>
 		[Tooltip("Button to be triggered on pressing return key. Can be left null if not neeeded or wanted.")]
 		[SerializeField]
-		private Button _returnButton;
+		protected Button _returnButton;
 		/// <summary>
 		/// Button to be triggered on pressing escape key. Can be left null if not neeeded or wanted.
 		/// </summary>
 		[Tooltip("Button to be triggered on pressing escape key. Can be left null if not neeeded or wanted.")]
 		[SerializeField]
-		private Button _escapeButton;
-		private bool _selectOnEnable;
+		protected Button _escapeButton;
+		protected bool _selectOnEnable;
 
-		private void OnEnable()
+		protected virtual void OnEnable()
 		{
 			EventSystem.current.SetSelectedGameObject(null);
 			_selectOnEnable = true;
 		}
 
-		private void Update()
+		protected virtual void Update()
 		{
 			if (_selectOnEnable && !Application.isMobilePlatform)
 			{
@@ -75,7 +75,7 @@ namespace PlayGen.Unity.Utilities.FormKeyboardControls
 			}
 		}
 
-		private void SetOnPointerClick(Selectable select)
+		protected virtual void SetOnPointerClick(Selectable select)
 		{
 			var inputfield = select.GetComponentInChildren<InputField>();
 			if (inputfield)

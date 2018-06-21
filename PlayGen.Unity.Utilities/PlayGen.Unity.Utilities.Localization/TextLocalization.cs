@@ -17,7 +17,7 @@ namespace PlayGen.Unity.Utilities.Localization
 		[Tooltip("Should the text be converted to be upper case?")]
 		public bool ToUpper;
 
-		private Text _text;
+		protected Text _text;
 
 		/// <summary>
 		/// Set the text on this object to match the localized string for the provided key

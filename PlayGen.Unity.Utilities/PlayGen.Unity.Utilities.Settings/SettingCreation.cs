@@ -477,7 +477,7 @@ namespace PlayGen.Unity.Utilities.Settings
 						var layoutElement = trans.GetComponent<LayoutElement>() ?? trans.gameObject.AddComponent<LayoutElement>();
 						aspect.aspectMode = AspectRatioFitter.AspectMode.HeightControlsWidth;
 						var padding = GetComponent<LayoutGroup>().padding;
-						Vector3[] objCorners = new Vector3[4];
+						var objCorners = new Vector3[4];
 						((RectTransform)gameObject.transform).GetWorldCorners(objCorners);
 						var canvasSize = new Vector2(objCorners.Max(c => c.x) - objCorners.Min(c => c.x), objCorners.Max(c => c.y) - objCorners.Min(c => c.y));
 						//Log logic copied from https://bitbucket.org/Unity-Technologies/ui/src/a3f89d5f7d145e4b6fa11cf9f2de768fea2c500f/UnityEngine.UI/UI/Core/Layout/CanvasScaler.cs?at=2017.3&fileviewer=file-view-default

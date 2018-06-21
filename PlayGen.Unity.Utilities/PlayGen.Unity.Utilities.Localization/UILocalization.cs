@@ -9,7 +9,7 @@ namespace PlayGen.Unity.Utilities.Localization
 		public string LanguageOverride;
 		#endregion
 
-		private void OnEnable()
+		protected virtual void OnEnable()
 		{
 			Set();
 		}
