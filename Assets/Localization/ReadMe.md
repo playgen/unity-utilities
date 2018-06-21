@@ -31,6 +31,13 @@ Set the options for the Dropdown to be localized upon OnEnable or whenever the '
   string SetOptions(List<string> options)
 ```
 
+### Font Localization Character Check
+The 'Font Localization Character Check' option under 'PlayGen Tools' will check which characters currently being used in Localization are missing in any of the fonts in the Unity project.
+
+#### Issues
+- This also loads and checks the default Arial font and the font(s) being used by the Unity Editor on that platform.
+- Checking only works when a font isn't set to be dynamic, as dynamic fonts fall back to using the default font when a character isn't available and thus pass every test. A warning is shown when this check is run and a font is still set as dynamic.
+
 ### Code calls
 In order to set text programmatically, the following methods can be used:
 ``` c#
