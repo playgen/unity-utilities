@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEditor;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace PlayGen.Unity.Utilities.Editor.FontReplace
 {
@@ -49,17 +50,12 @@ namespace PlayGen.Unity.Utilities.Editor.FontReplace
 				return;
 			}
 			//now get all text types in the scene and change the ones with a matching font fontName to the new font
-			var allTexts = Resources.FindObjectsOfTypeAll<UnityEngine.UI.Text>();
-			var changedtext = new List<Object>();
+			var allTexts = Resources.FindObjectsOfTypeAll<UnityEngine.UI.Text>().Where(t => t.font.name == fontName).ToArray();
+			Undo.RecordObjects(allTexts, "FontChange");
 			foreach (var t in allTexts)
 			{
-				if (t.font.ToString() == fontName)
-				{
-					t.font = font;
-					changedtext.Add(t.gameObject);
-				}
+				t.font = font;
 			}
-			Undo.RecordObjects(changedtext.ToArray(), "FontChange");
 		}
 
 		private List<string> FontNames()
