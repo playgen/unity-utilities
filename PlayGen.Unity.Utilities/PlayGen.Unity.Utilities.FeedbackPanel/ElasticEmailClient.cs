@@ -2,21 +2,17 @@
 
 namespace PlayGen.Unity.Utilities.FeedbackPanel
 {
-	public class ElasticEmailClient : MonoBehaviour
+	public static class ElasticEmailClient
 	{
-		private const string ApiKey = "";
-		private const string Address = "https://api.elasticemail.com/v2/email/send";
-		private const string FromEmail = "sender@domain.com";
-		private const string FromName = "Name";
-		private const string ToEmail = "email@domain.com";
+		public static ElasticEmailDetails Details = new ElasticEmailDetails(string.Empty, string.Empty, string.Empty, string.Empty, string.Empty);
 
 		public static WWWForm GetForm(string subject, string bodyText)
 		{
 			var form = new WWWForm();
-			form.AddField("apiKey", ApiKey);
-			form.AddField("from", FromEmail);
-			form.AddField("fromName", FromName);
-			form.AddField("to", ToEmail);
+			form.AddField("apiKey", Details.ApiKey);
+			form.AddField("from", Details.FromEmail);
+			form.AddField("fromName", Details.FromName);
+			form.AddField("to", Details.ToEmail);
 			form.AddField("subject", subject);
 			form.AddField("bodyText", bodyText);
 			form.AddField("isTransactional", "true");
@@ -26,7 +22,7 @@ namespace PlayGen.Unity.Utilities.FeedbackPanel
 
 		public static string GetAddress()
 		{
-			return Address;
+			return Details.Address;
 		}
 	}
 }

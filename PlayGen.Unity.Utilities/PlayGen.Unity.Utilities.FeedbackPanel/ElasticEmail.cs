@@ -7,12 +7,12 @@ namespace PlayGen.Unity.Utilities.FeedbackPanel
 	{
 		public static ElasticEmail Instance;
 
-		private void Awake()
+		protected virtual void Awake()
 		{
 			Instance = this;
 		}
 
-		public void SendEmail(string body, string subject)
+		public virtual void SendEmail(string body, string subject)
 		{
 			var address = ElasticEmailClient.GetAddress();
 			var form = ElasticEmailClient.GetForm(subject, body);
@@ -20,7 +20,7 @@ namespace PlayGen.Unity.Utilities.FeedbackPanel
 			StartCoroutine(Send(address, form));
 		}
 
-		private IEnumerator Send(string address, WWWForm form)
+		protected virtual IEnumerator Send(string address, WWWForm form)
 		{
 			var www = new WWW(address, form);
 			yield return www;

@@ -4,39 +4,37 @@ using UnityEngine.UI;
 
 namespace PlayGen.Unity.Utilities.FeedbackPanel
 {
-
 	public class FeedbackWindow : MonoBehaviour
 	{
-		private Button _cancelButton;
-		private Button _sendButton;
+		[SerializeField]
+		protected Button _cancelButton;
+		[SerializeField]
+		protected Button _sendButton;
+		[SerializeField]
+		protected InputField _feedbackText;
+		protected UnityAction<string> _sendAction;
 
-		private UnityAction<string> _sendAction;
-
-		private InputField _feedbackText;
-
-		public void Setup(UnityAction<string> action)
+		protected virtual void Awake()
 		{
-			_cancelButton = transform.Find("Panel/FooterPanel/CancelButton").GetComponent<Button>();
-			_sendButton = transform.Find("Panel/FooterPanel/SendButton").GetComponent<Button>();
+			Setup(_sendAction);
+		}
 
-			_feedbackText = transform.Find("Panel/BodyPanel/Feedback").GetComponent<InputField>();
-
-			_feedbackText.text = "";
-
+		public virtual void Setup(UnityAction<string> action)
+		{
+			_feedbackText.text = string.Empty;
 			_sendAction = action;
-
 			_sendButton.onClick.AddListener(SendPressed);
 			_cancelButton.onClick.AddListener(CancelPressed);
 		}
 
-		private void SendPressed()
+		protected virtual void SendPressed()
 		{
 			_sendAction(_feedbackText.text);
 		}
 
-		private void CancelPressed()
+		protected virtual void CancelPressed()
 		{
-			_feedbackText.text = "";
+			_feedbackText.text = string.Empty;
 		}
 	}
 }
