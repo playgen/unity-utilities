@@ -36,6 +36,58 @@ Expanding upon the BestFit script, this script can also be placed on any UI Game
 - Depending on when BestFit is called, the scaling up/down of text may be visible to players for a couple frames.
 
 # Cut Off
+## Function
+Allows for setting text and strings to be cut off after a certain length or when a character from those provided occurs, with an option to append characters to a string cut due to length.
+## Usage
+Can be used in the following ways:
 
+**To set child objects of an object use:**
+```c#
+  GameObject.CutOff(uint maxLength = 0, char[] cutOffAfter = null, string cutOffAppendment = "");
+  Component.CutOff(uint maxLength = 0, char[] cutOffAfter = null, string cutOffAppendment = "");
+```
+
+**To set a specified group of Text Components of an object use:**
+```c#
+  List<Component>.CutOff(uint maxLength = 0, char[] cutOffAfter = null, string cutOffAppendment = "");
+  IEnumerable<Component>.CutOff(uint maxLength = 0, char[] cutOffAfter = null, string cutOffAppendment = "");
+  Component[].CutOff(uint maxLength = 0, char[] cutOffAfter = null, string cutOffAppendment = "");
+  List<GameObject>.CutOff(uint maxLength = 0, char[] cutOffAfter = null, string cutOffAppendment = "");
+  IEnumerable<GameObject>.CutOff(uint maxLength = 0, char[] cutOffAfter = null, string cutOffAppendment = "");
+  GameObject[].CutOff(uint maxLength = 0, char[] cutOffAfter = null, string cutOffAppendment = "");
+```
+
+**To set on a string use:**
+```c#
+  string.CutOff(uint maxLength = 0, char[] cutOffAfter = null, string cutOffAppendment = "");
+```
+
+- Default maxLength of 0 is taken as there being no max length.
+- The cutOffAppendment is only added to the end of the string if it was cut off due to length.
 
 # Force One Line
+## Function
+Replaces all spaces with characters that will force the string to be displayed on one line.
+## Usage
+Can be used in the following ways:
+
+**To set child objects of an object use:**
+```c#
+  GameObject.ForceOneLine();
+  Component.ForceOneLine();
+```
+
+**To set a specified group of Text Components of an object use:**
+```c#
+  List<Component>.ForceOneLine();
+  IEnumerable<Component>.ForceOneLine();
+  Component[].ForceOneLine();
+  List<GameObject>.ForceOneLine();
+  IEnumerable<GameObject>.ForceOneLine();
+  GameObject[].ForceOneLine();
+```
+
+**To set on a string use:**
+```c#
+  string.ForceOneLine();
+```

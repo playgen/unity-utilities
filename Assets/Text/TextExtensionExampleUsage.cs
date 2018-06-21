@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BestFitExampleUsage : MonoBehaviour {
+public class TextExtensionExampleUsage : MonoBehaviour {
 
 	private void OnEnable()
 	{
@@ -19,6 +19,6 @@ public class BestFitExampleUsage : MonoBehaviour {
 
 	private void OnResolutionChange()
 	{
-		gameObject.BestFit();
+		gameObject.ForceOneLine().CutOff(20, null, "...").BestFit();
 	}
 }
