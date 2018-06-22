@@ -30,7 +30,7 @@ namespace PlayGen.Unity.Utilities.Video
 				if (_player.playOnAwake)
 				{
 					Stop();
-					Play(_player.isLooping, _player.playbackSpeed);
+					PlayCurrent();
 					return;
 				} 
 			}
@@ -74,6 +74,16 @@ namespace PlayGen.Unity.Utilities.Video
 			}
 			_player.source = VideoSource.Url;
 			_player.url = url;
+		}
+
+		public virtual void PlayDefault()
+		{
+			Play();
+		}
+
+		public virtual void PlayCurrent()
+		{
+			Play(_player.isLooping, _player.playbackSpeed);
 		}
 
 		public virtual void Play(bool loop = false, float playbackSpeed = 1f)
@@ -163,7 +173,12 @@ namespace PlayGen.Unity.Utilities.Video
 			}
 		}
 
-		public virtual void Continue(bool loop = false, float playbackSpeed = 1f)
+		public virtual void Continue()
+		{
+			Continue(_player.isLooping, _player.playbackSpeed);
+		}
+
+		public virtual void Continue(bool loop, float playbackSpeed = 1f)
 		{
 			if (_player)
 			{

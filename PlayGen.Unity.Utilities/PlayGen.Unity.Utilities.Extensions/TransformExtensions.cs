@@ -37,7 +37,7 @@ namespace PlayGen.Unity.Utilities.Extensions
 			return transform.parent == null ? null : transform.parent.gameObject;
 		}
 
-		public static T FindComponentInChildren<T>(this Transform transform, string find, bool includeInactive)
+		public static T FindComponentInChildren<T>(this Transform transform, string find, bool includeInactive = false)
 		{
 			return transform.Find(find).GetComponentInChildren<T>(includeInactive);
 		}

@@ -17,11 +17,20 @@ The utility allows the following interactions:
   // Set the video url to play
   void SetURL(string url);
 
+  // Play the selected VideoPlayer with default loop and playbackSpeed values
+  void PlayDefault();
+
+  // Play the selected VideoPlayer with the current VideoPlayer loop and playbackSpeed values
+  void PlayCurrent();
+
   // Play the selected VideoPlayer
-  IEnumerator PlayVideo(bool loop = false, float playbackSpeed = 1f);
+  void Play(bool loop = false, float playbackSpeed = 1f);
   
+  // Continue playing the selected VideoPlayer with the current VideoPlayer loop and playbackSpeed values
+  void Continue();
+
   // Continue playing the selected VideoPlayer
-  void Continue(bool loop = false, float playbackSpeed = 1f);
+  void Continue(bool loop, float playbackSpeed = 1f);
   
   // Pause the selected VideoPlayer
   void Pause();
