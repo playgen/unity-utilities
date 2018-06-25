@@ -34,8 +34,7 @@ If the path of the unity-utilities project is C:\Users\Bob\Projects\unity-utilit
   1. Name it: *PlayGen.Utilities.[My Utility].Editor.csproj*  
   2. And reference the dlls in the lib/Unity folder should you need to access any of the UnityEngine or UnityEditor API.
   3. Set the build output to: 
-   *Assets/[My Utility]/Plugins*
-  4. Set the .meta files for the build output to "Editor Only" within Unity and commit them to source control.
+   *Assets/[My Utility]/Plugins/Editor*
 - Each utility should have its own "ReadMe.md" file:
   - Placed in its *Assets/[My Utility]/* folder.
   - And a reference placed in the [Utilities](#Utilities) section with a brief overview.  
@@ -47,9 +46,11 @@ i.e:
       - **Plugins**: *this is the folder you set the build output to in your visual studio project(s).*
         - **net46**: *visual studio will automatically create this folder so leave it as is.*
           - **[My Utility].dll**: *don't commit this.*
-          - **[My Utility].dll.meta**: *commit this.*
-          - **[My Utility].Editor.dll**: *don't commit this.*
-          - **[My Utility].Editor.dll.meta**: *set this to Editor Only and commit this.*
+          - **[My Utility].dll.meta**: *commit this.*          
+        - **Editor**
+          - **net46**: *visual studio will automatically create this folder so leave it as is.*
+            - **[My Utility].Editor.dll**: *don't commit this.*
+            - **[My Utility].Editor.dll.meta**: *set this to Editor Only and commit this.*
       - **Prefabs**
       - **Scenes**
       - **Examples**: *put example scenes and scripts in here.*
