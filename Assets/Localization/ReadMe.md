@@ -59,3 +59,6 @@ Alongside being loaded from Resources at start-up, JSON can also be passed to Lo
 - EmptyStringText const is set to 'XXXX' in code and currently cannot be changed.
 - FilePath in Resources is set to 'Localization' and currently cannot be changed.
 - PlayerPrefs key is set in code and currently cannot be changed.
+
+## Todo 
+- Change the localization json file structure to key value rather than the currrent array of key values.

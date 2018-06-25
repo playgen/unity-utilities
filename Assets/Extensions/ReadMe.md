@@ -55,6 +55,3 @@ There are 3 types of components that have been extended in this utility:
   // Finds all children Transforms by name and returns them 
   List<Transform> Transform.FindAll(string name, bool includeInactive = false)
 ```
-
-## Gotchas
-- This utility does not add extra functionality, just makes it more efficient to do repetitive tasks.

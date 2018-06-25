@@ -52,4 +52,4 @@ The SFX manager can be used as follows
 ```
 
 ## Gotchas
-- Needs further testing within production use.
+- Latest version needs to be tested.
