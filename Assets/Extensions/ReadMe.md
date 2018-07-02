@@ -28,7 +28,7 @@ There are 3 types of components that have been extended in this utility:
 ### Transform
 
 ``` c#
-// Finds a component of type T that is a child of the current Transform and returns it
+ // Finds a component of type T that is a child of the current Transform and returns it
   T Transform.FindComponent<T>(string find);
   
   // Finds a child Image by name and returns it
@@ -46,7 +46,7 @@ There are 3 types of components that have been extended in this utility:
    // Returns the GameObject of the parent or null if a root object.
   GameObject Transform.Parent();
   
-  // Finds a child of Type T by name and returns it, includeInactive determines in inactive objects should also be included in the search
+  // Find and return a child of Type T, includeInactive determines in inactive objects should also be included in the search
   T Transform.FindComponentInChildren<T>(string find, bool includeInactive);
 
   // Finds a child Transform and includes inactive Objects

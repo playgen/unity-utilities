@@ -1,8 +1,5 @@
 Send Feeback Asset using Elastic Email
 
-Updated 11-01-2017
-By Felix Wentworth
-
 To get the asset working, open the example scene "SendFeedbackExample.unity" and open the ElasticEmailClient class and sent the following values
 - ApiKey		Find the api key at, ElasticEmail -> Account -> Settings -> Api configuration
 - FromEmail		The email address that will be displayed as the sender

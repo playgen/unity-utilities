@@ -4,7 +4,7 @@ A set of classes which add additional UI functionality.
 
 ## Usage
 ### ScrollRectFollowFocused
-Place on a object that has a ScrollRect component. Primary for use with the 'Template' object on Dropdowns. Ensures that the focused UI element is visible within the ScrollRect.
+Place on an object that has a ScrollRect component. Primary for use with the 'Template' object on Dropdowns. Ensures that the focused UI element is visible within the ScrollRect.
 
 ### SliderHandleSizeSetter
 Place on the 'Handle' within the 'Handle Slide Area' of a Slider object. Sets the width of the Handle to be the height of the Handle Slide Area multipled by the scale provided. Height is automatically set to match the height of the Handle Slide Area by the Slider itself.

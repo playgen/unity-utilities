@@ -42,10 +42,10 @@ The utility allows the following interactions:
 ## Limitations
 - Videos will refuse to play if the editor is paused whilst playing.
 - Play via URL Does not work with YouTube/Vimeo links (Unity 2018.1).  
-Because of this, if possible for your use case: it is recommended to bundle your videos within the unity project so that they can be transcoded to a format that will work on the target platform.
+Because of this, it is recommended to bundle your videos within the unity project so that they can be transcoded to a format that will work on the target platform.
 
 ## Gotchas
-- Playback speed is capped at 3, otherwise the player consistently skipped back and does not play properly.
+- Playback speed is capped at 3, otherwise the player consistently skips back and does not play properly.
 - Audio in effect does not work if playback speed is not 1.
 - Bad audio quality, [seemingly a Unity issue](https://issuetracker.unity3d.com/issues/win-stuttering-sound-of-mp4-files-video-lags), fixed in 2018.2.
 - Position slider skips back to previous point when jumping to another point.

@@ -19,14 +19,15 @@ Can be used in the following ways:
   IEnumerable<GameObject>.BestFit(bool includeInactive = true, List<string> newStrings = null);
   GameObject[].BestFit(bool includeInactive = true, List<string> newStrings = null);
 ```
-- Setting includeInactive to false will mean that inactive GameObjects and text components will not be resized or used in resizing calculations.
+- IncludeInactive determines whether inactive GameObjects will be included in resizing calculations.
 - Providing a list of newStrings will result in a BestFit that takes into account all of the strings provided fitting into all text components.
 
 ### BestFit
 This script can be placed on any UI GameObject and sets the min and max font size for all text objects when this script is the nearest parent BestFit component.
 
 ### BestFitAutomatic
-Expanding upon the BestFit script, this script can also be placed on any UI GameObject and will set all child text to become the same size upon the GameObject becoming active, the resolution changing or the following being called in code:
+Expanding upon BestFit, this script can also be placed on any UI GameObject and will set all child text to become the same size upon the GameObject becoming active, the resolution changing or the following being called in code:
+
 ```c#
   void OnChange(bool includeInactive = true, List<string> newStrings = null);
 ```
@@ -62,7 +63,7 @@ Can be used in the following ways:
   string.CutOff(uint maxLength = 0, char[] cutOffAfter = null, string cutOffAppendment = "");
 ```
 
-- Default maxLength of 0 is taken as there being no max length.
+- Default maxLength of 0 is taken as there being no max length, used when cutoff after a character is desired
 - The cutOffAppendment is only added to the end of the string if it was cut off due to length.
 
 # Force One Line
