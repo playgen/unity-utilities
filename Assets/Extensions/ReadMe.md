@@ -9,6 +9,9 @@ There are 3 types of components that have been extended in this utility:
 ``` c#
     // Returns the GameObject of the parent or null if a root object.
     GameObject GameObject.Parent();
+
+    // Returns the GameObject of the parent or null if a root object.
+    GameObject MonoBehaviour.Parent();
 ```
 ### RectTransform
 
