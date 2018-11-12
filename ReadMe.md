@@ -9,6 +9,11 @@ See the [LICENCE](LICENCE.md) file included in this project.
 
 - **PlayGen.Unity.Utilities**: *source code for utilities*
 
+# Build
+**IMPORTANT** Solution must be built before opening the Project in Unity
+- Open the solution file at PlayGen.Unity.Utilities\PlayGen.Unity.Utilities.sln and build your selected project
+- .dll's are built to: *Assets/[Utility]/Plugins/..*
+
 # Development
 ## Environment Setup
 For .pdb debugging it is expected that you work from `P:\unity-utilities` so that the source files can be resolved.
@@ -58,10 +63,6 @@ i.e:
         - **[My Utility]**: *so resources of [My Utility] will be laoded with `Resources.Load([My Utility]/[resource 1])` etc.*
           - **[resource 1]**
           - **[resource 2]**
-
-# Build
-- Open the solution file at PlayGen.Unity.Utilities\PlayGen.Unity.Utilities.sln and build your selected project
-- .dll's are built to: *Assets/[Utility]/Plugins/..*
 
 # Utilities
 
